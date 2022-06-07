@@ -1,12 +1,11 @@
-# Internet-Draft Template Repository
+# sigstore Architecture Documentation
 
-Use this repository as a template if you want to start working on
-[IETF](https://www.ietf.org/) documents.
+The purpose of this repository is to store a community-edited, formal description of the architecture of sigstore. The architecture document may be submitted to a standards body (e.g. IETF) at some point in the future.
 
-[Read the
-instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/TEMPLATE.md)
-for more information.
+This repository was forked from [https://github.com/martinthomson/i-d-template/](https://github.com/martinthomson/i-d-template/), which provides many features to help in publishing.
 
-Once you have created your own repository, start work by renaming the
-`draft-todo-yourname-protocol.md` file
-[here](../../edit/main/draft-todo-yourname-protocol.md).
+## License
+
+Please note that since sigstore is an OpenSSF affiliated project, all specifications are published under the [Community Specification model and license](https://github.com/CommunitySpecification/1.0) from the [Joint Development Foundation](https://www.jointdevelopment.org).
+
+All relevant terms can be found in the [governance](https://github.com/sigstore/architecture-docs/tree/main/governance) subdirectory of this repository.

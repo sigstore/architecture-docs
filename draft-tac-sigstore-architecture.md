@@ -19,11 +19,11 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: "sigstore Architecture Documentation"
+abbrev: "sigstore"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-tac-sigstore-architecture-latest
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
 number:
 date:
@@ -32,18 +32,22 @@ v: 3
 area: AREA
 workgroup: WG Working Group
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - software supply chain
+ - transparency log
+ - certificate authority
 venue:
   group: WG
   type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+  mail: sigstore-dev@googlegroups.com
+  arch: https://sigstore.dev
+  github: sigstore/architecture-docs
+  latest: https://sigstore.dev/architecture/LATEST
 
 author:
+ -
+    fullname: Bob Callaway
+    organization: Google, LLC
+    email: bcallaway@google.com
  -
     fullname: Your Name Here
     organization: Your Organization Here
