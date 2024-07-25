@@ -40,7 +40,7 @@ Identities must be presented to Fulcio signed by a trusted party. The OpenID Con
 
 #### 2.2.1. OpenID Connect
 
-Identity is provided by the OpenID Connect (OIDC) framework, an authentication extension to OAuth 2.0. Fulcio accepts OIDC ID tokens from a configured list of identity providers (IDPs). Before certificate issuance, Fulcio verifies the signed OIDC ID token, and extracts the identity from the ID token. Fulcio is designed to be easily extensible and can be configured with any IDP that conforms to the OIDC specification. Fulcio accepts a variety of identities, including email addresses, [SPIFFE IDs](https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/#spiffe-id), Kubernetes service accounts, CI (e.g. GitHub Actions, GitLab, Buildkite) workflow identities, and custom URIs and usernames. Identity is specified in the Subject Alternative Name ([SAN](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.6)). For CI, additional identity and provenance metadata is included in custom extensions as defined in [OID Info](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md).
+Identity is provided by the [OpenID Connect (OIDC) framework](https://openid.net/developers/how-connect-works/), an authentication extension to OAuth 2.0. Fulcio accepts OIDC ID tokens from a configured list of identity providers (IDPs). Before certificate issuance, Fulcio verifies the signed OIDC ID token, and extracts the identity from the ID token. Fulcio is designed to be easily extensible and can be configured with any IDP that conforms to the OIDC specification. Fulcio accepts a variety of identities, including email addresses, [SPIFFE IDs](https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/#spiffe-id), Kubernetes service accounts, CI (e.g. GitHub Actions, GitLab, Buildkite) workflow identities, and custom URIs and usernames. Identity is specified in the Subject Alternative Name ([SAN](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.6)). For CI, additional identity and provenance metadata is included in custom extensions as defined in [OID Info](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md).
 
 In addition to the identity of the signer, Fulcio also includes the issuer of the identity in a certificate extension. To verify a certificate, a verifier MUST use both the identity and issuer. An identity represented by "example@domain.com" issued by identity provider google.com is different from an identity with the same email at github.com.
 
@@ -102,10 +102,7 @@ Fulcio finally returns the certificate to the client.
 ## 4. Certificate Transparency
 
 Fulcio maintains a certificate transparency (CT) log, writing all issued certificates to the log.
-
-Users of Sigstore can verify via cryptographic proof that certificates are included in the log
-
-along with monitoring the log for inconsistencies.
+Users of Sigstore can verify via cryptographic proof that certificates are included in the log along with monitoring the log for inconsistencies.
 
 Certificate transparency is critical to auditability of certificate issuance. Without certificate transparency, a certificate authority can mis-issue certificates, either due to a misconfiguration or maliciously, without detection. Verifiers of Fulcio-issued certificates MUST require a proof or promise that the certificate was appended to a log, except for private deployments. For private deployments of the CA, transparency may not be necessary if there already exists a mechanism for an audit log.
 
@@ -144,7 +141,6 @@ In addition to the identity owner monitoring the log, there must exist a set of 
 ## 6. Architecture
 
 Fulcio supports various signing backends that are responsible for key management, certificate generation and signing.
-
 An identity service MUST sign certificates with either secured on-disk keys or a remote key management service.
 
 ### 6.1. Public Key Infrastructure
@@ -159,21 +155,11 @@ The KMS signing backend uses cloud key management services (KMS) to generate a c
 
 #### 6.2.2. Tink
 
-The [Tink](https://github.com/google/tink) signing backend uses an on-disk signer loaded from an encrypted Tink keyset and
-
-certificate chain, where the first certificate in the chain certifies the public key from
-
-the Tink keyset. The Tink keyset MUST be encrypted with a KMS key, and stored in
-
-a JSON format. Tink keysets use strong security defaults and are the most secure way to store an encryption key locally.
+The [Tink](https://github.com/google/tink) signing backend uses an on-disk signer loaded from an encrypted Tink keyset and certificate chain, where the first certificate in the chain certifies the public key from the Tink keyset. The Tink keyset MUST be encrypted with a KMS key, and stored in a JSON format. Tink keysets use strong security defaults and are the most secure way to store an encryption key locally.
 
 #### 6.2.3. Google Cloud Platform CA Service
 
-The GCP CA Service signing backend delegates creation and signing of the certificates
-
-to a CA managed in GCP. You will need to create a DevOps-tier CA pool and one CA in the
-
-CA pool. This can either be an intermediate or root CA.
+The GCP CA Service signing backend delegates creation and signing of the certificates to a CA managed in GCP. You will need to create a DevOps-tier CA pool and one CA in the CA pool. This can either be an intermediate or root CA.
 
 #### 6.2.4. PKCS#11 HSM
 
