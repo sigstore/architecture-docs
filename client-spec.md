@@ -79,7 +79,7 @@ Then, the signer prepares a `CreateSigningCertificateRequest` ([definition](http
 In return, the Signer receives a `SigningCertificate` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto\#L144-L149)) containing a chain of PEM-encoded X.509 certificates ([RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280)), ordered from “leaf” to “root.” See [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) for additional details about certificate contents. The Signer SHOULD verify the response:
 
 1. Perform certification path validation ([RFC 5280 §6](https://datatracker.ietf.org/doc/html/rfc5280\#section-6)) of the returned certificate chain with the pre-distributed Fulcio root certificate(s) as a trust anchor.  
-2. Extract a `SignedCertificateTimestamp`, which may be embedded as an X.509 extension in the leaf certificate or attached separately in the `SigningCertificate` returned from the Identity Service. Verify this `SignedCertificateTimestamp` as in [RFC 9162 §8.1.3](https://datatracker.ietf.org/doc/html/rfc9162\#name-validating-scts), using the root certificate from the Certificate Transparency Log.  
+2. Extract a `SignedCertificateTimestamp`, which may be embedded as an X.509 extension in the leaf certificate or attached separately in the `SigningCertificate` returned from the Identity Service. Verify this `SignedCertificateTimestamp` as in [RFC 6962 §3.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the public key from the Certificate Transparency Log.  
 3. Check that the leaf certificate contains the subject from the certificate signing request and encodes the appropriate `AuthenticationServiceIdentifier` in an extension with OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md\#1361415726418--issuer-v2).
 
 #### 2.1.4. Signing
@@ -129,7 +129,7 @@ They can do so in any manner. Signers SHOULD collate this data in the Sigstore w
 
 *Signature metadata format*. The signature metadata format MUST be in the list of `supportedMetadataFormats` in the Transparency Service configuration. This list can include both common registry formats (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit\#heading=h.if88xkt0tyir)) or additional plug-in formats. Details about plug-in formats are conveyed out-of-band.
 
-The metadata format chosen may depend on the artifact to sign (some formats encode extra metadata about specific artifact types), size (some formats require the full artifact; others allow the payload to be hashed), or compatibility with other systems.
+The metadata format chosen SHOULD depend on the artifact to sign (some formats encode extra metadata about specific artifact types), size (some formats require the full artifact; others allow the payload to be hashed), or compatibility with other systems.
 
 *Payload pre-hashing.* Some metadata formats store a hash of the payload. In this case, the signature is over the *hashed* payload, so that the Transparency Service can validate the signature.
 
@@ -209,9 +209,9 @@ Valid timestamp range:     |-|
 
 The Verifier MUST perform certification path validation ([RFC 5280 §6](https://datatracker.ietf.org/doc/html/rfc5280\#section-6)) of the certificate chain with the pre-distributed Fulcio root certificate(s) as a trust anchor, but with a fake “current time.” If a timestamp from the timestamping service is available, the Verifier MUST perform path validation using the timestamp from the Timestamping Service. If a timestamp from the Transparency Service is available, the Verifier MUST perform path validation using the timestamp from the Transparency Service. If both are available, the Verifier performs path validation twice. If either fails, verification fails.
 
-Unless performing online verification (see [§Alternative Workflows](\#alternative-workflows)), the Verifier MUST extract the  `SignedCertificateTimestamp` embedded in the leaf certificate, and verify it as in [RFC 9162 §8.1.3](https://datatracker.ietf.org/doc/html/rfc9162\#name-validating-scts), using the verification key from the Certificate Transparency Log.
+Unless performing online verification (see [§Alternative Workflows](\#alternative-workflows)), the Verifier MUST extract the  `SignedCertificateTimestamp` embedded in the leaf certificate, and verify it as in [RFC 6962 §3.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the verification key from the Certificate Transparency Log.
 
-The Verifier MUST then check the certificate against the verification policy. Details on how to do this depend on the verification policy, but the Verifier SHOULD check the `Issuer` X.509 extension (OID [`1.3.6.1.4.1.57264.1.1`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md\#1361415726411--issuer)) at a minimum, and will in most cases check the `SubjectAlternativeName` as well. See  [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) §TODO for example checks on the certificate.
+The Verifier MUST then check the certificate against the verification policy. Details on how to do this depend on the verification policy, but the Verifier SHOULD check the `Issuer` X.509 extension (OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md\#1361415726418--issuer-v2)) at a minimum, and will in most cases check the `SubjectAlternativeName` as well. See  [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) §TODO for example checks on the certificate.
 
 ### 4.4. Transparency Log Entry
 
