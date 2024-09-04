@@ -1,6 +1,6 @@
 # Sigstore Client
 
-This document specifies an architecture for using an automated certificate authority (specifically,[Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md)), timestamping service ([RFC 3161](https://www.ietf.org/rfc/rfc3161.txt)), and transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit)) for signing digital payloads.
+This document specifies an architecture for using an automated certificate authority (specifically,[Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md)), timestamping service ([RFC 3161](https://www.ietf.org/rfc/rfc3161.txt)), and transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)) for signing digital payloads.
 
 ## 1. Introduction
 
@@ -8,7 +8,7 @@ Having both an automated code-signing certificate authority for digital identiti
 
 This approach has several advantages. First, signers no longer need to manage signing keys; they can generate them fresh for each signature. Second, the risk of a leaked signing key is lower: after the validity period expires, the key cannot be used to sign any payloads without the cooperation of the timestamping service. Finally, artifact lifetime and expiration can be managed independently of key lifetime.
 
-In this approach, the certificate authority and timestamping services are trusted parties. To mitigate the security risks of centralization, we can introduce accountability in the form of *transparency*: public logs of all activity (certificates and signatures) that can be monitored for misbehavior. We implement this transparency property with a Certificate Transparency (CT) log ([RFC 6962](https://datatracker.ietf.org/doc/html/rfc6962); see [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) for details on its integration with the identity service) and a transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit)). The certificate authority will submit certificates to a CT log, and the signing client will submit payload metadata to the transparency service.
+In this approach, the certificate authority and timestamping services are trusted parties. To mitigate the security risks of centralization, we can introduce accountability in the form of *transparency*: public logs of all activity (certificates and signatures) that can be monitored for misbehavior. We implement this transparency property with a Certificate Transparency (CT) log ([RFC 6962](https://datatracker.ietf.org/doc/html/rfc6962); see [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) for details on its integration with the identity service) and a transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)). The certificate authority will submit certificates to a CT log, and the signing client will submit payload metadata to the transparency service.
 
 This document describes this flow in detail.
 
@@ -38,7 +38,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 **Timestamping Service**. A service compliant with [RFC 3161](https://www.ietf.org/rfc/rfc3161.txt).
 
-**Transparency Service.** A service compliant with [Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit).
+**Transparency Service.** A service compliant with [Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit).
 
 **Verifier.** The entity who wishes to verify signatures on a given payload.
 
@@ -64,7 +64,7 @@ At the conclusion of the authentication protocol, the Signer will possess an aut
 
 #### 2.1.2. Key Generation
 
-The Signer chooses an algorithm for digital signatures from the registry ([Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.if88xkt0tyir)); the chosen algorithm MUST be in both the Fulcio instance’s and the Transparency Service instance’s `supportedSigningAlgorithms`). The Signer generates a signing/verification key pair via the appropriate key generation procedure. The Signer MAY store the signing key on a secure hardware device. Regardless of the success of the signing procedure, the signer SHOULD destroy the keypair at the end.
+The Signer chooses an algorithm for digital signatures from the registry ([Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.if88xkt0tyir)); the chosen algorithm MUST be in both the Fulcio instance’s and the Transparency Service instance’s `supportedSigningAlgorithms`). The Signer generates a signing/verification key pair via the appropriate key generation procedure. The Signer MAY store the signing key on a secure hardware device. Regardless of the success of the signing procedure, the signer SHOULD destroy the keypair at the end.
 
 #### 2.1.3. Certificate Issuance
 
@@ -84,11 +84,11 @@ In return, the Signer receives a `SigningCertificate` ([definition](https://gith
 
 #### 2.1.4. Signing
 
-The Signer signs the payload using the signing key as in the chosen signing algorithm; the signature will be opaque binary data. The Signer MAY pre-hash the payload using a hash algorithm from the registry ([Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.if88xkt0tyir)) for compatibility with some signing metadata formats (see [§Submission of Signing Metadata to Transparency Service](#submission-of-signing-metadata-to-transparency-service)).
+The Signer signs the payload using the signing key as in the chosen signing algorithm; the signature will be opaque binary data. The Signer MAY pre-hash the payload using a hash algorithm from the registry ([Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.if88xkt0tyir)) for compatibility with some signing metadata formats (see [§Submission of Signing Metadata to Transparency Service](#submission-of-signing-metadata-to-transparency-service)).
 
 #### 2.1.5. Timestamping
 
-The Signer sends a hash of the signature as the `messageImprint` in a `TimeStampReq` to the Timestamping Service and receives a `TimeStampResp` including a \`TimeStampToken\`. The signer MUST verify the `TimeStampToken` against the payload and Timestamping Service root certificate.
+The Signer sends a hash of the signature as the `messageImprint` in a `TimeStampReq` to the Timestamping Service and receives a `TimeStampResp` including a `TimeStampToken`. The signer MUST verify the `TimeStampToken` against the payload and Timestamping Service root certificate.
 
 #### 2.1.6. Submission of Signing Metadata to Transparency Service
 
@@ -103,7 +103,7 @@ The signing metadata might contain additional, application-specific metadata acc
 
 #### 2.1.7. Transparency
 
-The Signer then sends the canonically-encoded signing metadata to the `/api/v1/log/entries` endpoint ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L138-L171)) of the Transparency Service, which checks that signature is valid and responds with a `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L423-L464)). The signer MUST verify the log entry as in [Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit).
+The Signer then sends the canonically-encoded signing metadata to the `/api/v1/log/entries` endpoint ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L138-L171)) of the Transparency Service, which checks that signature is valid and responds with a `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L423-L464)). The signer MUST verify the log entry as in [Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit).
 
 #### 2.1.8. Verification
 
@@ -125,15 +125,15 @@ They can do so in any manner. Signers SHOULD collate this data in the Sigstore w
 
 *Authentication System.* The signer MUST use an Authentication System supported by the Fulcio instance with which they can authenticate.
 
-*Digital signature algorithm.* The signer must choose a digital signature algorithm for key generation and signing from the registry (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.if88xkt0tyir)). The algorithm MUST be in the `supportedSigningAlgorithms` of both the Fulcio and Transparency Service instances.
+*Digital signature algorithm.* The signer must choose a digital signature algorithm for key generation and signing from the registry (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.if88xkt0tyir)). The algorithm MUST be in the `supportedSigningAlgorithms` of both the Fulcio and Transparency Service instances.
 
-*Signature metadata format*. The signature metadata format MUST be in the list of `supportedMetadataFormats` in the Transparency Service configuration. This list can include both common registry formats (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.if88xkt0tyir)) or additional plug-in formats. Details about plug-in formats are conveyed out-of-band.
+*Signature metadata format*. The signature metadata format MUST be in the list of `supportedMetadataFormats` in the Transparency Service configuration. This list can include both common registry formats (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.if88xkt0tyir)) or additional plug-in formats. Details about plug-in formats are conveyed out-of-band.
 
 The metadata format chosen SHOULD depend on the artifact to sign (some formats encode extra metadata about specific artifact types), size (some formats require the full artifact; others allow the payload to be hashed), or compatibility with other systems.
 
 *Payload pre-hashing.* Some metadata formats store a hash of the payload. In this case, the signature is over the *hashed* payload, so that the Transparency Service can validate the signature.
 
-In such cases, the Signer must choose a hash algorithm from the registry (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.if88xkt0tyir)); this algorithm MUST be in the `supportedHashAlgorithms` for the Transparency Service.
+In such cases, the Signer must choose a hash algorithm from the registry (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.if88xkt0tyir)); this algorithm MUST be in the `supportedHashAlgorithms` for the Transparency Service.
 
 *Long-lived signing keys.* The Signer may have a pre-existing, long-lived signing key with which they would like to sign payloads. This key MUST use an algorithm in the `supportedSigningAlgorithms` of both the Fulcio configuration and Transparency Service configuration.
 
@@ -154,18 +154,18 @@ A Verifier validates a signature on a payload along with other verification mate
 * Whether to require signed timestamp(s) from a Timestamping Authority, and, if so, how many.
 * Whether to require the signature metadata to be logged in one or more Transparency Services and, if so, how many.
 * Whether to perform online or offline verification for the CT Log and the Transparency Service.
-* Which [Transparency Service](https://docs.google.com/document/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit#heading=h.6w69n885z90t) formats the Verifier knows how to parse and validate.
+* Which [Transparency Service](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit#heading=h.6w69n885z90t) formats the Verifier knows how to parse and validate.
 * What to do with a payload, once verified.
 * How to determine whether a signature has been revoked.
 
-Knowing the verification policies of possible Verifiers may help Signers choose how to sign their payloads. Policies are application-specific and distributed out of band.  A policy is an abstract procedure, not a set configuration: a client does not need to support arbitrary policies; it might instead hard-code verification for a single policy, or expose only a limited number of configuration options, like the Sigstore `ArtifactVerificationOptions` ([definition](https://github.com/sigstore/protobuf-specs/blob/4dbf10bc287d76f1bfa68c05a78f3f5add5f56fe/protos/sigstore\_verification.proto#L46-L108)) and `TrustedRoot` ([definition](https://github.com/sigstore/protobuf-specs/blob/4dbf10bc287d76f1bfa68c05a78f3f5add5f56fe/protos/sigstore\_trustroot.proto#L59-L88)). Below, we describe a generic verification procedure and note where policy-specific decisions or departures may occur. If any step fails, abort verification unless otherwise specified.
+Knowing the verification policies of possible Verifiers may help Signers choose how to sign their payloads. Policies are application-specific and distributed out of band.  A policy is an abstract procedure, not a set configuration: a client does not need to support arbitrary policies; it might instead hard-code verification for a single policy, or expose only a limited number of configuration options, like the Sigstore `ArtifactVerificationOptions` ([definition](https://github.com/sigstore/protobuf-specs/blob/4dbf10bc287d76f1bfa68c05a78f3f5add5f56fe/protos/sigstore_verification.proto#L46-L108)) and `TrustedRoot` ([definition](https://github.com/sigstore/protobuf-specs/blob/4dbf10bc287d76f1bfa68c05a78f3f5add5f56fe/protos/sigstore_trustroot.proto#L59-L88)). Below, we describe a generic verification procedure and note where policy-specific decisions or departures may occur. If any step fails, abort verification unless otherwise specified.
 
 ### 4.1. Inputs
 
 The Verifier performs verification according to its policy based on the following inputs:
 
 * The artifact.
-* Verification materials (possibly in the the `Bundle` format ([definition](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore\_bundle.proto#L61-L77))):
+* Verification materials (possibly in the the `Bundle` format ([definition](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore_bundle.proto#L61-L77))):
   * Leaf certificate
     * When used with the Public Good Instance, only the leaf is necessary. Other Sigstore instances (such as private instances) may require one or more intermediates as well, if those intermediates are not listed in the independent root of trust.
   * Signature.
@@ -194,7 +194,7 @@ If the verification policy uses the Timestamping Service, the Verifier MUST veri
 
 #### 4.2.2. Transparency Service Timestamp
 
-If the verification policy uses timestamps from the Transparency Service, the Verifier MUST verify the signature on the Transparency Service `LogEntry` as described in [Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit) against the pre-distributed root key material from the transparency service. The Verifier SHOULD NOT (yet) attempt to parse the `body`. The Verifier MUST then parse the `integratedTime` as a Unix timestamp (seconds since January 1, 1970 UTC). If verification or timestamp parsing fails, the Verifier MUST abort.
+If the verification policy uses timestamps from the Transparency Service, the Verifier MUST verify the signature on the Transparency Service `LogEntry` as described in [Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit) against the pre-distributed root key material from the transparency service. The Verifier SHOULD NOT (yet) attempt to parse the `body`. The Verifier MUST then parse the `integratedTime` as a Unix timestamp (seconds since January 1, 1970 UTC). If verification or timestamp parsing fails, the Verifier MUST abort.
 
 ### 4.3. Certificate
 
@@ -215,9 +215,9 @@ The Verifier MUST then check the certificate against the verification policy. De
 
 ### 4.4. Transparency Log Entry
 
-By this point, the Verifier has already verified the signature by the Transparency Service ([§Establishing a Time for the Signature](#establishing-a-time-for-the-signature)). The Verifier MUST parse `body`: `body` is a base64-encoded JSON document with keys `apiVersion` and `kind`. The Verifier implementation contains a list of known [Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit) formats (by `apiVersion` and `kind`); if no type is found, abort. The Verifier MUST parse `body` as the given type.
+By this point, the Verifier has already verified the signature by the Transparency Service ([§Establishing a Time for the Signature](#establishing-a-time-for-the-signature)). The Verifier MUST parse `body`: `body` is a base64-encoded JSON document with keys `apiVersion` and `kind`. The Verifier implementation contains a list of known [Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit) formats (by `apiVersion` and `kind`); if no type is found, abort. The Verifier MUST parse `body` as the given type.
 
-Then, the Verifier MUST check the following; exactly how to do this will be specified by each type in [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.xd7kd6bn0rue) ([§Signature Metadata Formats](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.xd7kd6bn0rue)):
+Then, the Verifier MUST check the following; exactly how to do this will be specified by each type in [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.xd7kd6bn0rue) ([§Signature Metadata Formats](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.xd7kd6bn0rue)):
 
 1. The signature from the parsed body is the same as the provided signature.
 2. The key or certificate from the parsed body is the same as in the input certificate.
@@ -241,11 +241,11 @@ Verification according to some verification policies may deviate from the above 
 
 *No Timestamping Service*. The Verifier MAY choose to rely on the Transparency Service for timestamps. In this case, the Verifier MUST use a timestamp from the Transparency Service during certificate verification. The Verifier can skip verification of the timestamping response, as well as certificate verification using the timestamp from the Timestamping Service.
 
-*No Transparency Service.* The Verifier MAY choose not to require that signatures are in the Transparency Service. In this case, the Verifier MUST use a timestamp from the Timestamping Service during certificate verification. The Verifier can skip verification of the Transparency Service \`LogEntry\` for timestamping, certificate verification using the timestamp from the Transparency Service, and Transparency Log Entry validation.
+*No Transparency Service.* The Verifier MAY choose not to require that signatures are in the Transparency Service. In this case, the Verifier MUST use a timestamp from the Timestamping Service during certificate verification. The Verifier can skip verification of the Transparency Service `LogEntry` for timestamping, certificate verification using the timestamp from the Transparency Service, and Transparency Log Entry validation.
 
 *Online Certificate Transparency Log verification.* The above procedure describes using `SignedCertificateTimestamp`s to verify inclusion in the certificate transparency log. Instead, Verifiers MAY perform online verification by fetching and validating inclusion proofs ([RFC 9162 §8.1.4](https://datatracker.ietf.org/doc/html/rfc9162#name-fetching-inclusion-proofs)) against a signed tree head. The Verifier SHOULD fetch the signed tree head in a manner that prevents equivocation by the Certificate Transparency log (e.g., by requiring signatures from independent “witnesses”).
 
-*Online Transparency Service verification*. The above procedure describes using signed inclusion promises from the Transparency Service for verifying membership in a transparency log (“offline verification.”) Instead, a Verifier MAY perform online verification. In this case, the Verifier checks an inclusion proof for the `LogEntry` against a `SignedTreeHead`. See [Spec: Transparency Service](https://docs.google.com/document/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit) for details.
+*Online Transparency Service verification*. The above procedure describes using signed inclusion promises from the Transparency Service for verifying membership in a transparency log (“offline verification.”) Instead, a Verifier MAY perform online verification. In this case, the Verifier checks an inclusion proof for the `LogEntry` against a `SignedTreeHead`. See [Spec: Transparency Service](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit) for details.
 
 *Threshold verification*. The Verifier MAY require that the leaf certificate be included in multiple Certificate Transparency Logs or that the formatted metadata be included in multiple Transparency Service logs. This is equivalent to verifying multiple times with different logs. Verifiers MUST ensure that multiple entries in the same log do not both count towards the threshold.
 
@@ -259,10 +259,10 @@ While other signing and verification workflows are possible using the Transparen
 
 This section describes the “Sigstore wire format” for verification materials.
 
-To produce verification materials in this format, a client MUST use the Protocol Buffers [Bundle format](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore\_bundle.proto#L61-L77) to collate these materials, serialized to JSON using the [canonical proto3 JSON serialization](https://protobuf.dev/programming-guides/proto3/#json), *except* that:
+To produce verification materials in this format, a client MUST use the Protocol Buffers [Bundle format](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore_bundle.proto#L61-L77) to collate these materials, serialized to JSON using the [canonical proto3 JSON serialization](https://protobuf.dev/programming-guides/proto3/#json), *except* that:
 
-1\. The bundle MUST use `lowerCamelCase` rather than `snake_case` for keys.
-2\. The bundle MUST use the string representation for enum values.
+1. The bundle MUST use `lowerCamelCase` rather than `snake_case` for keys.
+2. The bundle MUST use the string representation for enum values.
 
 This is the same as the [JSON Schema schema in the protobuf-specs repository](https://github.com/sigstore/protobuf-specs/blob/77828e59f8e81cbad6133c200467ca620e4fc0fe/gen/jsonschema/schemas/Bundle.schema.json) for clients which prefer JSON Schema. Clients SHOULD NOT accept other variants of the canonical JSON proto3 serialization.
 
