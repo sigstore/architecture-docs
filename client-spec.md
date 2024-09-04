@@ -1,4 +1,4 @@
-# Sigstore Client 
+# Sigstore Client
 
 This document specifies an architecture for using an automated certificate authority (specifically,[Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md)), timestamping service ([RFC 3161](https://www.ietf.org/rfc/rfc3161.txt)), and transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit)) for signing digital payloads.
 
@@ -54,7 +54,7 @@ The signer must make a number of choices during signing: which signature algorit
 
 ### 2.1. Default Signing Procedure
 
-This section describes the full signing workflow for a client. The client MAY omit certain of these steps (see [§Signing Choices](\#signing-choices) below).
+This section describes the full signing workflow for a client. The client MAY omit certain of these steps (see [§Signing Choices](#signing-choices) below).
 
 #### 2.1.1. Authentication
 
@@ -64,27 +64,27 @@ At the conclusion of the authentication protocol, the Signer will possess an aut
 
 #### 2.1.2. Key Generation
 
-The Signer chooses an algorithm for digital signatures from the registry ([Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit\#heading=h.if88xkt0tyir)); the chosen algorithm MUST be in both the Fulcio instance’s and the Transparency Service instance’s `supportedSigningAlgorithms`). The Signer generates a signing/verification key pair via the appropriate key generation procedure. The Signer MAY store the signing key on a secure hardware device. Regardless of the success of the signing procedure, the signer SHOULD destroy the keypair at the end.
+The Signer chooses an algorithm for digital signatures from the registry ([Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.if88xkt0tyir)); the chosen algorithm MUST be in both the Fulcio instance’s and the Transparency Service instance’s `supportedSigningAlgorithms`). The Signer generates a signing/verification key pair via the appropriate key generation procedure. The Signer MAY store the signing key on a secure hardware device. Regardless of the success of the signing procedure, the signer SHOULD destroy the keypair at the end.
 
 #### 2.1.3. Certificate Issuance
 
-The Signer prepares a [PKCS\#10](https://datatracker.ietf.org/doc/html/rfc2986) `CertificationRequestInfo` using the key pair and authentication token from the previous steps as follows:
+The Signer prepares a [PKCS#10](https://datatracker.ietf.org/doc/html/rfc2986) `CertificationRequestInfo` using the key pair and authentication token from the previous steps as follows:
 
-* The `subject` in the `CertificationRequestInfo` is an [X.501](https://www.itu.int/rec/T-REC-X.501/en) `RelativeDistinguishedName`. The `value` of the `RelativeDistinguishedName` SHOULD be the subject of the authentication token; its `type` MUST be the type identified in the Fulcio instance’s public configuration.  
-* The `algorithm` field of the `subjectPKInfo` is the `AlgorithmIdentifier` ([RFC 5280 §4.1.1.2](https://www.rfc-editor.org/rfc/rfc5280\#section-4.1.1.2)) of the generated key pair.  
+* The `subject` in the `CertificationRequestInfo` is an [X.501](https://www.itu.int/rec/T-REC-X.501/en) `RelativeDistinguishedName`. The `value` of the `RelativeDistinguishedName` SHOULD be the subject of the authentication token; its `type` MUST be the type identified in the Fulcio instance’s public configuration.
+* The `algorithm` field of the `subjectPKInfo` is the `AlgorithmIdentifier` ([RFC 5280 §4.1.1.2](https://www.rfc-editor.org/rfc/rfc5280#section-4.1.1.2)) of the generated key pair.
 * The `subjectPublicKey` field of the `subjectPKInfo` MUST be the encoding of the verification key for its algorithm.
 
-Then, the signer prepares a `CreateSigningCertificateRequest` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto\#L88-L108)) comprising the authentication token and the PKCS\#10 certificate signing request (PEM-encoded; see [RFC 7468](https://www.rfc-editor.org/rfc/rfc7468)) to the `CreateSigningCertificate` endpoint ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto\#L63-L68)) of the Fulcio instance.
+Then, the signer prepares a `CreateSigningCertificateRequest` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L88-L108)) comprising the authentication token and the PKCS#10 certificate signing request (PEM-encoded; see [RFC 7468](https://www.rfc-editor.org/rfc/rfc7468)) to the `CreateSigningCertificate` endpoint ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L63-L68)) of the Fulcio instance.
 
-In return, the Signer receives a `SigningCertificate` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto\#L144-L149)) containing a chain of PEM-encoded X.509 certificates ([RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280)), ordered from “leaf” to “root.” See [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) for additional details about certificate contents. The Signer SHOULD verify the response:
+In return, the Signer receives a `SigningCertificate` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L144-L149)) containing a chain of PEM-encoded X.509 certificates ([RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280)), ordered from “leaf” to “root.” See [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) for additional details about certificate contents. The Signer SHOULD verify the response:
 
-1. Perform certification path validation ([RFC 5280 §6](https://datatracker.ietf.org/doc/html/rfc5280\#section-6)) of the returned certificate chain with the pre-distributed Fulcio root certificate(s) as a trust anchor.  
-2. Extract a `SignedCertificateTimestamp`, which may be embedded as an X.509 extension in the leaf certificate or attached separately in the `SigningCertificate` returned from the Identity Service. Verify this `SignedCertificateTimestamp` as in [RFC 6962 §3.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the public key from the Certificate Transparency Log.  
-3. Check that the leaf certificate contains the subject from the certificate signing request and encodes the appropriate `AuthenticationServiceIdentifier` in an extension with OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md\#1361415726418--issuer-v2).
+1. Perform certification path validation ([RFC 5280 §6](https://datatracker.ietf.org/doc/html/rfc5280#section-6)) of the returned certificate chain with the pre-distributed Fulcio root certificate(s) as a trust anchor.
+2. Extract a `SignedCertificateTimestamp`, which may be embedded as an X.509 extension in the leaf certificate or attached separately in the `SigningCertificate` returned from the Identity Service. Verify this `SignedCertificateTimestamp` as in [RFC 6962 §3.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the public key from the Certificate Transparency Log.
+3. Check that the leaf certificate contains a subject (as `SubjectAlternativeName`) that matches the subject in the OIDC credential presented with the certificate signing request, and encodes the appropriate OIDC issuer in an extension with OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md#1361415726418--issuer-v2).
 
 #### 2.1.4. Signing
 
-The Signer signs the payload using the signing key as in the chosen signing algorithm; the signature will be opaque binary data. The Signer MAY pre-hash the payload using a hash algorithm from the registry ([Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit\#heading=h.if88xkt0tyir)) for compatibility with some signing metadata formats (see [§Submission of Signing Metadata to Transparency Service](\#submission-of-signing-metadata-to-transparency-service)).
+The Signer signs the payload using the signing key as in the chosen signing algorithm; the signature will be opaque binary data. The Signer MAY pre-hash the payload using a hash algorithm from the registry ([Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.if88xkt0tyir)) for compatibility with some signing metadata formats (see [§Submission of Signing Metadata to Transparency Service](#submission-of-signing-metadata-to-transparency-service)).
 
 #### 2.1.5. Timestamping
 
@@ -94,46 +94,46 @@ The Signer sends a hash of the signature as the `messageImprint` in a `TimeStamp
 
 The Signer chooses a format for signing metadata; this format MUST be in the `supportedMetadataFormats` in the Transparency Service configuration. The Signer prepares signing metadata containing at a minimum:
 
-* The signature.  
-* The payload (possibly pre-hashed; if so, the entry also includes the identifier of the hash algorithm).  
-* Verification material (signing certificate or verification key).  
+* The signature.
+* The payload (possibly pre-hashed; if so, the entry also includes the identifier of the hash algorithm).
+* Verification material (signing certificate or verification key).
   * If the verification material is a certificate, the client SHOULD upload only the signing certificate and SHOULD NOT upload the CA certificate chain.
 
 The signing metadata might contain additional, application-specific metadata according to the format used. The Signer then canonically encodes the metadata (according to the chosen format).
 
 #### 2.1.7. Transparency
 
-The Signer then sends the canonically-encoded signing metadata to the `/api/v1/log/entries` endpoint ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml\#L138-L171)) of the Transparency Service, which checks that signature is valid and responds with a `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml\#L423-L464)). The signer MUST verify the log entry as in [Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit).
+The Signer then sends the canonically-encoded signing metadata to the `/api/v1/log/entries` endpoint ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L138-L171)) of the Transparency Service, which checks that signature is valid and responds with a `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L423-L464)). The signer MUST verify the log entry as in [Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit).
 
 #### 2.1.8. Verification
 
-The above sections require the Signer to verify several parts of the signing process. Additionally, the Signer SHOULD perform the full verification procedure, as below ([§Verification](\#verification)). When the expected signing identity is known before signing, the Signer MAY check that the signature matches that identity.
+The above sections require the Signer to verify several parts of the signing process. Additionally, the Signer SHOULD perform the full verification procedure, as below ([§Verification](#verification)). When the expected signing identity is known before signing, the Signer MAY check that the signature matches that identity.
 
 #### 2.1.9. Distribution
 
 The Signer conveys the following verification materials to the verifier in order to allow verification:
 
-* Code-signing certificate. The CA root certificate MUST be provided out of band. Intermediate CA certificates SHOULD be provided out of band, but MAY be provided with the verification materials.  
-* Signature.  
-* Additional payload metadata.  
-* Timestamping response.  
-* Transparency Service `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml\#L423-L464)). The log public key MUST be provided out of band.
+* Code-signing certificate. The CA root certificate MUST be provided out of band. Intermediate CA certificates SHOULD be provided out of band, but MAY be provided with the verification materials.
+* Signature.
+* Additional payload metadata.
+* Timestamping response.
+* Transparency Service `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L423-L464)). The log public key MUST be provided out of band.
 
-They can do so in any manner. Signers SHOULD collate this data in the Sigstore wire format ([§Serialization and Wire Format](\#serialization-and-wire-format)) which stores these all in one object for easy distribution. The Verifier must also obtain the artifact to verify.
+They can do so in any manner. Signers SHOULD collate this data in the Sigstore wire format ([§Serialization and Wire Format](#serialization-and-wire-format)) which stores these all in one object for easy distribution. The Verifier must also obtain the artifact to verify.
 
 ### 3.1. Signing Choices
 
 *Authentication System.* The signer MUST use an Authentication System supported by the Fulcio instance with which they can authenticate.
 
-*Digital signature algorithm.* The signer must choose a digital signature algorithm for key generation and signing from the registry (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit\#heading=h.if88xkt0tyir)). The algorithm MUST be in the `supportedSigningAlgorithms` of both the Fulcio and Transparency Service instances.
+*Digital signature algorithm.* The signer must choose a digital signature algorithm for key generation and signing from the registry (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.if88xkt0tyir)). The algorithm MUST be in the `supportedSigningAlgorithms` of both the Fulcio and Transparency Service instances.
 
-*Signature metadata format*. The signature metadata format MUST be in the list of `supportedMetadataFormats` in the Transparency Service configuration. This list can include both common registry formats (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit\#heading=h.if88xkt0tyir)) or additional plug-in formats. Details about plug-in formats are conveyed out-of-band.
+*Signature metadata format*. The signature metadata format MUST be in the list of `supportedMetadataFormats` in the Transparency Service configuration. This list can include both common registry formats (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.if88xkt0tyir)) or additional plug-in formats. Details about plug-in formats are conveyed out-of-band.
 
 The metadata format chosen SHOULD depend on the artifact to sign (some formats encode extra metadata about specific artifact types), size (some formats require the full artifact; others allow the payload to be hashed), or compatibility with other systems.
 
 *Payload pre-hashing.* Some metadata formats store a hash of the payload. In this case, the signature is over the *hashed* payload, so that the Transparency Service can validate the signature.
 
-In such cases, the Signer must choose a hash algorithm from the registry (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit\#heading=h.if88xkt0tyir)); this algorithm MUST be in the `supportedHashAlgorithms` for the Transparency Service.
+In such cases, the Signer must choose a hash algorithm from the registry (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.if88xkt0tyir)); this algorithm MUST be in the `supportedHashAlgorithms` for the Transparency Service.
 
 *Long-lived signing keys.* The Signer may have a pre-existing, long-lived signing key with which they would like to sign payloads. This key MUST use an algorithm in the `supportedSigningAlgorithms` of both the Fulcio configuration and Transparency Service configuration.
 
@@ -149,29 +149,29 @@ In such cases, the Signer can skip the key generation step; the signing procedur
 
 A Verifier validates a signature on a payload along with other verification material according to a *policy*. The policy specifies:
 
-* What must be true about the identity in a certificate (whom to trust).  
-* Which Fulcio, Timestamping Authority, and Transparency Service instances to trust (including root  key material for each).  
-* Whether to require signed timestamp(s) from a Timestamping Authority, and, if so, how many.  
-* Whether to require the signature metadata to be logged in one or more Transparency Services and, if so, how many.  
-* Whether to perform online or offline verification for the CT Log and the Transparency Service.  
-* Which [Transparency Service](https://docs.google.com/document/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit\#heading=h.6w69n885z90t) formats the Verifier knows how to parse and validate.  
-* What to do with a payload, once verified.  
+* What must be true about the identity in a certificate (whom to trust).
+* Which Fulcio, Timestamping Authority, and Transparency Service instances to trust (including root  key material for each).
+* Whether to require signed timestamp(s) from a Timestamping Authority, and, if so, how many.
+* Whether to require the signature metadata to be logged in one or more Transparency Services and, if so, how many.
+* Whether to perform online or offline verification for the CT Log and the Transparency Service.
+* Which [Transparency Service](https://docs.google.com/document/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit#heading=h.6w69n885z90t) formats the Verifier knows how to parse and validate.
+* What to do with a payload, once verified.
 * How to determine whether a signature has been revoked.
 
-Knowing the verification policies of possible Verifiers may help Signers choose how to sign their payloads. Policies are application-specific and distributed out of band.  A policy is an abstract procedure, not a set configuration: a client does not need to support arbitrary policies; it might instead hard-code verification for a single policy, or expose only a limited number of configuration options, like the Sigstore `ArtifactVerificationOptions` ([definition](https://github.com/sigstore/protobuf-specs/blob/4dbf10bc287d76f1bfa68c05a78f3f5add5f56fe/protos/sigstore\_verification.proto\#L46-L108)) and `TrustedRoot` ([definition](https://github.com/sigstore/protobuf-specs/blob/4dbf10bc287d76f1bfa68c05a78f3f5add5f56fe/protos/sigstore\_trustroot.proto\#L59-L88)). Below, we describe a generic verification procedure and note where policy-specific decisions or departures may occur. If any step fails, abort verification unless otherwise specified.
+Knowing the verification policies of possible Verifiers may help Signers choose how to sign their payloads. Policies are application-specific and distributed out of band.  A policy is an abstract procedure, not a set configuration: a client does not need to support arbitrary policies; it might instead hard-code verification for a single policy, or expose only a limited number of configuration options, like the Sigstore `ArtifactVerificationOptions` ([definition](https://github.com/sigstore/protobuf-specs/blob/4dbf10bc287d76f1bfa68c05a78f3f5add5f56fe/protos/sigstore\_verification.proto#L46-L108)) and `TrustedRoot` ([definition](https://github.com/sigstore/protobuf-specs/blob/4dbf10bc287d76f1bfa68c05a78f3f5add5f56fe/protos/sigstore\_trustroot.proto#L59-L88)). Below, we describe a generic verification procedure and note where policy-specific decisions or departures may occur. If any step fails, abort verification unless otherwise specified.
 
 ### 4.1. Inputs
 
 The Verifier performs verification according to its policy based on the following inputs:
 
-* The artifact.  
-* Verification materials (possibly in the the `Bundle` format ([definition](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore\_bundle.proto\#L61-L77))):  
-  * Leaf certificate  
-    * When used with the Public Good Instance, only the leaf is necessary. Other Sigstore instances (such as private instances) may require one or more intermediates as well, if those intermediates are not listed in the independent root of trust.  
-  * Signature.  
-  * Additional payload metadata.  
-  * Timestamping response.  
-  * Transparency Service `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml\#L423-L464)).  
+* The artifact.
+* Verification materials (possibly in the the `Bundle` format ([definition](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore\_bundle.proto#L61-L77))):
+  * Leaf certificate
+    * When used with the Public Good Instance, only the leaf is necessary. Other Sigstore instances (such as private instances) may require one or more intermediates as well, if those intermediates are not listed in the independent root of trust.
+  * Signature.
+  * Additional payload metadata.
+  * Timestamping response.
+  * Transparency Service `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L423-L464)).
 * Root key material for Sigstore infrastructure (from the policy).
 
 The distribution of these inputs is out-of-scope for this document.
@@ -180,8 +180,8 @@ The distribution of these inputs is out-of-scope for this document.
 
 For Sigstore clients that expose a command-line interface, the following discovery order is RECOMMENDED:
 
-1. Use whatever verification materials are supplied explicitly by the user. For example, if the client has flags and/or environment variables for configuring bundles and/or detached verification materials, these should take precedence over any implicitly discovered materials.  
-2. If no explicit inputs are given: for a given file `input`, attempt to discover `{input}.sigstore.json`. If `{input}.sigstore.json` is present, attempt to use it for verification.  
+1. Use whatever verification materials are supplied explicitly by the user. For example, if the client has flags and/or environment variables for configuring bundles and/or detached verification materials, these should take precedence over any implicitly discovered materials.
+2. If no explicit inputs are given: for a given file `input`, attempt to discover `{input}.sigstore.json`. If `{input}.sigstore.json` is present, attempt to use it for verification.
 3. If `{input}.sigstore.json` is not present, attempt to discover `{input}.sigstore` and use it for verification.
 
 ### 4.2. Establishing a Time for the Signature
@@ -207,20 +207,20 @@ Leaf:                    |-----|
 Valid timestamp range:     |-|
 ```
 
-The Verifier MUST perform certification path validation ([RFC 5280 §6](https://datatracker.ietf.org/doc/html/rfc5280\#section-6)) of the certificate chain with the pre-distributed Fulcio root certificate(s) as a trust anchor, but with a fake “current time.” If a timestamp from the timestamping service is available, the Verifier MUST perform path validation using the timestamp from the Timestamping Service. If a timestamp from the Transparency Service is available, the Verifier MUST perform path validation using the timestamp from the Transparency Service. If both are available, the Verifier performs path validation twice. If either fails, verification fails.
+The Verifier MUST perform certification path validation ([RFC 5280 §6](https://datatracker.ietf.org/doc/html/rfc5280#section-6)) of the certificate chain with the pre-distributed Fulcio root certificate(s) as a trust anchor, but with a fake “current time.” If a timestamp from the timestamping service is available, the Verifier MUST perform path validation using the timestamp from the Timestamping Service. If a timestamp from the Transparency Service is available, the Verifier MUST perform path validation using the timestamp from the Transparency Service. If both are available, the Verifier performs path validation twice. If either fails, verification fails.
 
-Unless performing online verification (see [§Alternative Workflows](\#alternative-workflows)), the Verifier MUST extract the  `SignedCertificateTimestamp` embedded in the leaf certificate, and verify it as in [RFC 6962 §3.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the verification key from the Certificate Transparency Log.
+Unless performing online verification (see [§Alternative Workflows](#alternative-workflows)), the Verifier MUST extract the  `SignedCertificateTimestamp` embedded in the leaf certificate, and verify it as in [RFC 6962 §3.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the verification key from the Certificate Transparency Log.
 
-The Verifier MUST then check the certificate against the verification policy. Details on how to do this depend on the verification policy, but the Verifier SHOULD check the `Issuer` X.509 extension (OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md\#1361415726418--issuer-v2)) at a minimum, and will in most cases check the `SubjectAlternativeName` as well. See  [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) §TODO for example checks on the certificate.
+The Verifier MUST then check the certificate against the verification policy. Details on how to do this depend on the verification policy, but the Verifier SHOULD check the `Issuer` X.509 extension (OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md#1361415726418--issuer-v2)) at a minimum, and will in most cases check the `SubjectAlternativeName` as well. See  [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) §TODO for example checks on the certificate.
 
 ### 4.4. Transparency Log Entry
 
-By this point, the Verifier has already verified the signature by the Transparency Service ([§Establishing a Time for the Signature](\#establishing-a-time-for-the-signature)). The Verifier MUST parse `body`: `body` is a base64-encoded JSON document with keys `apiVersion` and `kind`. The Verifier implementation contains a list of known [Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit) formats (by `apiVersion` and `kind`); if no type is found, abort. The Verifier MUST parse `body` as the given type.
+By this point, the Verifier has already verified the signature by the Transparency Service ([§Establishing a Time for the Signature](#establishing-a-time-for-the-signature)). The Verifier MUST parse `body`: `body` is a base64-encoded JSON document with keys `apiVersion` and `kind`. The Verifier implementation contains a list of known [Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit) formats (by `apiVersion` and `kind`); if no type is found, abort. The Verifier MUST parse `body` as the given type.
 
-Then, the Verifier MUST check the following; exactly how to do this will be specified by each type in [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit\#heading=h.xd7kd6bn0rue) ([§Signature Metadata Formats](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit\#heading=h.xd7kd6bn0rue)):
+Then, the Verifier MUST check the following; exactly how to do this will be specified by each type in [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.xd7kd6bn0rue) ([§Signature Metadata Formats](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE\_lvQPk\_uwfwbMSoA/edit#heading=h.xd7kd6bn0rue)):
 
-1. The signature from the parsed body is the same as the provided signature.  
-2. The key or certificate from the parsed body is the same as in the input certificate.  
+1. The signature from the parsed body is the same as the provided signature.
+2. The key or certificate from the parsed body is the same as in the input certificate.
 3. The “subject” of the parsed body matches the artifact.
 
 The verification policy can impose additional constraints here. For instance, if a `kind` and `apiVersion` are provided in the policy (as in the `bundle` format), they must match the `kind` and `apiVersion` in `body`.
@@ -229,8 +229,8 @@ The verification policy can impose additional constraints here. For instance, if
 
 The Verifier now constructs the payload to be signed from the artifact and the additional payload metadata according to the verification policy and Transparency. Methods for doing so include:
 
-* Using the raw bytes of the artifact as the payload.  
-* Hashing the artifact, then using the resultant digest as the payload.  
+* Using the raw bytes of the artifact as the payload.
+* Hashing the artifact, then using the resultant digest as the payload.
 * Using [DSSE](https://github.com/secure-systems-lab/dsse/blob/master/protocol.md) as an envelope for the payload with a known DSSE payload type.
 
 The Verifier MUST verify the provided signature for the constructed payload against the key in the leaf of the certificate chain.
@@ -243,7 +243,7 @@ Verification according to some verification policies may deviate from the above 
 
 *No Transparency Service.* The Verifier MAY choose not to require that signatures are in the Transparency Service. In this case, the Verifier MUST use a timestamp from the Timestamping Service during certificate verification. The Verifier can skip verification of the Transparency Service \`LogEntry\` for timestamping, certificate verification using the timestamp from the Transparency Service, and Transparency Log Entry validation.
 
-*Online Certificate Transparency Log verification.* The above procedure describes using `SignedCertificateTimestamp`s to verify inclusion in the certificate transparency log. Instead, Verifiers MAY perform online verification by fetching and validating inclusion proofs ([RFC 9162 §8.1.4](https://datatracker.ietf.org/doc/html/rfc9162\#name-fetching-inclusion-proofs)) against a signed tree head. The Verifier SHOULD fetch the signed tree head in a manner that prevents equivocation by the Certificate Transparency log (e.g., by requiring signatures from independent “witnesses”).
+*Online Certificate Transparency Log verification.* The above procedure describes using `SignedCertificateTimestamp`s to verify inclusion in the certificate transparency log. Instead, Verifiers MAY perform online verification by fetching and validating inclusion proofs ([RFC 9162 §8.1.4](https://datatracker.ietf.org/doc/html/rfc9162#name-fetching-inclusion-proofs)) against a signed tree head. The Verifier SHOULD fetch the signed tree head in a manner that prevents equivocation by the Certificate Transparency log (e.g., by requiring signatures from independent “witnesses”).
 
 *Online Transparency Service verification*. The above procedure describes using signed inclusion promises from the Transparency Service for verifying membership in a transparency log (“offline verification.”) Instead, a Verifier MAY perform online verification. In this case, the Verifier checks an inclusion proof for the `LogEntry` against a `SignedTreeHead`. See [Spec: Transparency Service](https://docs.google.com/document/d/1NQUBSL9R64\_vPxUEgVKGb0p81\_7BVZ7PQuI078WFn-g/edit) for details.
 
@@ -259,11 +259,11 @@ While other signing and verification workflows are possible using the Transparen
 
 This section describes the “Sigstore wire format” for verification materials.
 
-To produce verification materials in this format, a client MUST use the Protocol Buffers [Bundle format](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore\_bundle.proto\#L61-L77) to collate these materials, serialized to JSON using the [canonical proto3 JSON serialization](https://protobuf.dev/programming-guides/proto3/\#json), *except* that:
+To produce verification materials in this format, a client MUST use the Protocol Buffers [Bundle format](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore\_bundle.proto#L61-L77) to collate these materials, serialized to JSON using the [canonical proto3 JSON serialization](https://protobuf.dev/programming-guides/proto3/#json), *except* that:
 
-1\. The bundle MUST use `lowerCamelCase` rather than `snake_case` for keys.  
-2\. The bundle MUST use the string representation for enum values.  
-   
+1\. The bundle MUST use `lowerCamelCase` rather than `snake_case` for keys.
+2\. The bundle MUST use the string representation for enum values.
+
 This is the same as the [JSON Schema schema in the protobuf-specs repository](https://github.com/sigstore/protobuf-specs/blob/77828e59f8e81cbad6133c200467ca620e4fc0fe/gen/jsonschema/schemas/Bundle.schema.json) for clients which prefer JSON Schema. Clients SHOULD NOT accept other variants of the canonical JSON proto3 serialization.
 
  If clients serialize the bundle to a file, the file SHOULD have the extension `.sigstore.json`. To write multiple bundles in one file, clients SHOULD use the [JSON Lines](https://jsonlines.org/) format (format each bundle without newlines, and write one bundle per line) and the extension `.sigstore.jsonl`.
