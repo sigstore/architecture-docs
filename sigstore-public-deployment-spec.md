@@ -27,11 +27,6 @@ Fulcio implements a certificate authority for issuing code signing certificates 
 
 Fulcio embeds information about the identity of a requester into the SubjectAlternativeName, Issuer, and extensions of a [RFC 5280](https://www.rfc-editor.org/rfc/rfc5280)\-compliant [X.509v3](https://www.itu.int/rec/T-REC-X.509) certificate. The certificates are signed by an intermediate certificate generated from a [GCP Key Management Service](https://cloud.google.com/kms/docs/) key and the root certificate authority is hosted via [GCP Certificate Authority Service](https://cloud.google.com/certificate-authority-service/). Both the intermediate certificate and root certificate are distributed via TUF implemented in the [sigstore/root-signing repository](https://github.com/sigstore/root-signing).
 
-These certificates have a validity period of 10 minutes, beginning at the time of issuance.
-
-* [Fulcio certification specification](https://github.com/sigstore/fulcio/blob/main/docs/certificate-specification.md)   
-* General OIDs 
-
 ### 2.2 Authentication
 
 Fulcio issues [RFC 5280](https://www.rfc-editor.org/rfc/rfc5280)\-compliant [X.509v3](https://www.itu.int/rec/T-REC-X.509) certificates encoding identity information. It must authenticate the identities which it encodes into these certificates. For additional information, see [OIDC Usage in Fulcio](https://github.com/sigstore/fulcio/blob/main/docs/oidc.md).
@@ -62,15 +57,12 @@ Dex:
 
 **Workflow Authentication**
 
-* GitHub  
-* GitLab  
+* GitHub Actions  
+* GitLab CI  
 * BuildKite
+* CodeFresh
 
 See the [Fulcio OIDC documentation](https://github.com/sigstore/fulcio/blob/main/docs/oidc.md) for additional details.
-
-#### 2.2.2 SPIFFE
-
-[Secure Production Identity Framework for Everyone](https://spiffe.io/) (SPIFFE) uses X.509 certificates to provide identity. SPIFFE-based OIDC providers use a SPIFFE ID as the URI subject alternative name of the certificate, scoped to a domain.
 
 ## 3. Rekor
 
@@ -80,7 +72,7 @@ Rekor implements a transparency service. There is a public good deployment of Re
 
 The transparency service has what is termed a ‘pluggable type’ system. A pluggable type, is a custom schema for entries stored in the transparency log. Schemas can be in multiple formats (json|yaml|xml).
 
-The current list of supported types can be found in the [Rekor project](https://github.com/sigstore/rekor/tree/main/pkg/types). Information about adding new pluggable types can be found in the [Rekor documentation.](https://docs.sigstore.dev/docs/logging/pluggable-types/)
+The current list of supported types can be found in the [Rekor project](https://github.com/sigstore/rekor/tree/main/pkg/types). Information about adding new pluggable types can be found in the [Rekor documentation.](https://docs.sigstore.dev/logging/pluggable-types/)
 
 See the transparency service ([Spec: Rekor](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)) document for additional information.
 
@@ -91,12 +83,6 @@ Rekor is backed by a transparency log, inspired by the one in Certificate Transp
 * Base URL: [https://rekor.sigstore.dev/](https://rekor.sigstore.dev/)   
 * Hash Algorithm: SHA-256 ([RFC 6234](https://datatracker.ietf.org/doc/rfc6234/); OID 2.16.840.1.101.3.4.2.1)  
 * Signature Algorithm:  ECDSA (NIST P-256).  
-* Public Key: change over time  
-* Log ID: need an OID  
-* Maximum Merge Delay: Rekor only returns after the merge is complete  
-* Maximum Chain Length: 10  
-* STH Frequency Count: N/A  
-* Final STH: N/A
 
 ### 3.3 Sharding
 
