@@ -1,10 +1,10 @@
 # Rekor, A Transparency Service
 
-This document describes Rekor, a signature tranparency service that securely records and makes verifiable the metadata of signed software artifacts, ensuring trust and integrity in the software supply chain. 
+This document describes Rekor, a signature transparency service that securely records and makes verifiable the metadata of signed software artifacts, ensuring trust and integrity in the software supply chain. 
 
 ## 1. Introduction
 
-Sigstore is an open source project that provides a secure framework for signing, verifying, and protecting software supply chains. It enables developers to cryptographicaly sign software artifacts, such as code, binaries, and container images, without needing to manage long-term keys. To prevent supply chain attacks, Sigstore offers an easy-to-use solution to ensure the authenticity and integrity of software artifacts throughout the development and deployment process. Sigstore achieves this through public verfiability: by logging all signatures in a tamper-evident, public transparency log, anyone can verify the provenance and integrity of software artifacts, fostering trust and transparency in open source ecosystems. This document provides a detailed overview of that tranparency log, Rekor. 
+Sigstore is an open source project that provides a secure framework for signing, verifying, and protecting software supply chains. It enables developers to cryptographically sign software artifacts, such as code, binaries, and container images, without needing to manage long-term keys. To prevent supply chain attacks, Sigstore offers an easy-to-use solution to ensure the authenticity and integrity of software artifacts throughout the development and deployment process. Sigstore achieves this through public verfiability: by logging all signatures in a tamper-evident, public transparency log, anyone can verify the provenance and integrity of software artifacts, fostering trust and transparency in open source ecosystems. This document provides a detailed overview of that transparency log, Rekor. 
 
 ### 1.1 Requirements Language
 
