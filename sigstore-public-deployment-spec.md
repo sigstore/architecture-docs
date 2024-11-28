@@ -1,7 +1,7 @@
 # Sigstore Public Deployment
 
 
-This document describes the technical and policy decisions for the public deployment of Sigstore, specifically focusing on the Fulcio and Rekor deployment for the public good instance. The [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) and [Spec: Rekor](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit) documents leave many implementation choices, such as authentication and log entry formats, to the discretion of implementers. This document outlidetails the specific implementation choices made for Sigstore's public deployment that go beyond the requirements in the specification. Additionally, this document details the use of TUF for distributing roots of trust, and includes links to deployment respositories and resources.
+This document describes the technical and policy decisions for the public deployment of Sigstore, specifically focusing on the Fulcio and Rekor deployment for the public good instance. The [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) and [Spec: Rekor](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit) documents leave many implementation choices, such as authentication and log entry formats, to the discretion of implementers. This document describes the specific implementation choices made for Sigstore's public deployment that go beyond the requirements in the specification. Additionally, this document details the use of TUF for distributing roots of trust, and includes links to deployment respositories and resources.
 
 ## 1. Introduction
 
@@ -29,8 +29,7 @@ Fulcio embeds information about the identity of a requester into the SubjectAlte
 
 These certificates have a validity period of 10 minutes, beginning at the time of issuance.
 
-* [Fulcio certification specification](https://github.com/sigstore/fulcio/blob/main/docs/certificate-specification.md)   
-* General OIDs 
+* [Fulcio certification specification](https://github.com/sigstore/fulcio/blob/main/docs/certificate-specification.md)
 
 ### 2.2 Authentication
 
@@ -38,19 +37,27 @@ Fulcio issues [RFC 5280](https://www.rfc-editor.org/rfc/rfc5280)\-compliant [X.5
 
 #### 2.2.1 OpenID Connect
 
-[OpenID Connect](https://openid.net/connect/) (OIDC) is an extension of [OAuth 2.0](https://oauth.net/2/) to provide an identity layer. In Fulcio, clients may authenticate using OIDC. Subject-related claims from the OIDC token are extracted and included in issued certificates.
+[OpenID Connect](https://openid.net/connect/) (OIDC) is an open identity attestation and verification standard built on top of [OAuth 2.0](https://oauth.net/2/). Sigstore uses OIDC because it is a widely adopted, industry-standard protocol that simplifies authentication, supporting both human and machine identities. Many users already have accounts with existing OIDC providers. Additionally, OIDC makes it straightforward to implement infrastructure capable of generating OIDC-compliant tokens without requiring support for the entire authentication flow. This approach ensures a seamless and secure user experience while reducing operational overhead for implementers and users. 
 
-Learn more about certificates generated from OIDC providers at [https://github.com/sigstore/fulcio/blob/main/docs/oidc.md](https://github.com/sigstore/fulcio/blob/main/docs/oidc.md).
+In Fulcio, clients may authenticate using OIDC. Subject-related claims from the OIDC token are extracted and included in issued certificates.
+
+Learn more about certificates generated from OIDC providers at [OIDC Usage in Fulcio](https://github.com/sigstore/fulcio/blob/main/docs/oidc.md).
 
 ##### 2.2.1.1 Requirements on Identity Providers
 
-[https://github.com/sigstore/fulcio/blob/main/docs/new-idp-requirements.md](https://github.com/sigstore/fulcio/blob/main/docs/new-idp-requirements.md)
+Adding a new Identity Provider (IDP) option to Fulcio helps drive adoption of Sigstore. Because identity is a critical component of the system, it is that new IDPs meet the minimum set of requirements to ensure the security and reliability of the ecosystem and users. IDPs are categorized into two types:
+
+* Email-based OIDC Providers: These utilize the user's email or machine identity for service accounts as the certificate's subject.
+
+* Workflow-based OIDC Providers: Designed for systems like CI/CD pipelines (e.g., GitHub Actions, GitLab CI), these require more extensive onboarding.
+
+This document describes the minimum requirements for integrating new IDPs for either of these types: [New IDP Requirements](https://github.com/sigstore/fulcio/blob/main/docs/new-idp-requirements.md)
 
 ##### 2.2.1.2 Current Identity Providers
 
-Sigstore runs a federated OIDC identity provider, [Dex](https://dexidp.io/). Users authenticate to their preferred identity provider and Dex creates an OIDC token with claims from the original OIDC token. Fulcio also supports OIDC tokens from additional configured issuers.
+Sigstore runs a federated OIDC identity provider, [Dex](https://dexidp.io/). Sigstore uses Dex as an identity broker to streamline authentication across diverse identity providers, protect against and incompatibilities, and ensure a consistent experience. Additionally, Dex provides the ability to control the lifetime of tokens, ensuring tokens expire within appropriate timeframes, reducing risks associated with long-lived credentials. Users authenticate to their preferred identity provider and Dex creates an OIDC token with claims from the original OIDC token. Fulcio also supports OIDC tokens from additional configured issuers.
 
-The Fulcio implementation allows deployers to configure which OIDC IdPs to accept. The public good instance accepts the following:
+The Fulcio implementation allows deployers to configure which OIDC IDPs to accept. The public good instance accepts the following:
 
 **User Authentication**
 
@@ -62,15 +69,13 @@ Dex:
 
 **Workflow Authentication**
 
-* GitHub  
-* GitLab  
+* GitHub Actions  
+* GitLab CI  
 * BuildKite
+* CodeFresh
+* SPIFFE-based OIDC providers
 
 See the [Fulcio OIDC documentation](https://github.com/sigstore/fulcio/blob/main/docs/oidc.md) for additional details.
-
-#### 2.2.2 SPIFFE
-
-[Secure Production Identity Framework for Everyone](https://spiffe.io/) (SPIFFE) uses X.509 certificates to provide identity. SPIFFE-based OIDC providers use a SPIFFE ID as the URI subject alternative name of the certificate, scoped to a domain.
 
 ## 3. Rekor
 
@@ -78,9 +83,9 @@ Rekor implements a transparency service. There is a public good deployment of Re
 
 ### 3.1 Pluggable Types
 
-The transparency service has what is termed a ‘pluggable type’ system. A pluggable type, is a custom schema for entries stored in the transparency log. Schemas can be in multiple formats (json|yaml|xml).
+The transparency service has what is termed a ‘pluggable type’ system. A pluggable type is a custom schema for entries stored in the transparency log. Schemas can be in multiple formats (json|yaml|xml).
 
-The current list of supported types can be found in the [Rekor project](https://github.com/sigstore/rekor/tree/main/pkg/types). Information about adding new pluggable types can be found in the [Rekor documentation.](https://docs.sigstore.dev/docs/logging/pluggable-types/)
+The current list of supported types can be found in the [Rekor project](https://github.com/sigstore/rekor/tree/main/pkg/types). Information about adding new pluggable types can be found in the [Rekor documentation.](https://docs.sigstore.dev/logging/pluggable-types/)
 
 See the transparency service ([Spec: Rekor](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)) document for additional information.
 
@@ -91,20 +96,18 @@ Rekor is backed by a transparency log, inspired by the one in Certificate Transp
 * Base URL: [https://rekor.sigstore.dev/](https://rekor.sigstore.dev/)   
 * Hash Algorithm: SHA-256 ([RFC 6234](https://datatracker.ietf.org/doc/rfc6234/); OID 2.16.840.1.101.3.4.2.1)  
 * Signature Algorithm:  ECDSA (NIST P-256).  
-* Public Key: change over time  
-* Log ID: need an OID  
-* Maximum Merge Delay: Rekor only returns after the merge is complete  
-* Maximum Chain Length: 10  
-* STH Frequency Count: N/A  
-* Final STH: N/A
+* Public Key: See [root-signing repo](https://github.com/sigstore/root-signing)  
+* Log ID: the SHA-256 hash of the log's public key
+* Maximum Merge Delay: Rekor only returns an index after the merge is complete. Rekor does not support batching. Rekor returns an inclusion proof after waiting for an entry to be included in the log, which is expected to take <1s.
+* Identity monitoring: [Rekor monitor](https://github.com/sigstore/rekor-monitor)
 
 ### 3.3 Sharding
 
-The Certificate Transparency Log database used by Rekor currently shards every year at a minimum. Each shard is available but kept as a separate database instance.
-
-The sharding is an additive in a sense that old shards will be still available at:  `https://ctfe.sigstore.dev/<SHARD>`. For example, if sharding in 2022, the old shard is available at: [https://ctfe.sigstore.dev/2022/ct/v1/get-sth](https://ctfe.sigstore.dev/2022/ct/v1/get-sth)
+The Certificate Transparency Log database used by Rekor currently shards every year at a minimum. The sharding is an additive in a sense that old shards will be still available at:  `https://ctfe.sigstore.dev/<SHARD>`. For example, if sharding in 2022, the old shard is available at: [https://ctfe.sigstore.dev/2022/ct/v1/get-sth](https://ctfe.sigstore.dev/2022/ct/v1/get-sth)
 
 The convention for naming shards is that it will contain the year, followed by the instance. For example, the first shard of the year 2023 should be named 2023 and if other shards are created they will be called 2023-2, 2023-3, and so forth.
+
+This document outlines the steps taken to shard the Rekor log: [Sharding Rekor](https://docs.sigstore.dev/logging/sharding/)
 
 ### 3.4 Timestamp Authority
 
