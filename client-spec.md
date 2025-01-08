@@ -232,7 +232,7 @@ The Verifier now constructs the payload to be signed from the artifact and the a
 * Using the raw bytes of the artifact as the payload.
 * Hashing the artifact, then using the resultant digest as the payload.
 * Using [DSSE](https://github.com/secure-systems-lab/dsse/blob/master/protocol.md) as an envelope for the payload which MUST be an in-toto statement.
-    * Verifier MUST ensure that the artifact's digest/alg tuple is present in the list of subject in the in-toto statement.
+    * Verifier MUST ensure that the artifact's digest/algorithm tuple is present in the list of subjects in the in-toto statement.
     * Verifier SHOULD accept the raw artifact and compute the message digest to minimize any risk for confusion attacks.
 
 The Verifier MUST verify the provided signature for the constructed payload against the key in the leaf of the certificate chain.
