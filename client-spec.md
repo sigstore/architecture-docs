@@ -231,7 +231,11 @@ The Verifier now constructs the payload to be signed from the artifact and the a
 
 * Using the raw bytes of the artifact as the payload.
 * Hashing the artifact, then using the resultant digest as the payload.
-* Using [DSSE](https://github.com/secure-systems-lab/dsse/blob/master/protocol.md) as an envelope for the payload with a known DSSE payload type.
+* Using [DSSE](https://github.com/secure-systems-lab/dsse/blob/master/protocol.md) as an envelope for the payload.
+    * The DSSE `payloadType` must be `application/vnd.in-toto+json` per the [in-toto Envelope layer specification](https://github.com/in-toto/attestation/blob/main/spec/v1/envelope.md).
+    * The payload MUST be an [in-toto statement](https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md).
+    * Verifier MUST ensure that the artifact's digest/algorithm tuple is present in the list of subjects in the in-toto statement.
+    * Verifier SHOULD accept the raw artifact and compute the message digest to minimize any risk for confusion attacks.
 
 The Verifier MUST verify the provided signature for the constructed payload against the key in the leaf of the certificate chain.
 
