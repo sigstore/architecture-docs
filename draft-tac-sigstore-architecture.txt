@@ -5,8 +5,8 @@
 WG Working Group                                             B. Callaway
 Internet-Draft                                               Google, LLC
 Intended status: Informational                                Y. N. Here
-Expires: 11 July 2025                             Your Organization Here
-                                                          7 January 2025
+Expires: 13 July 2025                             Your Organization Here
+                                                          9 January 2025
 
 
                   sigstore Architecture Documentation
@@ -47,7 +47,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 July 2025.
+   This Internet-Draft will expire on 13 July 2025.
 
 Copyright Notice
 
