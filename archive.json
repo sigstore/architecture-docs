@@ -1,0 +1,2297 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2025-01-09T00:04:34.828772+00:00",
+  "repo": "sigstore/architecture-docs",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 4,
+      "id": "I_kwDOHdxLW86Q4bOL",
+      "title": "Review terminology for consistency",
+      "url": "https://github.com/sigstore/architecture-docs/issues/4",
+      "state": "CLOSED",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "              Do you mean \"identity of the signer\" instead of \"identity of the client\"? 'client' has been consistently used to refer to the signing/verification tool\r\n\r\n_Originally posted by @chinenyeokafor in https://github.com/sigstore/architecture-docs/pull/3#discussion_r1690390953_\r\n            ",
+      "createdAt": "2024-07-25T18:17:01Z",
+      "updatedAt": "2024-07-25T19:27:26Z",
+      "closedAt": "2024-07-25T19:27:26Z",
+      "comments": [
+        {
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "body": "Answered in the PR.",
+          "createdAt": "2024-07-25T19:18:53Z",
+          "updatedAt": "2024-07-25T19:18:53Z"
+        },
+        {
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "body": "Thanks. Fixed in PR. ",
+          "createdAt": "2024-07-25T19:27:26Z",
+          "updatedAt": "2024-07-25T19:27:26Z"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOHdxLW86Q4cOo",
+      "title": "Review for correctness ",
+      "url": "https://github.com/sigstore/architecture-docs/issues/5",
+      "state": "CLOSED",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "              Is 'token' meant instead of 'client' in 'Once the client has been authenticated'?\r\n\r\n_Originally posted by @chinenyeokafor in https://github.com/sigstore/architecture-docs/pull/3#discussion_r1690395740_\r\n            ",
+      "createdAt": "2024-07-25T18:19:01Z",
+      "updatedAt": "2024-07-25T19:27:16Z",
+      "closedAt": "2024-07-25T19:27:16Z",
+      "comments": [
+        {
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "body": "Answered in the PR.",
+          "createdAt": "2024-07-25T19:18:59Z",
+          "updatedAt": "2024-07-25T19:18:59Z"
+        },
+        {
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "body": "Thanks. Fixed in PR. ",
+          "createdAt": "2024-07-25T19:27:16Z",
+          "updatedAt": "2024-07-25T19:27:16Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOHdxLW86Q4egr",
+      "title": "Fulcio: Consider adding a picture/diagram to section 2.1 Timestamping ",
+      "url": "https://github.com/sigstore/architecture-docs/issues/6",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nFrom a comment in the original google spec doc: Would a picture / diagram be useful here?\r\n\r\nA signed timestamp provides a record of a signing event. The signed timestamp MUST be created over the artifact signature to associate a timestamp with a signing event. This proves possession of an artifact signing key at time of signature issuance.\r\n",
+      "createdAt": "2024-07-25T18:23:48Z",
+      "updatedAt": "2024-07-25T18:23:48Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOHdxLW86Q4ffg",
+      "title": "Fulcio: Consider adding a swim lane diagram to section '3. Issuance - Life of a Request'",
+      "url": "https://github.com/sigstore/architecture-docs/issues/7",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nFor spec section '3. Issuance - Life of a Request' A swim lane diagram may help or alternatively we could link to docs elsewhere that explain this in greater detail. (Google comment in original spec doc)\r\n",
+      "createdAt": "2024-07-25T18:26:00Z",
+      "updatedAt": "2024-07-25T18:26:00Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOHdxLW86TG52m",
+      "title": "Client-Spec: Add in link to relevant docs on revocation and expiration",
+      "url": "https://github.com/sigstore/architecture-docs/issues/8",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nTODO: Section 6: Security Considerations - add in link to relevant docs on revocation and expiration\r\n",
+      "createdAt": "2024-08-15T13:30:29Z",
+      "updatedAt": "2024-08-15T13:30:41Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOHdxLW86Tk92X",
+      "title": "Client-Spec: 2.1.3. Certificate Issuance TODO",
+      "url": "https://github.com/sigstore/architecture-docs/issues/10",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n[TODO from Google Doc](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAAAvzifgZo) \r\n\r\nIn Section 2.1.3. Certificate Issuance\r\n\r\nStep 3 for verifying response\r\n\r\n\"This might be another place where we're out of sync with what RFC 5280 encourages: maybe the CSR response here should only contain the leaf (and optional intermediates), with the root explicitly excluded to enforce OOB trust anchor retrieval?\"\r\n\r\nAlso [this comment ](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAAAvzifgZw)\r\n\r\n\r\n",
+      "createdAt": "2024-08-20T15:28:34Z",
+      "updatedAt": "2024-08-20T15:30:02Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOHdxLW86Tk_6r",
+      "title": "Client-Spec: TODO review policy taxonomy",
+      "url": "https://github.com/sigstore/architecture-docs/issues/11",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nMigrated [this google doc comment](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAAAvzifges) related to section 4: Verification\r\n",
+      "createdAt": "2024-08-20T15:32:43Z",
+      "updatedAt": "2024-08-20T15:32:43Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOHdxLW86TsOsa",
+      "title": "Client-Spec: Umbrella issue for all TODOs",
+      "url": "https://github.com/sigstore/architecture-docs/issues/12",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nThis issue is the umbrella issue that lists all the pending todos for when the spec was migrated from google docs to markdown (in same order as they appear in the doc) and anything captured in the PR review #9 \r\n- [ ] #10 \r\n- [ ] #11 \r\n- [ ] Review 3.1 Signing Choices repetitiveness with earlier sections ([link](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAAAtyvALJU))\r\n- [ ] Emphasize recommended default [link](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAABU0vo970)\r\n- [ ] 4.1 Inputs: consider strengthening language substantially ([link](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAABQVV-gT0))\r\n- [ ] 4.2 do we need to [include the note to implementers](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAABCrCkr8E)?\r\n- [ ] #18 \r\n- [ ] 4.3 Resolve [comment](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAAAtyvALfU)\r\n- [ ] 4.3 Consider adding something on if no time is available ([link](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAAAtyvALMs))\r\n- [ ] 4.3 Consider mentioning verifying other OID claims for CI/CD platforms ([link](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAAAtyvALMs))\r\n- [ ] 4.3 Update section to mandate verifying inclusion proofs ([link](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAAA3TpGAt0))\r\n- [ ] #8 \r\n- [x] #14 \r\n- [ ] #17 ",
+      "createdAt": "2024-08-21T11:53:48Z",
+      "updatedAt": "2024-09-04T19:38:51Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOHdxLW86TsQRf",
+      "title": "Client-Spec: 4.3 Certificate - add example checks on certificate link ",
+      "url": "https://github.com/sigstore/architecture-docs/issues/13",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nResolve this todo in 4.3 Certificate\r\n\r\n- [ ] confirm the example check is included in the fulcio spec\r\n- [ ] Link to it from client spec ",
+      "createdAt": "2024-08-21T11:56:55Z",
+      "updatedAt": "2024-08-21T11:56:55Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOHdxLW86UcMb8",
+      "title": "Client spec: post-issuance leaf check clarifications",
+      "url": "https://github.com/sigstore/architecture-docs/issues/14",
+      "state": "CLOSED",
+      "author": "woodruffw",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Copying from the doc, from @segiddins: this bullet has some inaccuracies in it:\r\n\r\n* The leaf certificate has SANs, not a subject (the subject is empty, since we only use SANs)\r\n* The leaf's SANs should be checked not against the CSR's subject (which is incomplete and unauthenticated), but against the OIDC credential that *accompanied* the CSR during issuance\r\n* `AuthenticationServiceIdentifier` doesn't get defined anywhere above, so I _think_ this should probably say something like \"encodes the appropriate underlying OIDC IdP issuer\" since that's what it means \ud83d\ude42 \r\n\r\nI'm happy to send patches for these improvements, either to this PR or as follow-ups once this is merged. Just let me know whatever works best!\r\n\r\n_Originally posted by @woodruffw in https://github.com/sigstore/architecture-docs/pull/9#discussion_r1729515261_\r\n            ",
+      "createdAt": "2024-08-27T21:37:19Z",
+      "updatedAt": "2024-09-04T19:38:51Z",
+      "closedAt": "2024-09-04T19:38:51Z",
+      "comments": [
+        {
+          "author": "woodruffw",
+          "authorAssociation": "MEMBER",
+          "body": "The above is relevant to this section of the client spec:\r\n\r\n```markdown\r\n1. Perform certification path validation ([RFC 5280 \u00a76](https://datatracker.ietf.org/doc/html/rfc5280\\#section-6)) of the returned certificate chain with the pre-distributed Fulcio root certificate(s) as a trust anchor.  \r\n2. Extract a `SignedCertificateTimestamp`, which may be embedded as an X.509 extension in the leaf certificate or attached separately in the `SigningCertificate` returned from the Identity Service. Verify this `SignedCertificateTimestamp` as in [RFC 6962 \u00a73.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the public key from the Certificate Transparency Log.  \r\n3. Check that the leaf certificate contains the subject from the certificate signing request and encodes the appropriate `AuthenticationServiceIdentifier` in an extension with OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md\\#1361415726418--issuer-v2).\r\n```",
+          "createdAt": "2024-08-27T21:38:16Z",
+          "updatedAt": "2024-08-27T21:38:16Z"
+        },
+        {
+          "author": "woodruffw",
+          "authorAssociation": "MEMBER",
+          "body": "#19 addresses this.",
+          "createdAt": "2024-09-04T18:05:33Z",
+          "updatedAt": "2024-09-04T18:05:33Z"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "I_kwDOHdxLW86UcNGd",
+      "title": "Client spec: Specify that certificate verification should fail without a signed time source, current time with explicit policy",
+      "url": "https://github.com/sigstore/architecture-docs/issues/15",
+      "state": "OPEN",
+      "author": "haydentherapper",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\n<!--What needs to be improved? What should be done? Has there been any related work\r\nbefore? Any relevant links or material?\r\n-->\r\n\r\nIf neither an RFC 3161 signed timestamp nor a log timestamp (SET) is successfully verified, then certificate verification should fail. Currently, it is not explicitly documented that a client must require at least one successful verification of a signed timestamp.\r\n\r\nWe should also document that a client MAY choose to implement verification with current time in the case of BYO PKI and long-lived certificates, but this MUST be gated behind a policy and not the default behavior.",
+      "createdAt": "2024-08-27T21:39:10Z",
+      "updatedAt": "2024-08-27T21:39:11Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 16,
+      "id": "I_kwDOHdxLW86UcNJt",
+      "title": "Client spec: Timestamp verification should be best effort, not hard fail",
+      "url": "https://github.com/sigstore/architecture-docs/issues/16",
+      "state": "OPEN",
+      "author": "haydentherapper",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\n<!--What needs to be improved? What should be done? Has there been any related work\r\nbefore? Any relevant links or material?\r\n-->\r\n\r\nClients should find as many timestamps as they can from the provided sources (RFC 3161 signed timestamps and log SETs currently). If any one timestamp fails to verify, clients should continue. Clients should only fail if no timestamp can be verified (https://github.com/sigstore/architecture-docs/issues/15). ",
+      "createdAt": "2024-08-27T21:39:20Z",
+      "updatedAt": "2024-08-27T21:39:20Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 17,
+      "id": "I_kwDOHdxLW86UsYtN",
+      "title": "Client-spec: Review signer terminology",
+      "url": "https://github.com/sigstore/architecture-docs/issues/17",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nvia @chinenyeokafor's comment on PR (https://github.com/sigstore/architecture-docs/pull/9)\r\n\r\n\"signer\" is used in various sections, such as \u00a72, \u00a72.1.2, \u00a72.1.5, where \"client\" might be more appropriate based on the terminology and party definitions. It might be helpful if we review these uses or consider redefining the terms for consistency throughout the doc\r\n",
+      "createdAt": "2024-08-29T14:32:34Z",
+      "updatedAt": "2024-08-29T14:32:34Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 18,
+      "id": "I_kwDOHdxLW86Usgtq",
+      "title": "Client-Spec: 4.2.1 Timestamping Service - update section to clarify abort behavior on parsing fails.",
+      "url": "https://github.com/sigstore/architecture-docs/issues/18",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nFrom #9 Left a comment about this in the doc, but Verifiers shouldn't abort for this or the next step imo. Verifiers should gather as many timestamps as they can successfully validate, and use each when verifying the certificate.\r\n\r\n(see also [doc comment](https://docs.google.com/document/d/1kbhK2qyPPk8SLavHzYSDM8-Ueul9_oxIMVFuWMWKz0E/edit?disco=AAABUW9dA0s))\r\n",
+      "createdAt": "2024-08-29T14:44:42Z",
+      "updatedAt": "2024-08-29T14:59:11Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 20,
+      "id": "I_kwDOHdxLW86W1gy2",
+      "title": "Client-spec: How many tlog entries should clients expect?",
+      "url": "https://github.com/sigstore/architecture-docs/issues/20",
+      "state": "OPEN",
+      "author": "woodruffw",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "From https://github.com/sigstore/sigstore-ruby/pull/94#discussion_r1729621305 -- sigstore-python (and soon sigstore-ruby) both expect exactly one tlog entry per bundle, since the semantics for handling multiple entries are unclear (i.e. whether it's a K-of-N threshold or \"all or none\"). The client spec should probably clarify which of these (or both, contextually) of these is expected for Sigstore clients.",
+      "createdAt": "2024-09-17T09:38:15Z",
+      "updatedAt": "2024-09-17T09:38:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 21,
+      "id": "I_kwDOHdxLW86W17JQ",
+      "title": "Client Spec: How to check fulcio-returned SAN against ID Token",
+      "url": "https://github.com/sigstore/architecture-docs/issues/21",
+      "state": "OPEN",
+      "author": "segiddins",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [
+        "question"
+      ],
+      "body": "**Question**\r\n The spec says\r\n\r\n> Check that the leaf certificate contains a subject (as SubjectAlternativeName) that matches the subject in the OIDC credential presented with the certificate signing request, and encodes the appropriate OIDC issuer in an extension with OID [1.3.6.1.4.1.57264.1.8](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md#1361415726418--issuer-v2).\r\n\r\nBut the SAN values are constructed by fulcio in a way that does not show up in any of the protos:\r\n\r\nThe type of the SAN is from https://github.com/sigstore/fulcio/blob/b2186c01da1ddf807bde3ea8c450226d8e001d88/pkg/config/config.go#L182-L201\r\n\r\nhttps://github.com/sigstore/fulcio/blob/main/docs/oid-info.md otherwise describes the extensions, but doesn't include the SAN\r\n\r\nAnd ultimately the principal comes from https://github.com/sigstore/fulcio/blob/e86540d3be25166b75abff38aa81fcb003f924b6/pkg/challenges/challenges.go#L55-L89, and is dependent on the token issuer!\r\n\r\nIf we want clients to validate the returned cert, this needs to either go into the sigstore protos for fulcio, or else be clearly documented so clients can mirror the fulcio behavior",
+      "createdAt": "2024-09-17T10:14:11Z",
+      "updatedAt": "2024-09-17T10:14:11Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 22,
+      "id": "I_kwDOHdxLW86XDHFZ",
+      "title": "Repo health: Review GitHub Actions",
+      "url": "https://github.com/sigstore/architecture-docs/issues/22",
+      "state": "OPEN",
+      "author": "haydentherapper",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\n<!--What needs to be improved? What should be done? Has there been any related work\r\nbefore? Any relevant links or material?\r\n-->\r\n\r\nWhen this repo was created, we did not review any of the existing GitHub Actions that came with the fork. It looks like one is failing because it can't create GitHub Pages - do we actually want this? We should do a review of the actions.",
+      "createdAt": "2024-09-18T16:22:22Z",
+      "updatedAt": "2024-09-18T16:22:23Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 24,
+      "id": "I_kwDOHdxLW86X6fQg",
+      "title": "Public Deployment Spec: Update with tuf-on-ci",
+      "url": "https://github.com/sigstore/architecture-docs/issues/24",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nSection 4 of the public deployment spec is out of date and needs to be updated to reflect the migration to [TUF-on-CI](https://github.com/theupdateframework/tuf-on-ci/) for repository management.\r\n",
+      "createdAt": "2024-09-25T18:20:56Z",
+      "updatedAt": "2024-09-25T18:20:56Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 25,
+      "id": "I_kwDOHdxLW86X6gN4",
+      "title": "Public Good Deployment Spec: Flesh out public good instance section #5",
+      "url": "https://github.com/sigstore/architecture-docs/issues/25",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nSection #5 of the public good deployment spec needs to be fleshed out and consider adding additional information around\r\n\r\n- [ ] deployment (e.g. Should we document how we do gitops, eg argocd?)\r\n- [ ] costs\r\n- [ ] operation\r\n- [ ] repos\r\n- [ ] design decisions\r\n\r\n",
+      "createdAt": "2024-09-25T18:23:20Z",
+      "updatedAt": "2024-09-25T18:23:20Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 26,
+      "id": "I_kwDOHdxLW86YCks3",
+      "title": "Rekor spec: add images",
+      "url": "https://github.com/sigstore/architecture-docs/issues/26",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nAdd images from [rekor spec google](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)\r\n\r\nAlso see #6 \r\n",
+      "createdAt": "2024-09-26T14:43:52Z",
+      "updatedAt": "2024-09-26T14:43:52Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 28,
+      "id": "I_kwDOHdxLW86YCoP-",
+      "title": "Update readme.md",
+      "url": "https://github.com/sigstore/architecture-docs/issues/28",
+      "state": "CLOSED",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\n\r\nOnce the final spec docs are merged (#23 and #27) the readme.md should be updated to signpost the spec docs and give an overview. \r\nAll google docs will then be marked deprecated. \r\n",
+      "createdAt": "2024-09-26T14:49:05Z",
+      "updatedAt": "2024-10-28T18:09:33Z",
+      "closedAt": "2024-10-28T18:09:33Z",
+      "comments": []
+    },
+    {
+      "number": 30,
+      "id": "I_kwDOHdxLW86cRSGU",
+      "title": "Rekor Spec: Umbrella issue for all TODOs",
+      "url": "https://github.com/sigstore/architecture-docs/issues/30",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\nThis is a list of the unresolved TODOs from the original [Google Doc](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?tab=t.0#heading=h.6w69n885z90t) to be resolved before archiving that doc. Listed in order of comments in the doc\r\n\r\n- [ ] Section 2. Clarify what the MAY clause for signing key for an entry ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaXfc))\r\n- [ ] Section 2. Clarify paragraph about storage of signing events ([comment1](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABDYgH0yo), [comment2](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABEnR97DU))\r\n- [ ] Section 2 Address question about witnessing list ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaXgU))\r\n- [ ] Section 3: Make architecture section more descriptive/readable ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJqBo))\r\n- [ ] Section 4: Make terminology consistent, consider moving to shared glossary ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaXlA))\r\n- [ ] Section 4: Address terminology comments ([comment1](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaXms), [comment2](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAAA3vaOuGw), [comment3](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAAA4_YeiT0), [comment4](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaXo0), [comment5](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAAA4_YeiT4))\r\n- [ ] Section 5(and others) - ensure definitions are aligned ([comment1](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaXwY), [comment2](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaXws))\r\n- [ ] Section 5.1 Address comments on record types ([comment1](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAAA3vaOuHQ), [comment2](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAAA4_YeiUI))\r\n- [ ] Section 5.2 Consider moving validation metadata ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaX4I))\r\n- [ ] Section 5.3 Define signing event ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaX6I))\r\n- [ ] Section 5.3 Standardize language for clarity ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaX98))\r\n- [ ] Section 8.3 Address comments to clarify ([comment1](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaX_8), [comment2](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaYAI))\r\n- [ ] Section 8.5 Address comments to clarify section ([comment1](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAAA4_YeiVk), [comment2](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaYAo) [comment3](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBDhaYA4))\r\n- [ ] Section 9.3 Ensure terminology is consistent ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBF_nDjk))\r\n- [ ] Section 9.5 Address comments ([comment1](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJp94), [comment2](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJp9g), [comment3](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJp9g))\r\n- [ ] Section 10.1 Address comment ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJp-0))\r\n- [ ] Section 10.2 Address scope comment ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJp-c))\r\n- [ ] Section 10.2.1 Address comment ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJp-o))\r\n- [ ] Section 10.3 Address comments ([comment1](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJp-8) [comment2](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJp_A))\r\n- [ ] Section 11 Address comments ([comment1](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJqAc), [comment2](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJqAQ), [comment3](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJqAU))\r\n- [ ] Section 12 Address comments ([comment](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJqAY))\r\n- [ ] Section 13 Address comments ([comment1](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJqA0),[comment2](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit?disco=AAABBGiJqBE))\r\n\r\n",
+      "createdAt": "2024-10-29T16:30:12Z",
+      "updatedAt": "2024-10-30T13:32:41Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 31,
+      "id": "I_kwDOHdxLW86caSHt",
+      "title": "Rekor Spec: Add link to Rekor v2 doc",
+      "url": "https://github.com/sigstore/architecture-docs/issues/31",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "**Description**\r\nThe goals of the spec docs are to describe the current state of the infrastructure. However it is noted that 'Imminent changes may be noted, while speculative changes will generally be omitted.' With this in mind it's worth adding a reference in the current Rekor spec to the v2 design for awareness to spec readers. \r\n\r\nhttps://docs.google.com/document/d/1Mi9OhzrucIyt-UCLk_FxO2_xSQZW9ow9U3Lv0ZB_PpM/edit?resourcekey=0-4rPbZPyCS7QDj26Hk0UyvA&tab=t.0#heading=h.bjitqo6lwsmn\r\n\r\n(also add a note that you need to be a member of sigstore-dev to easily access the doc)\r\n",
+      "createdAt": "2024-10-30T13:35:51Z",
+      "updatedAt": "2024-10-30T13:35:51Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 32,
+      "id": "I_kwDOHdxLW86g3SAy",
+      "title": "Client spec: Stronger prescriptions about sources of signed time",
+      "url": "https://github.com/sigstore/architecture-docs/issues/32",
+      "state": "OPEN",
+      "author": "woodruffw",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "CC @jku \r\n\r\nThe client spec is currently only loosely prescriptive about sources of signed time and their verification:\r\n\r\n* Signed time can come from an inclusion promise or a signed timestamp (or both)\r\n* Bundles can contain multiple inclusion promises from multiple logs, as well as multiple signed timestamps from multiple TSAs\r\n* Trust roots can define multiple tlogs and multiple TSAs\r\n\r\nThese variances mean that it's unclear what the \"default\" policy around signed time in verifiers should be. In practice many (all?) of the Sigstore clients have an implicit policy of 1-of-N, since most of the bundles in the wild today contain only one inclusion promise/proof and no signed timestamps.\r\n\r\nTo improve this, I think the client spec could offer some stronger guidance:\r\n\r\n1. Continue to require that obtaining a source of signed time is **required**;\r\n2. Either an inclusion promise or a signed timestamp is a valid source of signed time;\r\n3. As a default policy, clients **should** choose one valid source of signed time available to them and use it during verification;\r\n4. Optionally, clients **may** choose to use multiple valid sources of signed time in a threshold scheme, as a non-default verification policy\r\n\r\n(The above is spitballed/maybe not precise enough \ud83d\ude42)",
+      "createdAt": "2024-11-27T14:57:54Z",
+      "updatedAt": "2024-12-02T10:19:15Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "kommendorkapten",
+          "authorAssociation": "MEMBER",
+          "body": "On `#3` and `#4`, should the client chose the source(s) _prior_ to verification? Or should I interpret the clarifications that the default policy should be 1-of-N? Using a M-of-N scheme of the available source in the trusted root has been the idea for verification. Using 1-of-N for artifact transparency, and 1-of-N for timestamp verification.\n\nArtifact transparency: https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_verification.proto#L105\nTimestamp https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_verification.proto#L126\n\nMaking protobuf specs and client spec up to consistency would be very welcome!",
+          "createdAt": "2024-12-02T10:19:14Z",
+          "updatedAt": "2024-12-02T10:19:14Z"
+        }
+      ]
+    },
+    {
+      "number": 33,
+      "id": "I_kwDOHdxLW86h3DMu",
+      "title": "[public deplyment spec] Add section on how to witness a public log",
+      "url": "https://github.com/sigstore/architecture-docs/issues/33",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "              We should include a section on how to witness this public log, linking to the armored witness project and discuss our use of \"stable\" checkpoints in witnessing. You can create an issue for this.\r\n\r\n_Originally posted by @haydentherapper in https://github.com/sigstore/architecture-docs/pull/23#discussion_r1785141082_\r\n            ",
+      "createdAt": "2024-12-03T17:07:02Z",
+      "updatedAt": "2024-12-03T17:07:02Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 34,
+      "id": "I_kwDOHdxLW86iBexv",
+      "title": "[public deployment spec] Flesh out timestamp authority section ",
+      "url": "https://github.com/sigstore/architecture-docs/issues/34",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "              We are going to remove timestamp authorities from the trust root.\r\n\r\nWe should significantly flesh this section out since it's not well discussed anywhere. This could have its own top level header, \"Verifying short-lived certificates\" and discuss sources of time (signed timestamps from TSAs or from Rekor) and the threat model of trusting each (distributed trust vs trusting Rekor)\r\n\r\nAgain, something to be changed in v2, separately out the timestamping portion from rekor.\r\n\r\n_Originally posted by @haydentherapper in https://github.com/sigstore/architecture-docs/pull/23#discussion_r1785143719_\r\n            ",
+      "createdAt": "2024-12-04T16:47:38Z",
+      "updatedAt": "2024-12-04T16:47:38Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 35,
+      "id": "I_kwDOHdxLW86iUs0i",
+      "title": "[public deployment spec] Add TUF-on-CI ",
+      "url": "https://github.com/sigstore/architecture-docs/issues/35",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "              We should talk a bit about TUF-on-CI here as a way to manage the repo.\r\n\r\n_Originally posted by @haydentherapper in https://github.com/sigstore/architecture-docs/pull/23#discussion_r1785144318_\r\n            ",
+      "createdAt": "2024-12-06T15:38:00Z",
+      "updatedAt": "2024-12-06T15:40:51Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "body": "Also:\r\n- [ ] https://github.com/sigstore/architecture-docs/pull/23#discussion_r1785145335\r\n- [ ] https://github.com/sigstore/architecture-docs/pull/23#discussion_r1785145848",
+          "createdAt": "2024-12-06T15:40:50Z",
+          "updatedAt": "2024-12-06T15:40:50Z"
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "id": "I_kwDOHdxLW86iUvND",
+      "title": "[public deployment spec] Flesh out public log deployment configurations and decisions made",
+      "url": "https://github.com/sigstore/architecture-docs/issues/36",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "              This section feels sparse. I don't have any concrete details of what we should add, and we do need to balance revealing specific configurations that help keep the instance secure. Maybe we need some discussoin on why we made certain decisions?\r\n\r\n_Originally posted by @haydentherapper in https://github.com/sigstore/architecture-docs/pull/23#discussion_r1785146629_\r\n            ",
+      "createdAt": "2024-12-06T15:43:08Z",
+      "updatedAt": "2024-12-06T15:43:08Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOHdxLW84-OvvD",
+      "title": "Point to ongoing development efforts in README",
+      "url": "https://github.com/sigstore/architecture-docs/pull/1",
+      "state": "MERGED",
+      "author": "znewman01",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Signed-off-by: Zack Newman <zjn@chainguard.dev>\r\n",
+      "createdAt": "2022-09-01T17:54:10Z",
+      "updatedAt": "2022-09-01T18:34:59Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "d0ecb8a2fac6d624266eb5b0a3beb3cd861a89fa",
+      "headRepository": "sigstore/architecture-docs",
+      "headRefName": "znewman01-patch-1",
+      "headRefOid": "433d84ea841fcc8598c74fcb3d60881e8b1ca38b",
+      "closedAt": "2022-09-01T18:34:59Z",
+      "mergedAt": "2022-09-01T18:34:59Z",
+      "mergedBy": "bobcallaway",
+      "mergeCommit": {
+        "oid": "4d7dfbc80f9e1187c322a82872fbed1a58754d56"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW85BM0YK",
+          "commit": {
+            "abbreviatedOid": "433d84e"
+          },
+          "author": "mnm678",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2022-09-01T18:31:06Z",
+          "updatedAt": "2022-09-01T18:31:06Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHdxLW85BM1Ez",
+          "commit": {
+            "abbreviatedOid": "433d84e"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-09-01T18:33:35Z",
+          "updatedAt": "2022-09-01T18:33:35Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOHdxLW85BR3RO",
+      "title": "fix deprecated set-output",
+      "url": "https://github.com/sigstore/architecture-docs/pull/2",
+      "state": "MERGED",
+      "author": "bobcallaway",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/\r\n\r\nSigned-off-by: Bob Callaway <bcallaway@google.com>\r\n",
+      "createdAt": "2022-10-21T11:32:10Z",
+      "updatedAt": "2022-10-21T14:16:25Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "4d7dfbc80f9e1187c322a82872fbed1a58754d56",
+      "headRepository": "bobcallaway/architecture-docs",
+      "headRefName": "so",
+      "headRefOid": "00637720e26a16008181c0baff3df41e28055e22",
+      "closedAt": "2022-10-21T14:16:25Z",
+      "mergedAt": "2022-10-21T14:16:25Z",
+      "mergedBy": "bobcallaway",
+      "mergeCommit": {
+        "oid": "21f2362f4ec2d7c6f34c18ddb3942a5025c66437"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW85EmZtz",
+          "commit": {
+            "abbreviatedOid": "0063772"
+          },
+          "author": "znewman01",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-10-21T13:00:51Z",
+          "updatedAt": "2022-10-21T13:00:51Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOHdxLW852O2IQ",
+      "title": "Create fulcio-spec.md",
+      "url": "https://github.com/sigstore/architecture-docs/pull/3",
+      "state": "MERGED",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Move Fulcio spec from Google doc to Github\r\n\r\n#### Summary\r\nThis is the first Sigstore spec doc being moved to github for public collaboration\r\n\r\n#### Release Note\r\nNONE\r\n\r\n#### Documentation\r\nThis migrates the Google doc with the following modifications:\r\n\r\n- Add title and summary\r\n- Separate introduction (why) and overview (what) sections\r\n- Add numbering to sections for ease of referencing sections\r\n- Improve consistency and conciseness of some text \r\n",
+      "createdAt": "2024-07-23T15:30:11Z",
+      "updatedAt": "2024-08-15T18:06:57Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "21f2362f4ec2d7c6f34c18ddb3942a5025c66437",
+      "headRepository": "tracymiranda/architecture-docs",
+      "headRefName": "fulcio-ca",
+      "headRefOid": "fd9902d984c9f78164e82089637fe7e2e0ead611",
+      "closedAt": "2024-08-15T18:06:57Z",
+      "mergedAt": "2024-08-15T18:06:57Z",
+      "mergedBy": "bobcallaway",
+      "mergeCommit": {
+        "oid": "482786a91e30b99763553099aef9f786a21dde7e"
+      },
+      "comments": [
+        {
+          "author": "pwelch",
+          "authorAssociation": "MEMBER",
+          "body": "Thanks for migrating this! ",
+          "createdAt": "2024-07-24T17:32:29Z",
+          "updatedAt": "2024-07-24T17:32:29Z"
+        },
+        {
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "body": "Based on initial reviews I've added the OIDC link and fixed the spacing issues. \r\nFor feedback on the terminology I've opened up issues so we can get reviews on it from the original authors. ",
+          "createdAt": "2024-07-25T18:21:08Z",
+          "updatedAt": "2024-07-25T18:21:08Z"
+        },
+        {
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "body": "Thanks for the review @haydentherapper, added in the fixes from @chinenyeokafor's review. ",
+          "createdAt": "2024-07-25T19:26:47Z",
+          "updatedAt": "2024-07-25T19:26:47Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW86C-DEQ",
+          "commit": {
+            "abbreviatedOid": "792791c"
+          },
+          "author": "pwelch",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-24T16:59:54Z",
+          "updatedAt": "2024-07-24T16:59:54Z",
+          "comments": [
+            {
+              "originalPosition": 43,
+              "body": "Thoughts on linking out to OpenID overview doc?\r\n\r\n```markdown\r\nIdentity is provided by the [OpenID Connect (OIDC) framework](https://openid.net/developers/how-connect-works/),\r\n```",
+              "createdAt": "2024-07-24T16:59:54Z",
+              "updatedAt": "2024-07-24T16:59:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86C-FS-",
+          "commit": {
+            "abbreviatedOid": "792791c"
+          },
+          "author": "pwelch",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-24T17:04:50Z",
+          "updatedAt": "2024-07-24T17:04:50Z",
+          "comments": [
+            {
+              "originalPosition": 108,
+              "body": "[nit] looks like an extra line got added ",
+              "createdAt": "2024-07-24T17:04:50Z",
+              "updatedAt": "2024-07-24T17:04:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86C-RrM",
+          "commit": {
+            "abbreviatedOid": "792791c"
+          },
+          "author": "pwelch",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-24T17:30:52Z",
+          "updatedAt": "2024-07-24T17:30:52Z",
+          "comments": [
+            {
+              "originalPosition": 168,
+              "body": "[nit] looks like some extra newlines got added on migration",
+              "createdAt": "2024-07-24T17:30:52Z",
+              "updatedAt": "2024-07-24T17:30:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86C-Rzm",
+          "commit": {
+            "abbreviatedOid": "792791c"
+          },
+          "author": "pwelch",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-24T17:31:09Z",
+          "updatedAt": "2024-07-24T17:31:09Z",
+          "comments": [
+            {
+              "originalPosition": 176,
+              "body": "[nit] extra new lines",
+              "createdAt": "2024-07-24T17:31:09Z",
+              "updatedAt": "2024-07-24T17:31:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86C_now",
+          "commit": {
+            "abbreviatedOid": "792791c"
+          },
+          "author": "chinenyeokafor",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-24T20:33:33Z",
+          "updatedAt": "2024-07-24T20:59:07Z",
+          "comments": [
+            {
+              "originalPosition": 74,
+              "body": "Do you mean \"identity of the signer\" instead of \"identity of the client\"? 'client' has been consistently used to refer to the signing/verification tool",
+              "createdAt": "2024-07-24T20:33:33Z",
+              "updatedAt": "2024-07-24T20:59:07Z"
+            },
+            {
+              "originalPosition": 87,
+              "body": "Is 'token' meant instead of 'client' in 'Once the client has been authenticated'?",
+              "createdAt": "2024-07-24T20:38:29Z",
+              "updatedAt": "2024-07-24T20:59:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86DI6BS",
+          "commit": {
+            "abbreviatedOid": "a01640d"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-25T19:01:27Z",
+          "updatedAt": "2024-07-25T19:01:27Z",
+          "comments": [
+            {
+              "originalPosition": 87,
+              "body": "Yes, thanks, `token` would be more accurate than `client` - \"Once the token has been authenticated\".",
+              "createdAt": "2024-07-25T19:01:27Z",
+              "updatedAt": "2024-07-25T19:01:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86DI_-J",
+          "commit": {
+            "abbreviatedOid": "a01640d"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-25T19:16:40Z",
+          "updatedAt": "2024-07-25T19:16:40Z",
+          "comments": [
+            {
+              "originalPosition": 74,
+              "body": "Yes, I like `signer` more, that is more precise. I overload `client` to refer to the signer.",
+              "createdAt": "2024-07-25T19:16:40Z",
+              "updatedAt": "2024-07-25T19:16:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86DJ8MP",
+          "commit": {
+            "abbreviatedOid": "fd9902d"
+          },
+          "author": "chinenyeokafor",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-07-25T20:34:30Z",
+          "updatedAt": "2024-07-25T20:34:30Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHdxLW86FG7Rj",
+          "commit": {
+            "abbreviatedOid": "fd9902d"
+          },
+          "author": "pwelch",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-08-12T14:21:30Z",
+          "updatedAt": "2024-08-12T14:21:30Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHdxLW86FJUfU",
+          "commit": {
+            "abbreviatedOid": "fd9902d"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-08-12T19:02:28Z",
+          "updatedAt": "2024-08-12T19:02:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOHdxLW854eGsF",
+      "title": "Create client-spec.md",
+      "url": "https://github.com/sigstore/architecture-docs/pull/9",
+      "state": "MERGED",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Migrated from Google doc to Github (with no graphviz, comments moved to issues)\r\n\r\n\r\n#### Summary\r\nThis is the Sigstore client spec doc being moved to github for public collaboration\r\n\r\n#### Release Note\r\nNONE\r\n\r\n#### Documentation\r\nThis migrates the Google doc with the following modifications:\r\n\r\n- Add numbering to sections for ease of referencing sections\r\n- Remove graphviz diagram for now\r\n- Migrate todos to github issues \r\n",
+      "createdAt": "2024-08-15T13:59:48Z",
+      "updatedAt": "2024-08-29T15:36:14Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "482786a91e30b99763553099aef9f786a21dde7e",
+      "headRepository": "tracymiranda/architecture-docs",
+      "headRefName": "client-spec",
+      "headRefOid": "8245babac2590d942bcb44c1f1f1627919219d44",
+      "closedAt": "2024-08-29T15:36:14Z",
+      "mergedAt": "2024-08-29T15:36:14Z",
+      "mergedBy": "haydentherapper",
+      "mergeCommit": {
+        "oid": "706ee972e3ac1e379b27bd469ac4838aa0e25044"
+      },
+      "comments": [
+        {
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "body": "FYI, I just added a few comments to the doc we should copy into issues, around timestamping updates. Lemme know if you need pointers to them.",
+          "createdAt": "2024-08-22T23:30:14Z",
+          "updatedAt": "2024-08-22T23:30:14Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW86FyQ_o",
+          "commit": {
+            "abbreviatedOid": "d9d96b1"
+          },
+          "author": "chinenyeokafor",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-19T03:12:20Z",
+          "updatedAt": "2024-08-19T03:19:10Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "\"signer\" is used in various sections, such as \u00a72, \u00a72.1.2, \u00a72.1.5, where \"client\" might be more appropriate based on the terminology and party definitions. It might be helpful if we review these uses or consider redefining the terms for consistency throughout the doc",
+              "createdAt": "2024-08-19T03:12:20Z",
+              "updatedAt": "2024-08-19T03:19:10Z"
+            },
+            {
+              "originalPosition": 214,
+              "body": " I didn't see a new issue raised for the \"\u00a7TODO\". Not sure if it was intended to be removed or if it\u2019s still pending",
+              "createdAt": "2024-08-19T03:18:49Z",
+              "updatedAt": "2024-08-19T03:19:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86GJV2S",
+          "commit": {
+            "abbreviatedOid": "d9d96b1"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-21T11:57:20Z",
+          "updatedAt": "2024-08-21T11:57:20Z",
+          "comments": [
+            {
+              "originalPosition": 214,
+              "body": "Good catch, opened #13 to ensure this gets resolved.",
+              "createdAt": "2024-08-21T11:57:20Z",
+              "updatedAt": "2024-08-21T11:57:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86Gd0ei",
+          "commit": {
+            "abbreviatedOid": "d9d96b1"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-22T23:32:00Z",
+          "updatedAt": "2024-08-22T23:35:16Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "Can we update to https://datatracker.ietf.org/doc/html/rfc6962#section-3.2, as RFC 9162 isn't implemented?",
+              "createdAt": "2024-08-22T23:32:00Z",
+              "updatedAt": "2024-08-22T23:35:16Z"
+            },
+            {
+              "originalPosition": 82,
+              "body": "nit: \"using the public key from the Certificate Transparency log\", not a cert",
+              "createdAt": "2024-08-22T23:32:19Z",
+              "updatedAt": "2024-08-22T23:35:16Z"
+            },
+            {
+              "originalPosition": 134,
+              "body": "We should make this a SHOULD and emphasize that this is the recommended default.",
+              "createdAt": "2024-08-22T23:33:20Z",
+              "updatedAt": "2024-08-22T23:35:16Z"
+            },
+            {
+              "originalPosition": 193,
+              "body": "Left a comment about this in the doc, but Verifiers shouldn't abort for this or the next step imo. Verifiers should gather as many timestamps as they can successfully validate, and use each when verifying the certificate.",
+              "createdAt": "2024-08-22T23:34:14Z",
+              "updatedAt": "2024-08-22T23:35:16Z"
+            },
+            {
+              "originalPosition": 212,
+              "body": "https://datatracker.ietf.org/doc/html/rfc6962#section-3.2 here too",
+              "createdAt": "2024-08-22T23:34:24Z",
+              "updatedAt": "2024-08-22T23:35:16Z"
+            },
+            {
+              "originalPosition": 214,
+              "body": "Can we update to 1.3.6.1.4.1.57264.1.8? This is the new extension, same content, just different format",
+              "createdAt": "2024-08-22T23:34:59Z",
+              "updatedAt": "2024-08-22T23:35:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86GjM9v",
+          "commit": {
+            "abbreviatedOid": "d9d96b1"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-23T14:19:57Z",
+          "updatedAt": "2024-08-23T14:19:57Z",
+          "comments": [
+            {
+              "originalPosition": 212,
+              "body": "Done",
+              "createdAt": "2024-08-23T14:19:57Z",
+              "updatedAt": "2024-08-23T14:19:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86GjNGk",
+          "commit": {
+            "abbreviatedOid": "d9d96b1"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-23T14:20:12Z",
+          "updatedAt": "2024-08-23T14:20:12Z",
+          "comments": [
+            {
+              "originalPosition": 134,
+              "body": "Changed to SHOULD. Need to do 2nd part.",
+              "createdAt": "2024-08-23T14:20:12Z",
+              "updatedAt": "2024-08-23T14:21:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86GjNQr",
+          "commit": {
+            "abbreviatedOid": "d9d96b1"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-23T14:20:30Z",
+          "updatedAt": "2024-08-23T14:20:30Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "Done",
+              "createdAt": "2024-08-23T14:20:30Z",
+              "updatedAt": "2024-08-23T14:20:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86Gl-h2",
+          "commit": {
+            "abbreviatedOid": "8245bab"
+          },
+          "author": "woodruffw",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-23T21:04:58Z",
+          "updatedAt": "2024-08-23T21:04:59Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "Copying from the doc, from @segiddins: this bullet has some inaccuracies in it:\r\n\r\n* The leaf certificate has SANs, not a subject (the subject is empty, since we only use SANs)\r\n* The leaf's SANs should be checked not against the CSR's subject (which is incomplete and unauthenticated), but against the OIDC credential that *accompanied* the CSR during issuance\r\n* `AuthenticationServiceIdentifier` doesn't get defined anywhere above, so I _think_ this should probably say something like \"encodes the appropriate underlying OIDC IdP issuer\" since that's what it means \ud83d\ude42 \r\n\r\nI'm happy to send patches for these improvements, either to this PR or as follow-ups once this is merged. Just let me know whatever works best!",
+              "createdAt": "2024-08-23T21:04:58Z",
+              "updatedAt": "2024-08-23T21:04:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86G-Zta",
+          "commit": {
+            "abbreviatedOid": "8245bab"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-27T21:32:08Z",
+          "updatedAt": "2024-08-27T21:32:08Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "@woodruffw can you copy those into an issue? I'd vote we approve and merge the PR as is and iterate.",
+              "createdAt": "2024-08-27T21:32:08Z",
+              "updatedAt": "2024-08-27T21:32:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86G-aB-",
+          "commit": {
+            "abbreviatedOid": "8245bab"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "Approving as is, assuming we will follow up with outstanding issues.",
+          "createdAt": "2024-08-27T21:32:32Z",
+          "updatedAt": "2024-08-27T21:32:32Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHdxLW86G-bmg",
+          "commit": {
+            "abbreviatedOid": "8245bab"
+          },
+          "author": "woodruffw",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-27T21:35:57Z",
+          "updatedAt": "2024-08-27T21:35:58Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "Sure, doing now!",
+              "createdAt": "2024-08-27T21:35:58Z",
+              "updatedAt": "2024-08-27T21:35:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86G-chN",
+          "commit": {
+            "abbreviatedOid": "8245bab"
+          },
+          "author": "woodruffw",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-27T21:37:42Z",
+          "updatedAt": "2024-08-27T21:37:42Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "Opened #14 with the breakout here.",
+              "createdAt": "2024-08-27T21:37:42Z",
+              "updatedAt": "2024-08-27T21:37:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86HPgb2",
+          "commit": {
+            "abbreviatedOid": "d9d96b1"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-29T14:32:57Z",
+          "updatedAt": "2024-08-29T14:32:57Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "Opened #17 to track and address after we merge this. ",
+              "createdAt": "2024-08-29T14:32:57Z",
+              "updatedAt": "2024-08-29T14:32:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86HPh44",
+          "commit": {
+            "abbreviatedOid": "8245bab"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-29T14:34:41Z",
+          "updatedAt": "2024-08-29T14:34:41Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "FYI: Added #14 to umbrella tracking issue #12 ",
+              "createdAt": "2024-08-29T14:34:41Z",
+              "updatedAt": "2024-08-29T14:34:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86HProP",
+          "commit": {
+            "abbreviatedOid": "d9d96b1"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-29T14:45:42Z",
+          "updatedAt": "2024-08-29T14:45:42Z",
+          "comments": [
+            {
+              "originalPosition": 193,
+              "body": "Tracked as #18 (and also linked in top-level issue #12 )",
+              "createdAt": "2024-08-29T14:45:42Z",
+              "updatedAt": "2024-08-29T14:45:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86HP3Pi",
+          "commit": {
+            "abbreviatedOid": "d9d96b1"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-29T14:57:53Z",
+          "updatedAt": "2024-08-29T14:57:53Z",
+          "comments": [
+            {
+              "originalPosition": 134,
+              "body": "Tracking in #12 ",
+              "createdAt": "2024-08-29T14:57:53Z",
+              "updatedAt": "2024-08-29T14:57:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86HQZ3X",
+          "commit": {
+            "abbreviatedOid": "8245bab"
+          },
+          "author": "lukehinds",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-08-29T15:31:37Z",
+          "updatedAt": "2024-08-29T15:31:37Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDOHdxLW856bfU7",
+      "title": "client-spec: fix links, clarify leaf checks",
+      "url": "https://github.com/sigstore/architecture-docs/pull/19",
+      "state": "MERGED",
+      "author": "woodruffw",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "This addresses the ambiguities noted in #14, and fixes a bunch of broken (overly escaped?) links in the process.\r\n\r\nCloses #14.\r\n\r\nCC @haydentherapper @segiddins @tracymiranda\r\n",
+      "createdAt": "2024-09-04T18:00:02Z",
+      "updatedAt": "2024-09-04T19:54:38Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "706ee972e3ac1e379b27bd469ac4838aa0e25044",
+      "headRepository": "trail-of-forks/architecture-docs",
+      "headRefName": "ww/leaf-clarifications",
+      "headRefOid": "0e91a88b77ce985046f35c7ae2b46213e83b538c",
+      "closedAt": "2024-09-04T19:38:50Z",
+      "mergedAt": "2024-09-04T19:38:50Z",
+      "mergedBy": "haydentherapper",
+      "mergeCommit": {
+        "oid": "9e179175cd5b61650661c10aed5722e79d18a57d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW86H9Ayr",
+          "commit": {
+            "abbreviatedOid": "0e91a88"
+          },
+          "author": "woodruffw",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-04T18:02:55Z",
+          "updatedAt": "2024-09-04T18:02:56Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "Flagging: this is the core semantic change in this PR; the other lines are MD fixes.",
+              "createdAt": "2024-09-04T18:02:55Z",
+              "updatedAt": "2024-09-04T18:02:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86H9qmt",
+          "commit": {
+            "abbreviatedOid": "0e91a88"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-04T19:38:35Z",
+          "updatedAt": "2024-09-04T19:38:35Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "id": "PR_kwDOHdxLW858seG5",
+      "title": "Add public deployment spec",
+      "url": "https://github.com/sigstore/architecture-docs/pull/23",
+      "state": "MERGED",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "<!--\r\nThanks for opening a pull request! Please do not just delete this text.  The three fields below are mandatory.\r\n\r\nPlease remember to:\r\n- This PR requires an issue. If it is a new feature, the issue should proceed the PR and will have allowed sufficient time for discussions to take place. Please use\r\nissue tags such as \"Closes #XYZ\" or \"Resolves sigstore/repo-name#XYZ\".\r\n  [documentation](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)\r\n- ensure your commits are signed-off, as sigstore uses the [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) using `git commit -s`, or `git commit -s --amend` if you want to amend already existing commits\r\n- lastly, ensure there are no merge commits!\r\n\r\nThank you :)\r\n-->\r\n\r\n#### Summary\r\n<!--\r\n Explain the **motivation** for making this change. What existing problem does the pull request solve? How can reviewers test this PR?\r\n-->\r\nMigrate public deployment spec from Google doc, with following changes\r\n\r\n- add an intro\r\n- make self-consistent and consistent with other spec docs\r\n- add in a couple of links\r\n\r\n#### Release Note\r\n<!--\r\nAdd a release note for each of the following conditions:\r\n\r\n* Config changes (additions, deletions, updates)\r\n* API additions\u2014new endpoint, new response fields, or newly accepted request parameters\r\n* Database changes (any)\r\n* Websocket additions or changes\r\n* Anything noteworthy to an administrator running private sigstore instances (err on the side of over-communicating)\r\n* New features and improvements, including behavioural changes, UI changes and CLI changes\r\n* Bug fixes and fixes of previous known issues\r\n* Deprecation warnings, breaking changes, or compatibility notes\r\n\r\nIf no release notes are required write NONE. Use past-tense.\r\n\r\n-->\r\nNONE\r\n#### Documentation\r\n<!--\r\n\r\nDoes this change require an update to documentation? How will users implement your new feature?\r\n\r\nPlease reference a PR within https://docs.sigstore.dev\r\n\r\n-->\r\nComments from the original google doc have been filed as github issues, see\r\n\r\n- #24 \r\n- #25 \r\n",
+      "createdAt": "2024-09-25T18:16:31Z",
+      "updatedAt": "2024-12-12T22:01:00Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "7f634620e579827d527feabe6ecc696b9a0269b2",
+      "headRepository": "tracymiranda/architecture-docs",
+      "headRefName": "public-deployment",
+      "headRefOid": "54c61a3d9fed86f6d0625043061f4cf45a960a80",
+      "closedAt": "2024-12-12T22:01:00Z",
+      "mergedAt": "2024-12-12T22:01:00Z",
+      "mergedBy": "haydentherapper",
+      "mergeCommit": {
+        "oid": "af4108066c58f78b6d0b1fac69c28b9f648a0d3b"
+      },
+      "comments": [
+        {
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "body": "@chinenyeokafor review welcome!",
+          "createdAt": "2024-09-25T18:45:07Z",
+          "updatedAt": "2024-09-25T18:45:07Z"
+        },
+        {
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "body": "The initial version is ready to be committed. ",
+          "createdAt": "2024-12-06T15:45:54Z",
+          "updatedAt": "2024-12-06T15:45:54Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW86LtW4e",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-02T19:39:47Z",
+          "updatedAt": "2024-10-02T19:52:03Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "This can be removed, the above covers 5280 extensions",
+              "createdAt": "2024-10-02T19:39:47Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 41,
+              "body": "I think we should flesh this section out and talk a bit more about why we chose OIDC - it's a widely adopted protocol, most users have an account for an existing OIDC provider, and it's straightforward to stand up infrastructure that can generate OIDC-compliant tokens without needing to support the whole flow (https://github.com/sigstore/fulcio/pull/1741 is this guide, need to merge this)",
+              "createdAt": "2024-10-02T19:41:10Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 51,
+              "body": "Can we explain why we need Dex - Dex lets us control the lifetime of tokens.",
+              "createdAt": "2024-10-02T19:41:35Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 63,
+              "body": "CodeFresh as well, and we should say `GitHub Actions` and `GitLab CI` to distinguish between user and workflow identities",
+              "createdAt": "2024-10-02T19:42:25Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 73,
+              "body": "I would drop this section - Fulcio supports SPIFFE IDs but we don't really integrate with SPIFFE, you need to stand up an OIDC provider that issues SPIFFE IDs.\r\n\r\nOr fold this into a section discussing alternative identifiers.",
+              "createdAt": "2024-10-02T19:43:14Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 83,
+              "body": "https://docs.sigstore.dev/docs/logging/pluggable-types is a dead link",
+              "createdAt": "2024-10-02T19:43:27Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 94,
+              "body": "Should point to root-signing repo",
+              "createdAt": "2024-10-02T19:43:51Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 95,
+              "body": "This can be updated, log ID is the public key hash",
+              "createdAt": "2024-10-02T19:44:11Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 96,
+              "body": "We should flesh this line out, as this is a major differentiator from CT. Rekor returns a log index to the caller which can only be obtained since Trillian will only give an index once the entry is merged.\r\nThis is different with the tile implementations, which return indices but still need to wait for inclusion (iirc)",
+              "createdAt": "2024-10-02T19:45:40Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 97,
+              "body": "Delete, this is a tiny implementation detail that we limit the length of cert chains to limit entry size",
+              "createdAt": "2024-10-02T19:46:08Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 98,
+              "body": "Delete N/As",
+              "createdAt": "2024-10-02T19:46:16Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 100,
+              "body": "We should include a section on how to witness this public log, linking to the armored witness project and discuss our use of \"stable\" checkpoints in witnessing. You can create an issue for this.",
+              "createdAt": "2024-10-02T19:46:47Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 100,
+              "body": "We should also add a link to sigstore/rekor-monitor for identity monitoring,",
+              "createdAt": "2024-10-02T19:47:03Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 103,
+              "body": "This isn't accurate for Rekor. For CT, we create a separate GCP database instance. Currently for Rekor, shards share the same database (not just an instance, so it's shared CPU and storage).\r\n\r\nThis section is one of the major things we will want to change in v2",
+              "createdAt": "2024-10-02T19:48:08Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 111,
+              "body": "We are going to remove timestamp authorities from the trust root.\r\n\r\nWe should significantly flesh this section out since it's not well discussed anywhere. This could have its own top level header, \"Verifying short-lived certificates\" and discuss sources of time (signed timestamps from TSAs or from Rekor) and the threat model of trusting each (distributed trust vs trusting Rekor)\r\n\r\nAgain, something to be changed in v2, separately out the timestamping portion from rekor.",
+              "createdAt": "2024-10-02T19:49:10Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 119,
+              "body": "We should talk a bit about TUF-on-CI here as a way to manage the repo.",
+              "createdAt": "2024-10-02T19:49:44Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 127,
+              "body": "This section is outdated, we now use a single trust root file. We still ship the individual files but we want to remove those.",
+              "createdAt": "2024-10-02T19:50:23Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 138,
+              "body": "This section is also outdated and needs to be updated for the work we've done with TUF-on-CI\r\n\r\n@jku fyi",
+              "createdAt": "2024-10-02T19:50:46Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 157,
+              "body": "This doc is a good reference but needs to be updated. We implemented the TUF logic but also added the trusted root file - https://github.com/sigstore/root-signing/blob/main/targets/trusted_root.json",
+              "createdAt": "2024-10-02T19:51:12Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            },
+            {
+              "originalPosition": 159,
+              "body": "This section feels sparse. I don't have any concrete details of what we should add, and we do need to balance revealing specific configurations that help keep the instance secure. Maybe we need some discussoin on why we made certain decisions?",
+              "createdAt": "2024-10-02T19:52:01Z",
+              "updatedAt": "2024-10-02T19:52:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86OcPDR",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T18:47:07Z",
+          "updatedAt": "2024-10-23T18:47:07Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "Fixed ",
+              "createdAt": "2024-10-23T18:47:07Z",
+              "updatedAt": "2024-10-23T18:47:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86RSMwO",
+          "commit": {
+            "abbreviatedOid": "b643501"
+          },
+          "author": "lance",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "Just a couple of minor comments. Thanks for putting this doc together.",
+          "createdAt": "2024-11-15T00:53:59Z",
+          "updatedAt": "2024-11-18T21:52:26Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Nit:\r\n```suggestion\r\nThis document describes the technical and policy decisions for the public deployment of Sigstore, specifically focusing on the Fulcio and Rekor deployment for the public good instance. The [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) and [Spec: Rekor](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit) documents leave many implementation choices, such as authentication and log entry formats, to the discretion of implementers. This document describes the specific implementation choices made for Sigstore's public deployment that go beyond the requirements in the specification. Additionally, this document details the use of TUF for distributing roots of trust, and includes links to deployment respositories and resources.\r\n```",
+              "createdAt": "2024-11-15T00:53:59Z",
+              "updatedAt": "2024-11-18T21:52:26Z"
+            },
+            {
+              "originalPosition": 51,
+              "body": "I agree that it would be nice to have a little more information on the purpose of this service. I don't think it's described in any of the documentation around standing up your own sigstore stack, although I could have just not seen it previously. It would like to understand the reasoning behind this choice and what the implications are for the configuration of Rekor or Fulcio in the wild. In many ways, I think of the PGI as the \"reference implementation\" and can use it to make choices about how the full stack can be configured and run in third party deployments.",
+              "createdAt": "2024-11-15T01:05:40Z",
+              "updatedAt": "2024-11-18T21:52:26Z"
+            },
+            {
+              "originalPosition": 73,
+              "body": "Nit\r\n```suggestion\r\nThe transparency service has what is termed a \u2018pluggable type\u2019 system. A pluggable type is a custom schema for entries stored in the transparency log. Schemas can be in multiple formats (json|yaml|xml).\r\n```",
+              "createdAt": "2024-11-18T14:17:20Z",
+              "updatedAt": "2024-11-18T21:52:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86TmYJi",
+          "commit": {
+            "abbreviatedOid": "b643501"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-03T17:08:52Z",
+          "updatedAt": "2024-12-03T17:08:52Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Thanks - fixed in last commit. ",
+              "createdAt": "2024-12-03T17:08:52Z",
+              "updatedAt": "2024-12-03T17:08:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86TmYaD",
+          "commit": {
+            "abbreviatedOid": "b643501"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-03T17:09:21Z",
+          "updatedAt": "2024-12-03T17:09:21Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "Thanks, fixed in last commit.",
+              "createdAt": "2024-12-03T17:09:21Z",
+              "updatedAt": "2024-12-03T17:09:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86TxGzI",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-04T15:35:39Z",
+          "updatedAt": "2024-12-04T15:35:40Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "Added in more information about Sigstore use of OIDC. ",
+              "createdAt": "2024-12-04T15:35:40Z",
+              "updatedAt": "2024-12-04T15:35:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86TxH9f",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-04T15:36:28Z",
+          "updatedAt": "2024-12-04T15:36:28Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "I've updated with some more information on Dex, @haydentherapper please take a look and @lance let me know if any additional information is required. ",
+              "createdAt": "2024-12-04T15:36:28Z",
+              "updatedAt": "2024-12-06T15:44:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86TxIMP",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-04T15:36:48Z",
+          "updatedAt": "2024-12-04T15:36:48Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "Removed and added to providers list. ",
+              "createdAt": "2024-12-04T15:36:48Z",
+              "updatedAt": "2024-12-04T15:36:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86TxKFs",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-04T15:39:22Z",
+          "updatedAt": "2024-12-04T15:39:23Z",
+          "comments": [
+            {
+              "originalPosition": 100,
+              "body": "Tracked in #33 ",
+              "createdAt": "2024-12-04T15:39:23Z",
+              "updatedAt": "2024-12-04T15:39:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86Tx1nQ",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-04T16:42:15Z",
+          "updatedAt": "2024-12-04T16:42:15Z",
+          "comments": [
+            {
+              "originalPosition": 94,
+              "body": "Updated.",
+              "createdAt": "2024-12-04T16:42:15Z",
+              "updatedAt": "2024-12-04T16:42:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86Tx1s8",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-04T16:42:24Z",
+          "updatedAt": "2024-12-04T16:42:24Z",
+          "comments": [
+            {
+              "originalPosition": 95,
+              "body": "Updated.",
+              "createdAt": "2024-12-04T16:42:24Z",
+              "updatedAt": "2024-12-04T16:42:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86Tx17W",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-04T16:42:46Z",
+          "updatedAt": "2024-12-04T16:42:46Z",
+          "comments": [
+            {
+              "originalPosition": 96,
+              "body": "Updated this using info from the Rekor v2 doc. ",
+              "createdAt": "2024-12-04T16:42:46Z",
+              "updatedAt": "2024-12-04T16:42:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86Tx2JR",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-04T16:43:09Z",
+          "updatedAt": "2024-12-04T16:43:09Z",
+          "comments": [
+            {
+              "originalPosition": 100,
+              "body": "Added. ",
+              "createdAt": "2024-12-04T16:43:09Z",
+              "updatedAt": "2024-12-04T16:43:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86Tx2bt",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-04T16:43:38Z",
+          "updatedAt": "2024-12-04T16:43:38Z",
+          "comments": [
+            {
+              "originalPosition": 103,
+              "body": "Removed that line plus added a link to sharding docs. ",
+              "createdAt": "2024-12-04T16:43:38Z",
+              "updatedAt": "2024-12-04T16:43:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86Tx5KW",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-04T16:48:16Z",
+          "updatedAt": "2024-12-04T16:48:17Z",
+          "comments": [
+            {
+              "originalPosition": 111,
+              "body": "Tracking as issue #34 ",
+              "createdAt": "2024-12-04T16:48:16Z",
+              "updatedAt": "2024-12-04T16:48:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86UIIi-",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-06T15:41:25Z",
+          "updatedAt": "2024-12-06T15:41:25Z",
+          "comments": [
+            {
+              "originalPosition": 119,
+              "body": "Tracked in #35\r\n ",
+              "createdAt": "2024-12-06T15:41:25Z",
+              "updatedAt": "2024-12-06T15:41:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86UIImo",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-06T15:41:31Z",
+          "updatedAt": "2024-12-06T15:41:31Z",
+          "comments": [
+            {
+              "originalPosition": 127,
+              "body": "Tracked in #35 ",
+              "createdAt": "2024-12-06T15:41:31Z",
+              "updatedAt": "2024-12-06T15:41:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86UIIp3",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-06T15:41:37Z",
+          "updatedAt": "2024-12-06T15:41:37Z",
+          "comments": [
+            {
+              "originalPosition": 138,
+              "body": "Tracked in #35 ",
+              "createdAt": "2024-12-06T15:41:37Z",
+              "updatedAt": "2024-12-06T15:41:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86UIIzV",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-06T15:41:55Z",
+          "updatedAt": "2024-12-06T15:41:55Z",
+          "comments": [
+            {
+              "originalPosition": 157,
+              "body": "Tracked in #35 ",
+              "createdAt": "2024-12-06T15:41:55Z",
+              "updatedAt": "2024-12-06T15:41:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86UIJtk",
+          "commit": {
+            "abbreviatedOid": "d3f2951"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-06T15:43:45Z",
+          "updatedAt": "2024-12-06T15:43:45Z",
+          "comments": [
+            {
+              "originalPosition": 159,
+              "body": "Tracked in #36 ",
+              "createdAt": "2024-12-06T15:43:45Z",
+              "updatedAt": "2024-12-06T15:43:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86UZQ8K",
+          "commit": {
+            "abbreviatedOid": "54c61a3"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-12-09T18:27:57Z",
+          "updatedAt": "2024-12-09T18:27:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 27,
+      "id": "PR_kwDOHdxLW858zzHO",
+      "title": "Add rekor spec",
+      "url": "https://github.com/sigstore/architecture-docs/pull/27",
+      "state": "MERGED",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "<!--\r\nThanks for opening a pull request! Please do not just delete this text.  The three fields below are mandatory.\r\n\r\nPlease remember to:\r\n- This PR requires an issue. If it is a new feature, the issue should proceed the PR and will have allowed sufficient time for discussions to take place. Please use\r\nissue tags such as \"Closes #XYZ\" or \"Resolves sigstore/repo-name#XYZ\".\r\n  [documentation](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)\r\n- ensure your commits are signed-off, as sigstore uses the [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) using `git commit -s`, or `git commit -s --amend` if you want to amend already existing commits\r\n- lastly, ensure there are no merge commits!\r\n\r\nThank you :)\r\n-->\r\n\r\n#### Summary\r\nMigrate https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit to github\r\n\r\n- Add intro section\r\n- Make consistent with other spec doc\r\n- Update links \r\n\r\n#### Release Note\r\n<!--\r\nAdd a release note for each of the following conditions:\r\n\r\n* Config changes (additions, deletions, updates)\r\n* API additions\u2014new endpoint, new response fields, or newly accepted request parameters\r\n* Database changes (any)\r\n* Websocket additions or changes\r\n* Anything noteworthy to an administrator running private sigstore instances (err on the side of over-communicating)\r\n* New features and improvements, including behavioural changes, UI changes and CLI changes\r\n* Bug fixes and fixes of previous known issues\r\n* Deprecation warnings, breaking changes, or compatibility notes\r\n\r\nIf no release notes are required write NONE. Use past-tense.\r\n\r\n-->\r\nNONE\r\n#### Documentation\r\n<!--\r\n\r\nDoes this change require an update to documentation? How will users implement your new feature?\r\n\r\nPlease reference a PR within https://docs.sigstore.dev\r\n\r\n-->\r\nImages not migrated, tracked in #26 \r\nOther comments from doc to be filed as issues (if still relevant)\r\n",
+      "createdAt": "2024-09-26T14:45:49Z",
+      "updatedAt": "2024-11-21T23:15:45Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "9e179175cd5b61650661c10aed5722e79d18a57d",
+      "headRepository": "tracymiranda/architecture-docs",
+      "headRefName": "rekor-spec",
+      "headRefOid": "c776ad6d05552553b8a606488967b311e95681c7",
+      "closedAt": "2024-11-21T23:15:45Z",
+      "mergedAt": "2024-11-21T23:15:45Z",
+      "mergedBy": "haydentherapper",
+      "mergeCommit": {
+        "oid": "7f634620e579827d527feabe6ecc696b9a0269b2"
+      },
+      "comments": [
+        {
+          "author": "lukehinds",
+          "authorAssociation": "MEMBER",
+          "body": "a couple of typos fixed in [c776ad6](https://github.com/sigstore/architecture-docs/pull/27/commits/c776ad6d05552553b8a606488967b311e95681c7), but looks good to me. ",
+          "createdAt": "2024-10-29T08:40:01Z",
+          "updatedAt": "2024-10-29T08:40:01Z"
+        },
+        {
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "body": "Thank you all! \r\nI've opened #30 to track all the comments and address them, and also #31 for the rekor v2 spec (will be good to have that added as a distinct commit). \r\n\r\nThis PR is ready for merging",
+          "createdAt": "2024-10-30T13:43:04Z",
+          "updatedAt": "2024-10-30T13:43:04Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW86PBXD9",
+          "commit": {
+            "abbreviatedOid": "d87d846"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "Overall LGTM. Since I wrote this, let's have some other eyes\r\n\r\nCan we add a link to the v2 doc as well?\r\n\r\nCan you record follow ups as issues, I know there were a bunch of comments on the spec doc?",
+          "createdAt": "2024-10-28T15:49:05Z",
+          "updatedAt": "2024-10-28T15:49:05Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHdxLW86PHkFc",
+          "commit": {
+            "abbreviatedOid": "c776ad6"
+          },
+          "author": "lukehinds",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-29T08:40:18Z",
+          "updatedAt": "2024-10-29T08:40:18Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHdxLW86PHrNw",
+          "commit": {
+            "abbreviatedOid": "c776ad6"
+          },
+          "author": "kommendorkapten",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "\ud83c\udf89 ",
+          "createdAt": "2024-10-29T08:53:01Z",
+          "updatedAt": "2024-10-29T08:53:01Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHdxLW86PKl0o",
+          "commit": {
+            "abbreviatedOid": "c776ad6"
+          },
+          "author": "SantiagoTorres",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-29T13:37:19Z",
+          "updatedAt": "2024-10-29T13:37:19Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "id": "PR_kwDOHdxLW86AIij9",
+      "title": "Update Readme to reference spec docs and goals",
+      "url": "https://github.com/sigstore/architecture-docs/pull/29",
+      "state": "MERGED",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "\r\n\r\n<!--\r\nThanks for opening a pull request! Please do not just delete this text.  The three fields below are mandatory.\r\n\r\nPlease remember to:\r\n- This PR requires an issue. If it is a new feature, the issue should proceed the PR and will have allowed sufficient time for discussions to take place. Please use\r\nissue tags such as \"Closes #XYZ\" or \"Resolves sigstore/repo-name#XYZ\".\r\n  [documentation](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)\r\n- ensure your commits are signed-off, as sigstore uses the [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) using `git commit -s`, or `git commit -s --amend` if you want to amend already existing commits\r\n- lastly, ensure there are no merge commits!\r\n\r\nThank you :)\r\n-->\r\n\r\n#### Summary\r\nFixes #28\r\n\r\n#### Release Note\r\n<!--\r\nAdd a release note for each of the following conditions:\r\n\r\n* Config changes (additions, deletions, updates)\r\n* API additions\u2014new endpoint, new response fields, or newly accepted request parameters\r\n* Database changes (any)\r\n* Websocket additions or changes\r\n* Anything noteworthy to an administrator running private sigstore instances (err on the side of over-communicating)\r\n* New features and improvements, including behavioural changes, UI changes and CLI changes\r\n* Bug fixes and fixes of previous known issues\r\n* Deprecation warnings, breaking changes, or compatibility notes\r\n\r\nIf no release notes are required write NONE. Use past-tense.\r\n\r\n-->\r\nNONE\r\n\r\n#### Documentation\r\n<!--\r\n\r\nDoes this change require an update to documentation? How will users implement your new feature?\r\n\r\nPlease reference a PR within https://docs.sigstore.dev\r\n\r\n-->\r\nN/A\r\n",
+      "createdAt": "2024-10-28T17:26:36Z",
+      "updatedAt": "2024-10-28T18:09:33Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "9e179175cd5b61650661c10aed5722e79d18a57d",
+      "headRepository": "tracymiranda/architecture-docs",
+      "headRefName": "update-readme",
+      "headRefOid": "acc63a15cd4afb6c4e6d80535bee3d47f7ceeb4c",
+      "closedAt": "2024-10-28T18:09:32Z",
+      "mergedAt": "2024-10-28T18:09:32Z",
+      "mergedBy": "haydentherapper",
+      "mergeCommit": {
+        "oid": "f2f2bafe7c10d426c72565066d0c1f34a3d31ea2"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW86PCpSE",
+          "commit": {
+            "abbreviatedOid": "acc63a1"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-28T18:08:15Z",
+          "updatedAt": "2024-10-28T18:08:15Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 37,
+      "id": "PR_kwDOHdxLW86FrrrZ",
+      "title": "Add link to Rekor v2 doc.",
+      "url": "https://github.com/sigstore/architecture-docs/pull/37",
+      "state": "OPEN",
+      "author": "tracymiranda",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #31\r\n\r\n<!--\r\nThanks for opening a pull request! Please do not just delete this text.  The three fields below are mandatory.\r\n\r\nPlease remember to:\r\n- This PR requires an issue. If it is a new feature, the issue should proceed the PR and will have allowed sufficient time for discussions to take place. Please use\r\nissue tags such as \"Closes #XYZ\" or \"Resolves sigstore/repo-name#XYZ\".\r\n  [documentation](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)\r\n- ensure your commits are signed-off, as sigstore uses the [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) using `git commit -s`, or `git commit -s --amend` if you want to amend already existing commits\r\n- lastly, ensure there are no merge commits!\r\n\r\nThank you :)\r\n-->\r\n\r\n#### Summary\r\n<!--\r\n Explain the **motivation** for making this change. What existing problem does the pull request solve? How can reviewers test this PR?\r\n-->\r\nAdd link to Rekor v2 proposal doc\r\nMinor fix for fulcio spec link\r\n\r\n#### Release Note\r\n<!--\r\nAdd a release note for each of the following conditions:\r\n\r\n* Config changes (additions, deletions, updates)\r\n* API additions\u2014new endpoint, new response fields, or newly accepted request parameters\r\n* Database changes (any)\r\n* Websocket additions or changes\r\n* Anything noteworthy to an administrator running private sigstore instances (err on the side of over-communicating)\r\n* New features and improvements, including behavioural changes, UI changes and CLI changes\r\n* Bug fixes and fixes of previous known issues\r\n* Deprecation warnings, breaking changes, or compatibility notes\r\n\r\nIf no release notes are required write NONE. Use past-tense.\r\n\r\n-->\r\nNONE\r\n\r\n#### Documentation\r\n<!--\r\n\r\nDoes this change require an update to documentation? How will users implement your new feature?\r\n\r\nPlease reference a PR within https://docs.sigstore.dev\r\n\r\n-->\r\nNONE\r\n",
+      "createdAt": "2024-12-18T18:06:02Z",
+      "updatedAt": "2025-01-07T17:40:29Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "af4108066c58f78b6d0b1fac69c28b9f648a0d3b",
+      "headRepository": "tracymiranda/architecture-docs",
+      "headRefName": "addrekorv2",
+      "headRefOid": "f88104ac9667dab3704cedb77f74863b7bfa07e2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW86XGUDV",
+          "commit": {
+            "abbreviatedOid": "f88104a"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-07T17:40:29Z",
+          "updatedAt": "2025-01-07T17:40:29Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Could we include a brief one-line summary of the changes in Rekor 2.0, namely the move towards a tile-based architecture? We can link to the transparency.dev article about the benefits of tiles as well",
+              "createdAt": "2025-01-07T17:40:29Z",
+              "updatedAt": "2025-01-07T17:40:29Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "id": "PR_kwDOHdxLW86G_u2i",
+      "title": "bump actions to v4 releases",
+      "url": "https://github.com/sigstore/architecture-docs/pull/38",
+      "state": "MERGED",
+      "author": "bobcallaway",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "<!--\r\nThanks for opening a pull request! Please do not just delete this text.  The three fields below are mandatory.\r\n\r\nPlease remember to:\r\n- This PR requires an issue. If it is a new feature, the issue should proceed the PR and will have allowed sufficient time for discussions to take place. Please use\r\nissue tags such as \"Closes #XYZ\" or \"Resolves sigstore/repo-name#XYZ\".\r\n  [documentation](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)\r\n- ensure your commits are signed-off, as sigstore uses the [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) using `git commit -s`, or `git commit -s --amend` if you want to amend already existing commits\r\n- lastly, ensure there are no merge commits!\r\n\r\nThank you :)\r\n-->\r\n\r\n#### Summary\r\n<!--\r\n Explain the **motivation** for making this change. What existing problem does the pull request solve? How can reviewers test this PR?\r\n-->\r\n\r\n#### Release Note\r\n<!--\r\nAdd a release note for each of the following conditions:\r\n\r\n* Config changes (additions, deletions, updates)\r\n* API additions\u2014new endpoint, new response fields, or newly accepted request parameters\r\n* Database changes (any)\r\n* Websocket additions or changes\r\n* Anything noteworthy to an administrator running private sigstore instances (err on the side of over-communicating)\r\n* New features and improvements, including behavioural changes, UI changes and CLI changes\r\n* Bug fixes and fixes of previous known issues\r\n* Deprecation warnings, breaking changes, or compatibility notes\r\n\r\nIf no release notes are required write NONE. Use past-tense.\r\n\r\n-->\r\n\r\n#### Documentation\r\n<!--\r\n\r\nDoes this change require an update to documentation? How will users implement your new feature?\r\n\r\nPlease reference a PR within https://docs.sigstore.dev\r\n\r\n-->\r\n",
+      "createdAt": "2025-01-07T23:10:48Z",
+      "updatedAt": "2025-01-07T23:34:07Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "af4108066c58f78b6d0b1fac69c28b9f648a0d3b",
+      "headRepository": "bobcallaway/architecture-docs",
+      "headRefName": "actions_bump",
+      "headRefOid": "84025f2908bdee7b6a3c486eee7642f9fa2a95e8",
+      "closedAt": "2025-01-07T23:34:07Z",
+      "mergedAt": "2025-01-07T23:34:07Z",
+      "mergedBy": "bobcallaway",
+      "mergeCommit": {
+        "oid": "6aaf220817c5e1091ec465a74741ae130fcd234b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW86XIabB",
+          "commit": {
+            "abbreviatedOid": "84025f2"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "Pin by hash? Though we can just remove these workflows too, as they're not working currently I think",
+          "createdAt": "2025-01-07T23:32:54Z",
+          "updatedAt": "2025-01-07T23:32:54Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 39,
+      "id": "PR_kwDOHdxLW86HEaa2",
+      "title": "Clarified that verification using DSSE.",
+      "url": "https://github.com/sigstore/architecture-docs/pull/39",
+      "state": "OPEN",
+      "author": "kommendorkapten",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "<!--\r\nThanks for opening a pull request! Please do not just delete this text.  The three fields below are mandatory.\r\n\r\nPlease remember to:\r\n- This PR requires an issue. If it is a new feature, the issue should proceed the PR and will have allowed sufficient time for discussions to take place. Please use\r\nissue tags such as \"Closes #XYZ\" or \"Resolves sigstore/repo-name#XYZ\".\r\n  [documentation](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)\r\n- ensure your commits are signed-off, as sigstore uses the [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) using `git commit -s`, or `git commit -s --amend` if you want to amend already existing commits\r\n- lastly, ensure there are no merge commits!\r\n\r\nThank you :)\r\n-->\r\n\r\n#### Summary\r\n<!--\r\n Explain the **motivation** for making this change. What existing problem does the pull request solve? How can reviewers test this PR?\r\n-->\r\n\r\nClarified that verification using DSSE:\r\n* Payload must be an in-toto statement\r\n* Verifier must ensure the artifact's digest is present as a subject\r\n\r\nThis was discussed at the Sigstore client's meeting @ 2025-01-07 \r\n\r\nNote that I didn't adda a section that clients MAY verify using a pre-computed digest. As the current wording is _SHOULD accept a raw artifact_, I think it is enough. This relates to https://github.com/sigstore/protobuf-specs/issues/444\r\n\r\n#### Release Note\r\n<!--\r\nAdd a release note for each of the following conditions:\r\n\r\n* Config changes (additions, deletions, updates)\r\n* API additions\u2014new endpoint, new response fields, or newly accepted request parameters\r\n* Database changes (any)\r\n* Websocket additions or changes\r\n* Anything noteworthy to an administrator running private sigstore instances (err on the side of over-communicating)\r\n* New features and improvements, including behavioural changes, UI changes and CLI changes\r\n* Bug fixes and fixes of previous known issues\r\n* Deprecation warnings, breaking changes, or compatibility notes\r\n\r\nIf no release notes are required write NONE. Use past-tense.\r\n\r\n-->\r\n* Clarified that when verifying using a DSSE envelope, the payload must be an in-toto statement.\r\n#### Documentation\r\n<!--\r\n\r\nDoes this change require an update to documentation? How will users implement your new feature?\r\n\r\nPlease reference a PR within https://docs.sigstore.dev\r\n\r\n-->\r\nThis only relates to documentation.\r\n\r\ncc @loosebazooka @woodruffw @steiza @haydentherapper @tracymiranda",
+      "createdAt": "2025-01-08T12:20:48Z",
+      "updatedAt": "2025-01-08T20:40:18Z",
+      "baseRepository": "sigstore/architecture-docs",
+      "baseRefName": "main",
+      "baseRefOid": "6aaf220817c5e1091ec465a74741ae130fcd234b",
+      "headRepository": "kommendorkapten/architecture-docs",
+      "headRefName": "dsse-in-toto",
+      "headRefOid": "1ea9e4b68a1aa0fb1f1c4b3894a068ad9cb2156b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "loosebazooka",
+          "authorAssociation": "MEMBER",
+          "body": "Not sure if this is implied, but should we also mention the DSSE `payloadType` is `application/vnd.in-toto+json` and then the `_type` embedded in the payload is `https://in-toto.io/Statement/v1` ",
+          "createdAt": "2025-01-08T16:20:38Z",
+          "updatedAt": "2025-01-08T18:17:37Z"
+        },
+        {
+          "author": "loosebazooka",
+          "authorAssociation": "MEMBER",
+          "body": "Also once this is merged, I should go update: https://github.com/sigstore/docs/blob/main/content/en/about/bundle.md#dsse",
+          "createdAt": "2025-01-08T16:21:28Z",
+          "updatedAt": "2025-01-08T16:21:28Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHdxLW86XO1Rz",
+          "commit": {
+            "abbreviatedOid": "c5011fd"
+          },
+          "author": "steiza",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "This looks good to me.\r\n\r\nOne thing I was thinking about while reviewing this is that the verifier language refers to verifying a single artifact. There could be cases where you want to verify multiple artifacts, especially if they all share the same bundle, but on the other hand expressing a policy for artifacts that do *not* share the same bundle could get quite complicated. So maybe better to leave it as-is with verifiers verifying an artifact at a time, and of course you can call the verifier multiple times with different artifacts if needed.",
+          "createdAt": "2025-01-08T14:08:15Z",
+          "updatedAt": "2025-01-08T14:10:28Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\n    * Verifier MUST ensure that the artifact's digest/algorithm tuple is present in the list of subjects in the in-toto statement.\r\n```\r\n\r\nThis proposed change is to hint that the in-toto statement might have multiple subjects.",
+              "createdAt": "2025-01-08T14:08:15Z",
+              "updatedAt": "2025-01-08T14:10:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86XQGHP",
+          "commit": {
+            "abbreviatedOid": "1ea9e4b"
+          },
+          "author": "codysoyland",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-08T16:09:13Z",
+          "updatedAt": "2025-01-08T16:09:13Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I would link to the spec here (not sure if this is the best link to use):\r\n\r\n```suggestion\r\n* Using [DSSE](https://github.com/secure-systems-lab/dsse/blob/master/protocol.md) as an envelope for the payload which MUST contain an [in-toto statement](https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md).\r\n```",
+              "createdAt": "2025-01-08T16:09:13Z",
+              "updatedAt": "2025-01-08T16:09:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86XQPT7",
+          "commit": {
+            "abbreviatedOid": "1ea9e4b"
+          },
+          "author": "woodruffw",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "LGTM, thanks!",
+          "createdAt": "2025-01-08T16:25:20Z",
+          "updatedAt": "2025-01-08T16:25:20Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHdxLW86XSqk1",
+          "commit": {
+            "abbreviatedOid": "1ea9e4b"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "LGTM besides the outstanding comments, thanks!",
+          "createdAt": "2025-01-08T20:40:18Z",
+          "updatedAt": "2025-01-08T20:40:18Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}
