@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-09T00:04:34.828772+00:00",
+  "timestamp": "2025-01-12T00:04:53.060706+00:00",
   "repo": "sigstore/architecture-docs",
   "labels": [
     {
@@ -2190,24 +2190,26 @@
       "id": "PR_kwDOHdxLW86HEaa2",
       "title": "Clarified that verification using DSSE.",
       "url": "https://github.com/sigstore/architecture-docs/pull/39",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "kommendorkapten",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "<!--\r\nThanks for opening a pull request! Please do not just delete this text.  The three fields below are mandatory.\r\n\r\nPlease remember to:\r\n- This PR requires an issue. If it is a new feature, the issue should proceed the PR and will have allowed sufficient time for discussions to take place. Please use\r\nissue tags such as \"Closes #XYZ\" or \"Resolves sigstore/repo-name#XYZ\".\r\n  [documentation](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)\r\n- ensure your commits are signed-off, as sigstore uses the [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) using `git commit -s`, or `git commit -s --amend` if you want to amend already existing commits\r\n- lastly, ensure there are no merge commits!\r\n\r\nThank you :)\r\n-->\r\n\r\n#### Summary\r\n<!--\r\n Explain the **motivation** for making this change. What existing problem does the pull request solve? How can reviewers test this PR?\r\n-->\r\n\r\nClarified that verification using DSSE:\r\n* Payload must be an in-toto statement\r\n* Verifier must ensure the artifact's digest is present as a subject\r\n\r\nThis was discussed at the Sigstore client's meeting @ 2025-01-07 \r\n\r\nNote that I didn't adda a section that clients MAY verify using a pre-computed digest. As the current wording is _SHOULD accept a raw artifact_, I think it is enough. This relates to https://github.com/sigstore/protobuf-specs/issues/444\r\n\r\n#### Release Note\r\n<!--\r\nAdd a release note for each of the following conditions:\r\n\r\n* Config changes (additions, deletions, updates)\r\n* API additions\u2014new endpoint, new response fields, or newly accepted request parameters\r\n* Database changes (any)\r\n* Websocket additions or changes\r\n* Anything noteworthy to an administrator running private sigstore instances (err on the side of over-communicating)\r\n* New features and improvements, including behavioural changes, UI changes and CLI changes\r\n* Bug fixes and fixes of previous known issues\r\n* Deprecation warnings, breaking changes, or compatibility notes\r\n\r\nIf no release notes are required write NONE. Use past-tense.\r\n\r\n-->\r\n* Clarified that when verifying using a DSSE envelope, the payload must be an in-toto statement.\r\n#### Documentation\r\n<!--\r\n\r\nDoes this change require an update to documentation? How will users implement your new feature?\r\n\r\nPlease reference a PR within https://docs.sigstore.dev\r\n\r\n-->\r\nThis only relates to documentation.\r\n\r\ncc @loosebazooka @woodruffw @steiza @haydentherapper @tracymiranda",
       "createdAt": "2025-01-08T12:20:48Z",
-      "updatedAt": "2025-01-08T20:40:18Z",
+      "updatedAt": "2025-01-10T15:32:57Z",
       "baseRepository": "sigstore/architecture-docs",
       "baseRefName": "main",
       "baseRefOid": "6aaf220817c5e1091ec465a74741ae130fcd234b",
       "headRepository": "kommendorkapten/architecture-docs",
       "headRefName": "dsse-in-toto",
-      "headRefOid": "1ea9e4b68a1aa0fb1f1c4b3894a068ad9cb2156b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "5f406561de98fdd79cd0a8164d81e8de142d1997",
+      "closedAt": "2025-01-09T17:00:03Z",
+      "mergedAt": "2025-01-09T17:00:03Z",
+      "mergedBy": "haydentherapper",
+      "mergeCommit": {
+        "oid": "4f681429329d482f089cfa338e87f62bfb075f8a"
+      },
       "comments": [
         {
           "author": "loosebazooka",
@@ -2222,6 +2224,20 @@
           "body": "Also once this is merged, I should go update: https://github.com/sigstore/docs/blob/main/content/en/about/bundle.md#dsse",
           "createdAt": "2025-01-08T16:21:28Z",
           "updatedAt": "2025-01-08T16:21:28Z"
+        },
+        {
+          "author": "kommendorkapten",
+          "authorAssociation": "MEMBER",
+          "body": "Comments addressed, added a link to the Envelope layer specification too.",
+          "createdAt": "2025-01-09T09:45:22Z",
+          "updatedAt": "2025-01-09T09:45:22Z"
+        },
+        {
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "body": "Thanks for this. I noticed the first must is lower-case (for payload type), is that intentional or should we fix for consistency? ",
+          "createdAt": "2025-01-10T15:32:55Z",
+          "updatedAt": "2025-01-10T15:32:55Z"
         }
       ],
       "reviews": [
@@ -2285,10 +2301,23 @@
           },
           "author": "haydentherapper",
           "authorAssociation": "NONE",
-          "state": "APPROVED",
+          "state": "DISMISSED",
           "body": "LGTM besides the outstanding comments, thanks!",
           "createdAt": "2025-01-08T20:40:18Z",
-          "updatedAt": "2025-01-08T20:40:18Z",
+          "updatedAt": "2025-01-09T09:43:46Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHdxLW86XbHxV",
+          "commit": {
+            "abbreviatedOid": "5f40656"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-09T16:59:58Z",
+          "updatedAt": "2025-01-09T16:59:58Z",
           "comments": []
         }
       ]
