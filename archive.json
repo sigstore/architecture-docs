@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-12T00:04:53.060706+00:00",
+  "timestamp": "2025-01-16T00:04:33.098273+00:00",
   "repo": "sigstore/architecture-docs",
   "labels": [
     {
@@ -488,7 +488,7 @@
       "id": "I_kwDOHdxLW86caSHt",
       "title": "Rekor Spec: Add link to Rekor v2 doc",
       "url": "https://github.com/sigstore/architecture-docs/issues/31",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tracymiranda",
       "authorAssociation": "NONE",
       "assignees": [],
@@ -497,8 +497,8 @@
       ],
       "body": "**Description**\r\nThe goals of the spec docs are to describe the current state of the infrastructure. However it is noted that 'Imminent changes may be noted, while speculative changes will generally be omitted.' With this in mind it's worth adding a reference in the current Rekor spec to the v2 design for awareness to spec readers. \r\n\r\nhttps://docs.google.com/document/d/1Mi9OhzrucIyt-UCLk_FxO2_xSQZW9ow9U3Lv0ZB_PpM/edit?resourcekey=0-4rPbZPyCS7QDj26Hk0UyvA&tab=t.0#heading=h.bjitqo6lwsmn\r\n\r\n(also add a note that you need to be a member of sigstore-dev to easily access the doc)\r\n",
       "createdAt": "2024-10-30T13:35:51Z",
-      "updatedAt": "2024-10-30T13:35:51Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-15T17:28:45Z",
+      "closedAt": "2025-01-15T17:28:45Z",
       "comments": []
     },
     {
@@ -2101,24 +2101,26 @@
       "id": "PR_kwDOHdxLW86FrrrZ",
       "title": "Add link to Rekor v2 doc.",
       "url": "https://github.com/sigstore/architecture-docs/pull/37",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tracymiranda",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Fixes #31\r\n\r\n<!--\r\nThanks for opening a pull request! Please do not just delete this text.  The three fields below are mandatory.\r\n\r\nPlease remember to:\r\n- This PR requires an issue. If it is a new feature, the issue should proceed the PR and will have allowed sufficient time for discussions to take place. Please use\r\nissue tags such as \"Closes #XYZ\" or \"Resolves sigstore/repo-name#XYZ\".\r\n  [documentation](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)\r\n- ensure your commits are signed-off, as sigstore uses the [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) using `git commit -s`, or `git commit -s --amend` if you want to amend already existing commits\r\n- lastly, ensure there are no merge commits!\r\n\r\nThank you :)\r\n-->\r\n\r\n#### Summary\r\n<!--\r\n Explain the **motivation** for making this change. What existing problem does the pull request solve? How can reviewers test this PR?\r\n-->\r\nAdd link to Rekor v2 proposal doc\r\nMinor fix for fulcio spec link\r\n\r\n#### Release Note\r\n<!--\r\nAdd a release note for each of the following conditions:\r\n\r\n* Config changes (additions, deletions, updates)\r\n* API additions\u2014new endpoint, new response fields, or newly accepted request parameters\r\n* Database changes (any)\r\n* Websocket additions or changes\r\n* Anything noteworthy to an administrator running private sigstore instances (err on the side of over-communicating)\r\n* New features and improvements, including behavioural changes, UI changes and CLI changes\r\n* Bug fixes and fixes of previous known issues\r\n* Deprecation warnings, breaking changes, or compatibility notes\r\n\r\nIf no release notes are required write NONE. Use past-tense.\r\n\r\n-->\r\nNONE\r\n\r\n#### Documentation\r\n<!--\r\n\r\nDoes this change require an update to documentation? How will users implement your new feature?\r\n\r\nPlease reference a PR within https://docs.sigstore.dev\r\n\r\n-->\r\nNONE\r\n",
       "createdAt": "2024-12-18T18:06:02Z",
-      "updatedAt": "2025-01-07T17:40:29Z",
+      "updatedAt": "2025-01-15T17:28:44Z",
       "baseRepository": "sigstore/architecture-docs",
       "baseRefName": "main",
       "baseRefOid": "af4108066c58f78b6d0b1fac69c28b9f648a0d3b",
       "headRepository": "tracymiranda/architecture-docs",
       "headRefName": "addrekorv2",
-      "headRefOid": "f88104ac9667dab3704cedb77f74863b7bfa07e2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "b29787721686261a2c0eedb3668c5e977566f767",
+      "closedAt": "2025-01-15T17:28:44Z",
+      "mergedAt": "2025-01-15T17:28:44Z",
+      "mergedBy": "haydentherapper",
+      "mergeCommit": {
+        "oid": "c47da88789f363a12bd9deee36df7ca6a74d562b"
+      },
       "comments": [],
       "reviews": [
         {
@@ -2140,6 +2142,39 @@
               "updatedAt": "2025-01-07T17:40:29Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86YMqFc",
+          "commit": {
+            "abbreviatedOid": "f88104a"
+          },
+          "author": "tracymiranda",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-15T17:27:31Z",
+          "updatedAt": "2025-01-15T17:27:31Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Great suggestions, done!",
+              "createdAt": "2025-01-15T17:27:31Z",
+              "updatedAt": "2025-01-15T17:27:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHdxLW86YMqlH",
+          "commit": {
+            "abbreviatedOid": "b297877"
+          },
+          "author": "haydentherapper",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-15T17:28:27Z",
+          "updatedAt": "2025-01-15T17:28:27Z",
+          "comments": []
         }
       ]
     },
@@ -2197,7 +2232,7 @@
       "labels": [],
       "body": "<!--\r\nThanks for opening a pull request! Please do not just delete this text.  The three fields below are mandatory.\r\n\r\nPlease remember to:\r\n- This PR requires an issue. If it is a new feature, the issue should proceed the PR and will have allowed sufficient time for discussions to take place. Please use\r\nissue tags such as \"Closes #XYZ\" or \"Resolves sigstore/repo-name#XYZ\".\r\n  [documentation](https://docs.github.com/en/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)\r\n- ensure your commits are signed-off, as sigstore uses the [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) using `git commit -s`, or `git commit -s --amend` if you want to amend already existing commits\r\n- lastly, ensure there are no merge commits!\r\n\r\nThank you :)\r\n-->\r\n\r\n#### Summary\r\n<!--\r\n Explain the **motivation** for making this change. What existing problem does the pull request solve? How can reviewers test this PR?\r\n-->\r\n\r\nClarified that verification using DSSE:\r\n* Payload must be an in-toto statement\r\n* Verifier must ensure the artifact's digest is present as a subject\r\n\r\nThis was discussed at the Sigstore client's meeting @ 2025-01-07 \r\n\r\nNote that I didn't adda a section that clients MAY verify using a pre-computed digest. As the current wording is _SHOULD accept a raw artifact_, I think it is enough. This relates to https://github.com/sigstore/protobuf-specs/issues/444\r\n\r\n#### Release Note\r\n<!--\r\nAdd a release note for each of the following conditions:\r\n\r\n* Config changes (additions, deletions, updates)\r\n* API additions\u2014new endpoint, new response fields, or newly accepted request parameters\r\n* Database changes (any)\r\n* Websocket additions or changes\r\n* Anything noteworthy to an administrator running private sigstore instances (err on the side of over-communicating)\r\n* New features and improvements, including behavioural changes, UI changes and CLI changes\r\n* Bug fixes and fixes of previous known issues\r\n* Deprecation warnings, breaking changes, or compatibility notes\r\n\r\nIf no release notes are required write NONE. Use past-tense.\r\n\r\n-->\r\n* Clarified that when verifying using a DSSE envelope, the payload must be an in-toto statement.\r\n#### Documentation\r\n<!--\r\n\r\nDoes this change require an update to documentation? How will users implement your new feature?\r\n\r\nPlease reference a PR within https://docs.sigstore.dev\r\n\r\n-->\r\nThis only relates to documentation.\r\n\r\ncc @loosebazooka @woodruffw @steiza @haydentherapper @tracymiranda",
       "createdAt": "2025-01-08T12:20:48Z",
-      "updatedAt": "2025-01-10T15:32:57Z",
+      "updatedAt": "2025-01-13T08:40:43Z",
       "baseRepository": "sigstore/architecture-docs",
       "baseRefName": "main",
       "baseRefOid": "6aaf220817c5e1091ec465a74741ae130fcd234b",
@@ -2238,6 +2273,13 @@
           "body": "Thanks for this. I noticed the first must is lower-case (for payload type), is that intentional or should we fix for consistency? ",
           "createdAt": "2025-01-10T15:32:55Z",
           "updatedAt": "2025-01-10T15:32:55Z"
+        },
+        {
+          "author": "kommendorkapten",
+          "authorAssociation": "MEMBER",
+          "body": "Great catch, I'll fix that.",
+          "createdAt": "2025-01-13T08:40:41Z",
+          "updatedAt": "2025-01-13T08:40:41Z"
         }
       ],
       "reviews": [
