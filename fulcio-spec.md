@@ -2,20 +2,20 @@
 
 This document describes Fulcio, a certificate authority for issuing short-lived code signing certificates for an OpenID Connect (OIDC) identity, such as an email address. 
 
-## 1. Introduction
+## 1. Motivation
 
 Artifact signing classically required the management of a signing key. Verification policies must specify a mapping between a verification key and the artifacts which the key can verify. Self-managed keys require:
    * **Distribution**: Distribution is the process of publicly describing the mapping between verification keys and artifacts. Typically as a verifier, this mapping is implicitly trusted on first use (TOFU), and then persisted for future verifications. 
-   * **Storage**: Storage refers to how the signing key is managed. This might be on a personal flash drive, or in a cloud environment using a key management service. This requires protection of the key material, either through on-disk encryption or appropriate ACLs when stored in the cloud.
+   * **Storage**: Storage refers to how the signing key is managed. This might be on a personal flash drive, or in a cloud environment using a key management service. This requires protection of the key material, either through on-disk encryption or appropriate access control lists (ACLs) when stored in the cloud.
    * **Revocation**: If the signing key is lost or compromised, a revocation mechanism is required to mark the key as revoked for verifiers. Additionally, a new key must be distributed to clients. As a verifier, how do I trust an update to the mapping between key and artifacts, and differentiate between a valid update and an update due to a malicious compromise? Additionally, revocation is plagued with issues around indefinitely-growing revocation list size and difficulty in distributing these large and frequently updated lists to verifiers.
 
 Sigstore aims to simplify signing by eliminating the need to manage long-lived signing secrets. Public key infrastructure (PKI) can be leveraged to reduce the need to self-manage artifact signing keys. A certificate authority can issue short-lived code signing certificates that bind an identity to a public key. 
 
-For verifiers, the verification policy maps identities to artifacts rather than keys to artifacts. While keys are still used to sign and verify signatures, verifiers no longer need to maintain mappings between keys and artifacts. Code signing certificates are trusted through the PKI. If As long as the verifier trusts the root certificate in the PKI, then they can trust the code signing certificate and the artifact verification key embedded within it. Artifact signers only need to manager their identity, not the keys. Keys can become ephemeral, generated for a single signing event and then discarded.
+For verifiers, the verification policy maps identities to artifacts rather than keys to artifacts. While keys are still used to sign and verify signatures, verifiers no longer need to maintain mappings between keys and artifacts. Code signing certificates are trusted through the PKI. If As long as the verifier trusts the root certificate in the PKI, then they can trust the code signing certificate and the artifact verification key embedded within it. Artifact signers only need to manage their identity, not the keys. Keys can become ephemeral, generated for a single signing event and then discarded.
 
-### 1.1 Conventions and Definitions
+### 1.1 Requirements Language
 
-The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", and "MAY" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 \[[RFC2119](https://www.rfc-editor.org/info/rfc2119)\] \[[RFC8174](https://www.rfc-editor.org/info/rfc8174)\] when, and only when, they appear in all capitals, as shown here.
 
 
 ## 2. Overview
@@ -24,7 +24,7 @@ To issue code signing certificates, Sigstore uses Fulcio, a certificate authorit
 
 ### 2.1. Timestamping
 
-The certificates that Fulcio issues are short-lived. By using ephemeral keys and short-lived certificates, Fulcio avoids the need for revocation lists. To verify a short-lived certificate, a timestamping service is needed to verify that the issued certificate was valid during artifact signing. Sigstore clients can leverage either Sigstore's own timestamping service ([Spec: Timestamping Service](https://docs.google.com/document/d/1FoRHXejIhXwEai0RS3iRsN1HfCV16fJOp582Vl8KA7A/edit#heading=h.dal05eqvj5ql)) that implements [RFC 3161](https://www.ietf.org/rfc/rfc3161.txt) to provide a trusted timestamp.
+The certificates that Fulcio issues are short-lived. By using ephemeral keys and short-lived certificates, Fulcio avoids the need for revocation lists. To verify a short-lived certificate, a timestamping service is needed to verify that the issued certificate was valid during artifact signing. Sigstore clients can leverage Sigstore's own timestamping service that implements [RFC 3161](https://www.ietf.org/rfc/rfc3161.txt) to provide a trusted timestamp.
 
 A signed timestamp provides a record of a signing event. The signed timestamp MUST be created over the artifact signature to associate a timestamp with a signing event. This proves possession of an artifact signing key at time of signature issuance.
 
@@ -63,7 +63,7 @@ Fulcio issues certificates not only for user-based identifiers but also machine 
 
 Using machine identities instead of human identifiers provides privacy benefits, as no user identity is associated with the signing event. It also can provide a stronger link between source and build if a machine identity from a CI workflow signs a build.
 
-See [Spec: Fulcio](https://docs.google.com/document/d/1W5xp3g8_jaqzDQmIvepNYsWb-bQNc0U2ZQgQ700Kjok/edit#heading=h.lrl46qy6806e) for more information about required certificate extensions.
+Refer to [Spec: Fulcio §CI workflows](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md#731-ci-workflows) for more information about required certificate extensions.
 
 ### 2.3. Keys
 
@@ -99,6 +99,8 @@ Fulcio SHOULD append the issued certificate to an immutable, append-only, crypto
 
 Fulcio finally returns the certificate to the client.
 
+Refer to [Certificate Issuing Overview](https://github.com/sigstore/fulcio/blob/main/docs/how-certificate-issuing-works.md) for a visual guide to the certificate issuing process.
+
 ## 4. Certificate Transparency
 
 Fulcio maintains a certificate transparency (CT) log, writing all issued certificates to the log.
@@ -116,11 +118,11 @@ SCTs can either be embedded in a certificate or detached from the certificate. F
 
 A CT log can grow indefinitely, only bounded by the size of the underlying database. A large CT log will take longer for auditors to verify, and will also increase the burden on log replicators. Therefore, log operators need to create log shards, where after a certain period, a new log is turned up and the old log is frozen, accepting no more entries.
 
-A log operator MUST create new log shards periodically. If temporarily sharded, the log operator SHOULD include either the year or month in the log name, depending on the frequency. For more details refer to [Spec: Transparency Service](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit#heading=h.6w69n885z90t) and [Spec: Sigstore Public Deployment](https://docs.google.com/document/d/1C0naS8dP-k5c8z-kKa06ijyunYc8hswIwTY1nPm2M5g/edit#heading=h.sa2gitou4fkm)
+A log operator MUST create new log shards periodically. If temporarily sharded, the log operator SHOULD include either the year or month in the log name, depending on the frequency. For more details refer to [Spec: Rekor, A Transparency Service](rekor-spec.md)and [Spec: Sigstore Public Deployment](sigstore-public-deployment-spec.md)
 
 ## 5. Threat Model
 
-See [Sigstore Threat Model (for website)](https://docs.google.com/document/d/13-nbmKqMqTUhsHc9L6V0j_8AWb5O-7f1qSpNyVFHbdQ/edit#heading=h.gj8hr3dbhp5z) for a more thorough analysis.
+Refer to [Sigstore Threat Model](https://docs.sigstore.dev/about/threat-model/) for a more thorough analysis.
 
 ### 5.1. Threats
 
@@ -290,4 +292,11 @@ An issued certificate MAY:
 
 #### 7.3.1. CI workflows
 
-See [https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md) for information about required claims in the CI workflow identity tokens and the corresponding X.509 extensions.
+Refer to [https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md) for information about required claims in the CI workflow identity tokens and the corresponding X.509 extensions.
+
+## 8. API
+
+Fulcio's API is defined using protobuf and can be accessed over HTTP or gRPC. Refer to:
+   * [HTTP API schema (swagger spec)](https://github.com/sigstore/fulcio/blob/main/fulcio.swagger.json).
+   * [Protobuf specification](https://github.com/sigstore/fulcio/blob/main/fulcio.proto)
+
