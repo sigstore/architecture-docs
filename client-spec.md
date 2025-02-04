@@ -165,7 +165,7 @@ Knowing the verification policies of possible Verifiers may help Signers choose 
 The Verifier performs verification according to its policy based on the following inputs:
 
 * The artifact.
-* Verification materials (possibly in the the `Bundle` format ([definition](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore_bundle.proto#L61-L77))):
+* Verification materials in the the `Bundle` format ([definition](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore_bundle.proto#L61-L77)):
   * Leaf certificate
     * When used with the Public Good Instance, only the leaf is necessary. Other Sigstore instances (such as private instances) may require one or more intermediates as well, if those intermediates are not listed in the independent root of trust.
   * Signature.
@@ -180,7 +180,7 @@ The distribution of these inputs is out-of-scope for this document.
 
 For Sigstore clients that expose a command-line interface, the following discovery order is RECOMMENDED:
 
-1. Use whatever verification materials are supplied explicitly by the user. For example, if the client has flags and/or environment variables for configuring bundles and/or detached verification materials, these should take precedence over any implicitly discovered materials.
+1. Use whatever verification materials are supplied explicitly by the user. For example, if the client has flags and/or environment variables for configuring bundles, these should take precedence over any implicitly discovered materials.
 2. If no explicit inputs are given: for a given file `input`, attempt to discover `{input}.sigstore.json`. If `{input}.sigstore.json` is present, attempt to use it for verification.
 3. If `{input}.sigstore.json` is not present, attempt to discover `{input}.sigstore` and use it for verification.
 
@@ -263,7 +263,9 @@ While other signing and verification workflows are possible using the Transparen
 
 This section describes the “Sigstore wire format” for verification materials.
 
-To produce verification materials in this format, a client MUST use the Protocol Buffers [Bundle format](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore_bundle.proto#L61-L77) to collate these materials, serialized to JSON using the [canonical proto3 JSON serialization](https://protobuf.dev/programming-guides/proto3/#json), *except* that:
+To produce verification materials in this format, a client MUST use the Protocol Buffers [Bundle format](https://github.com/sigstore/protobuf-specs/blob/88c45b0ab8c3781a118be6339f443d8c277c0126/protos/sigstore_bundle.proto#L61-L77) to collate these materials to ensure Sigstore tooling and implementations are compatible with each other. Verification materials MAY be also made available in other formats if needed by a specific use-case.
+
+The Protocol Buffers Bundle format is serialized to JSON using the [canonical proto3 JSON serialization](https://protobuf.dev/programming-guides/proto3/#json), *except* that:
 
 1. The bundle MUST use `lowerCamelCase` rather than `snake_case` for keys.
 2. The bundle MUST use the string representation for enum values.
