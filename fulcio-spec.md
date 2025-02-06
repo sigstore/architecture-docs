@@ -11,7 +11,7 @@ Artifact signing classically required the management of a signing key. Verificat
 
 Sigstore aims to simplify signing by eliminating the need to manage long-lived signing secrets. Public key infrastructure (PKI) can be leveraged to reduce the need to self-manage artifact signing keys. A certificate authority can issue short-lived code signing certificates that bind an identity to a public key. 
 
-For verifiers, the verification policy maps identities to artifacts rather than keys to artifacts. While keys are still used to sign and verify signatures, verifiers no longer need to maintain mappings between keys and artifacts. Code signing certificates are trusted through the PKI. If As long as the verifier trusts the root certificate in the PKI, then they can trust the code signing certificate and the artifact verification key embedded within it. Artifact signers only need to manage their identity, not the keys. Keys can become ephemeral, generated for a single signing event and then discarded.
+For verifiers, the verification policy maps identities to artifacts rather than keys to artifacts. While keys are still used to sign and verify signatures, verifiers no longer need to maintain mappings between keys and artifacts. Code signing certificates are trusted through the PKI. If the verifier trusts the root certificate in the PKI, they can also then trust the code signing certificate and the embedded artifact verification key. Artifact signers only need to manage their identity, not the keys. Keys can become ephemeral, generated for a single signing event and then discarded.
 
 ### 1.1 Requirements Language
 
@@ -297,6 +297,6 @@ Refer to [https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md](https:/
 ## 8. API
 
 Fulcio's API is defined using protobuf and can be accessed over HTTP or gRPC. Refer to:
-   * [HTTP API schema (swagger spec)](https://github.com/sigstore/fulcio/blob/main/fulcio.swagger.json).
+   * [HTTP API schema](https://github.com/sigstore/fulcio/blob/main/fulcio.swagger.json) ([Swagger UI spec](https://www.sigstore.dev/swagger/?urls.primaryName=Fulcio#/)).
    * [Protobuf specification](https://github.com/sigstore/fulcio/blob/main/fulcio.proto)
 
