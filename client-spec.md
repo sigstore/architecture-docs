@@ -64,7 +64,13 @@ At the conclusion of the authentication protocol, the Signer will possess an aut
 
 #### 2.1.2. Key Generation
 
-The Signer chooses an algorithm for digital signatures from the registry ([Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.if88xkt0tyir)); the chosen algorithm MUST be in both the Fulcio instance’s and the Transparency Service instance’s `supportedSigningAlgorithms`). The Signer generates a signing/verification key pair via the appropriate key generation procedure. The Signer MAY store the signing key on a secure hardware device. Regardless of the success of the signing procedure, the signer SHOULD destroy the keypair at the end.
+The Signer chooses an algorithm for digital signatures from the registry
+([Spec: Algorithm Registry](./algorithm-registry.md)); the chosen algorithm MUST be in
+both the Fulcio instance’s and the Transparency Service instance’s
+`supportedSigningAlgorithms`). The Signer generates a signing/verification key
+pair via the appropriate key generation procedure. The Signer MAY store the
+signing key on a secure hardware device. Regardless of the success of the
+signing procedure, the signer SHOULD destroy the keypair at the end.
 
 #### 2.1.3. Certificate Issuance
 
