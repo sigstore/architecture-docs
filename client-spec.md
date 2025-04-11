@@ -90,7 +90,13 @@ In return, the Signer receives a `SigningCertificate` ([definition](https://gith
 
 #### 2.1.4. Signing
 
-The Signer signs the payload using the signing key as in the chosen signing algorithm; the signature will be opaque binary data. The Signer MAY pre-hash the payload using a hash algorithm from the registry ([Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.if88xkt0tyir)) for compatibility with some signing metadata formats (see [§Submission of Signing Metadata to Transparency Service](#submission-of-signing-metadata-to-transparency-service)).
+The Signer signs the payload using the signing key as in the chosen signing
+algorithm; the signature will be opaque binary data. The Signer MAY pre-hash the
+payload using a hash algorithm from the registry ([Spec: Sigstore
+Registries](./algorithm-registry.md))
+for compatibility with some signing metadata formats (see [§Submission of
+Signing Metadata to Transparency
+Service](#submission-of-signing-metadata-to-transparency-service)).
 
 #### 2.1.5. Timestamping
 
@@ -129,27 +135,60 @@ They can do so in any manner. Signers SHOULD collate this data in the Sigstore w
 
 ### 3.1. Signing Choices
 
-*Authentication System.* The signer MUST use an Authentication System supported by the Fulcio instance with which they can authenticate.
+*Authentication System.* The signer MUST use an Authentication System supported
+by the Fulcio instance with which they can authenticate.
 
-*Digital signature algorithm.* The signer must choose a digital signature algorithm for key generation and signing from the registry (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.if88xkt0tyir)). The algorithm MUST be in the `supportedSigningAlgorithms` of both the Fulcio and Transparency Service instances.
+*Digital signature algorithm.* The signer must choose a digital signature
+algorithm for key generation and signing from the registry (see [Spec: Sigstore
+Registries](./algorithm-registry.md)). The algorithm MUST be in the
+`supportedSigningAlgorithms` of both the Fulcio and Transparency Service
+instances.
 
-*Signature metadata format*. The signature metadata format MUST be in the list of `supportedMetadataFormats` in the Transparency Service configuration. This list can include both common registry formats (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.if88xkt0tyir)) or additional plug-in formats. Details about plug-in formats are conveyed out-of-band.
+*Signature metadata format*. The signature metadata format MUST be in the list
+of `supportedMetadataFormats` in the Transparency Service configuration. This
+list can include both common registry formats (see [Spec: Sigstore
+Registries](./algorithm-registry.md)) or additional plug-in formats. Details
+about plug-in formats are conveyed out-of-band.
 
-The metadata format chosen SHOULD depend on the artifact to sign (some formats encode extra metadata about specific artifact types), size (some formats require the full artifact; others allow the payload to be hashed), or compatibility with other systems.
+The metadata format chosen SHOULD depend on the artifact to sign (some formats
+encode extra metadata about specific artifact types), size (some formats require
+the full artifact; others allow the payload to be hashed), or compatibility with
+other systems.
 
-*Payload pre-hashing.* Some metadata formats store a hash of the payload. In this case, the signature is over the *hashed* payload, so that the Transparency Service can validate the signature.
+*Payload pre-hashing.* Some metadata formats store a hash of the payload. In
+this case, the signature is over the *hashed* payload, so that the Transparency
+Service can validate the signature.
 
-In such cases, the Signer must choose a hash algorithm from the registry (see [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.if88xkt0tyir)); this algorithm MUST be in the `supportedHashAlgorithms` for the Transparency Service.
+In such cases, the Signer must choose a hash algorithm from the registry (see
+[Spec: Sigstore Registries](./algorithm-registry.md)); this algorithm MUST be in
+the `supportedHashAlgorithms` for the Transparency Service.
 
-*Long-lived signing keys.* The Signer may have a pre-existing, long-lived signing key with which they would like to sign payloads. This key MUST use an algorithm in the `supportedSigningAlgorithms` of both the Fulcio configuration and Transparency Service configuration.
+*Long-lived signing keys.* The Signer may have a pre-existing, long-lived
+signing key with which they would like to sign payloads. This key MUST use an
+algorithm in the `supportedSigningAlgorithms` of both the Fulcio configuration
+and Transparency Service configuration.
 
-In such cases, the Signer can skip the key generation step; the signing procedure is otherwise unaltered.
+In such cases, the Signer can skip the key generation step; the signing
+procedure is otherwise unaltered.
 
-*Timestamping.* Currently, the Transparency Service includes a timestamp in its response to the Signer. This timestamp comes from the Transparency Service’s internal clock, which is not externally verifiable or immutable. For this reason, a Signer SHOULD get their signatures timestamped. However, a Signer MAY choose to omit the timestamping step; in this case, the Signer MUST use the Transparency Service to provide a timestamp for the signature.
+*Timestamping.* Currently, the Transparency Service includes a timestamp in its
+response to the Signer. This timestamp comes from the Transparency Service’s
+internal clock, which is not externally verifiable or immutable. For this
+reason, a Signer SHOULD get their signatures timestamped. However, a Signer MAY
+choose to omit the timestamping step; in this case, the Signer MUST use the
+Transparency Service to provide a timestamp for the signature.
 
-*Transparency.* The Signer SHOULD upload signing metadata to the Transparency Service, but MAY choose to skip this step (for instance, for privacy reasons). In this case, the Signer MUST use a Timestamping Service to provide a timestamp for the signature.
+*Transparency.* The Signer SHOULD upload signing metadata to the Transparency
+Service, but MAY choose to skip this step (for instance, for privacy reasons).
+In this case, the Signer MUST use a Timestamping Service to provide a timestamp
+for the signature.
 
-*Other workflows.* A client may support signing workflows different from that described above. For instance, a Signer may want to use a long-lived signing key without an associated certificate; in this case, they can skip the authentication, key generation, and certificate issuance steps. A Signer may have a distinct Certificate Authority. Details for these workflows are out-of-scope for this document.
+*Other workflows.* A client may support signing workflows different from that
+described above. For instance, a Signer may want to use a long-lived signing key
+without an associated certificate; in this case, they can skip the
+authentication, key generation, and certificate issuance steps. A Signer may
+have a distinct Certificate Authority. Details for these workflows are
+out-of-scope for this document.
 
 ## 4. Verification
 
