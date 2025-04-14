@@ -6,9 +6,10 @@ file **must** be reflected in the `PublicKeyDetails` enumeration in
 [`sigstore_common.proto`] in [sigstore/protobuf-specs].
 
 Sigstore clients aren't required to support all algorithms in this registry,
-and **MAY** support algorithms that aren't in the registry. However,
-compatibility with the Sigstore Public Good Instance requires support
-for at least one of these algorithms.
+and **MAY** support algorithms that aren't in the registry.
+
+See [Spec: Sigstore Public Deployment](./sigstore-public-deployment-spec.md)
+for the algorithms supported by Sigstore's public good instance.
 
 ## Signature Algorithms
 
@@ -22,7 +23,9 @@ for at least one of these algorithms.
 |           | rsa-sign-pss-4096-sha256   | sign/verify |                                                                                  |
 | ECDSA     | ecdsa-sha2-256-nistp256    | sign/verify |                                                                                  |
 |           | ecdsa-sha2-384-nistp384    | sign/verify |                                                                                  |
+|           | ecdsa-sha2-256-nistp384    | sign/verify | Not recommended.                                                                 |
 |           | ecdsa-sha2-512-nistp521    | sign/verify |                                                                                  |
+|           | ecdsa-sha2-256-nistp521    | sign/verify | Not recommended.                                                                 |
 | EdDSA     | ed25519                    | sign/verify |                                                                                  |
 |           | ed25519-ph                 | sign/verify | Recommended only for `hashedrekord`.                                             |
 | LMS       | lms-sha256                 | sign/verify | Stateful; signer selects the `H` parameter. Not recommended for keyless signing. |
