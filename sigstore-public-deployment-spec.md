@@ -212,13 +212,15 @@ transparency log.
 Clients may submit Certificate Signing Requests (CSRs) with the following
 algorithms:
 
-* `ecdsa-sha2-256-nistp256`
-* `ecdsa-sha2-384-nistp384`
-* `ecdsa-sha2-512-nistp521`
-* `ed25519`
-* `rsa-sign-pkcs1-2048-sha256`
-* `rsa-sign-pkcs1-3072-sha256`
-* `rsa-sign-pkcs1-4096-sha256`
+| Algorithm                    | Required? | Recommended?  |
+|------------------------------|-----------|---------------|
+| `ecdsa-sha2-256-nistp256`    | Yes       | Yes           |
+| `ecdsa-sha2-384-nistp384`    | No        | Yes           |
+| `ecdsa-sha2-512-nistp521`    | No        | Yes           |
+| `rsa-sign-pkcs1-2048-sha256` | No        | No            |
+| `rsa-sign-pkcs1-3072-sha256` | No        | No            |
+| `rsa-sign-pkcs1-4096-sha256` | No        | No            |
+| `ed25519`                    | No        | Yes           |
 
 #### 5.2.3 Rekor
 
