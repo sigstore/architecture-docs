@@ -227,8 +227,8 @@ algorithms:
 The public good instance may use any of the following for Rekor's
 public key and signatures:
 
-* `ecdsa-sha2-256-nistp256`
-* `ecdsa-sha2-384-nistp384`
+* `ecdsa-sha2-256-nistp256` (Rekor v1)
+* `ecdsa-sha2-384-nistp384` (Rekor v1)
 * `ed25519` (beginning with Rekor v2)
 
 #### 5.2.4 Timestamp Authority
