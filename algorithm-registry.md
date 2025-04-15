@@ -47,7 +47,7 @@ The following legend describes the purpose of each algorithm below.
 |           | ecdsa-sha2-256-nistp384    | verify only | 🔑      | Not recommended due to poor compatibility.                                       |
 |           | ecdsa-sha2-512-nistp521    | sign/verify | 🔑      |                                                                                  |
 |           | ecdsa-sha2-256-nistp521    | verify only | 🔑      | Not recommended due to poor compatibility.                                       |
-| EdDSA     | ed25519                    | sign/verify | 🔑 👀   |                                                                                  |
+| EdDSA     | ed25519                    | sign/verify | 🔑 📝 👀 |                                                                                  |
 |           | ed25519-ph                 | sign/verify | 🔑      | Recommended only for `hashedrekord`.                                             |
 | LMS       | lms-sha256                 | sign/verify | 🔑      | Stateful; signer selects the `H` parameter. Not recommended for keyless signing. |
 | LM-OTS    | lmots-sha256               | sign/verify | 🔑      | One-time use only; signer selects `n` and `w`.                                   |
