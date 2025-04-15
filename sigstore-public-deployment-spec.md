@@ -227,4 +227,5 @@ public key.
 
 #### 5.2.4 Timestamp Authority
 
-TODO.
+The public good instance uses `ecdsa-sha2-384-nistp384` for the
+Timestamp Authority's certificate chain.
