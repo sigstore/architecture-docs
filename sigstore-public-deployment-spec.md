@@ -172,7 +172,8 @@ See [sigstore/root-signing repository](https://github.com/sigstore/root-signing)
 
 #### 4.1.3 Client
 
-See [Sigstore TUF Client](https://docs.google.com/document/d/1QWBvpwYxOy9njAmd8vpizNQpPti9rd5ugVhji0r3T4c/edit)
+See [Sigstore TUF Client](https://docs.google.com/document/d/1QWBvpwYxOy9njAmd8vpizNQpPti9rd5ugVhji0r3T4c/edit). Note that the document is
+outdated with regards to artifact discovery: clients should only look for the trusted root and signing config files they have decided to support.
 
 ## 5. Public Good Instance
 
