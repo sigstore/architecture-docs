@@ -133,9 +133,9 @@ Sigstore does not operate a timestamp authority at this time. We do include trus
 
 ## 4. Distributing Roots-of-Trust
 
-A client using a particular Sigstore instance needs key material for the certificate transparency log, the transparency service log, and the identity service root certificate; it may also want additional key material for verifying updates to the client itself or other, per-instance purposes.
+A client using a particular Sigstore instance needs key material for the certificate transparency log, the transparency service log, and the identity service root certificate. It will also need the URLs to the various services and other metadata such as the validity times of the services. The keys, URLs and other metadata is packaged for clients in two file formats, `trusted_root` (for verifying client) and `signing_config` (for signing client): see [sigstore-protobuf-specs](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_trustroot.proto) for details.
 
-These keys can change over time due to scheduled key rotations, log sharding, or compromise. Rather than tying a specific release of a client to a specific set of keys (which would require an upgrade of the client in order to trust new signatures), Sigstore distributes these keys using [The Update Framework](https://theupdateframework.io/) (TUF).
+The root-of-trust data can change over time due to scheduled key rotations, log sharding, or compromise. Rather than tying a specific release of a client to a specific set of keys (which would require an upgrade of the client in order to trust new signatures), Sigstore distributes it using [The Update Framework](https://theupdateframework.io/) (TUF).
 
 The resources for the Sigstore Roots-of-Trust are managed in the [sigstore/root-signing repository](https://github.com/sigstore/root-signing). To increase trust, the TUF repository is managed in a transparent and open way, allowing community members to inspect and verify all steps and updates This helps to detect any malicious activity, and ensures that users can trust the repository. When updates to the TUF repository are made, Sigstore community members are encouraged to verify all the steps before publishing a new version.
 
@@ -143,18 +143,18 @@ The resources for the Sigstore Roots-of-Trust are managed in the [sigstore/root-
 
 [The Update Framework](https://theupdateframework.io/) (TUF) is a framework designed for software update systems, protecting against a number of subtle attacks (such as rollback attacks, in which an attacker serves users a formerly-valid artifact). Its [specification](https://theupdateframework.github.io/specification/latest/) is general enough for arbitrary digital artifacts. Sigstore uses TUF to distribute the public keys and certificate chains for its services, rather than a web PKI-inspired solution, because TUF offers better security against specific attacks on the distribution of key material,vastly simplifies revocations, and is feasible at the scale of a repository of key materials.
 
-In Sigstore’s use of TUF, clients ship with a TUF trust root (which may be rotated over time). From the TUF trust root, clients can derive trust in the public keys of the Sigstore instance (the full details follow the TUF [specification](https://theupdateframework.github.io/specification/latest/) and are out-of-scope for this document).
+In Sigstore’s use of TUF, clients ship with an initial TUF root (which may be rotated over time). This allows the client to securely download current
+root-of-trust files from the Sigstore instances TUF repository (the full details follow the TUF [specification](https://theupdateframework.github.io/specification/latest/) and are out-of-scope for this document).
 
-#### 4.1.1 Artifacts
+#### 4.1.1 Artifacts in the TUF repository
 
-* Public keys for the certificate transparency logs, e.g. Ctfe.pub
-* Certificate chains for the CA (Fulcio), e.g. Fulcio\_v1.crt.pem
-* Public keys for the signature transparency log, e.g. rekor.pub
-* Public key used to sign the release artifacts: artifact.pub
+* `trusted_root.json` (in future `trusted_root.v<MAJOR>.<MINOR>.json`)
+* `signing_config.json` (in future `signing_config.v<MAJOR>.<MINOR>.json`)
+* All other artifacts should be considered deprecated
 
-As keys are rotated over time, older keys have to be provided so clients can verify trust in artifacts produced in the past. Due to this multiple “versions” of the same key material are provided via the TUF repository. By relying on metadata provided, clients can find the correct key material to use for a given artifact.
+The artifact contents and the version numbers are defined in the protobufs in [sigstore-protobuf-specs](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_trustroot.proto).
 
-Transparency logs are subject to sharding, usually once per year to keep the log fairly small. From a verifier, this may be seen as a regular key rotation and the metadata described in the previous paragraph is used to identify the correct key. Clients may also derive the [log ID from the key](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), and rely on that information when correlating a key to a log.
+Clients can select the version of trusted_root and signing_config that they support by downloading a specific version from the TUF repository. New versions should be rare, but clients should support a newer version when one is made available.
 
 #### 4.1.2. Roles and Thresholds
 
@@ -164,18 +164,16 @@ Transparency logs are subject to sharding, usually once per year to keep the log
   * Root signing events are expected to occur about every 4-5 months.
 * Targets
   * Secured by the same HSM keys as the root to minimize the number of offline keysets.
-* Snapshot
-  * A GCP KMS snapshotting key.
-  * The snapshot ensures consistency of the metadata files. It has a lifetime of 3 weeks and is re-signed by a GitHub workflow.
-* Timestamp
-  * A GCP KMS timestamping key.
-  * The timestamp indicates the freshness of the metadata files. It has a lifetime of 1 week and is re-signed by two GitHub workflows.
+* Snapshot & timestamp
+  * Snapshot and timestamp roles ensures consistency and freshness of the artifacts
+  * A new timestamp is signed daily by a GCP KMS key: a timestamp older than a week will not be accepted by clients
 
 See [sigstore/root-signing repository](https://github.com/sigstore/root-signing) for additional implementation details.
 
 #### 4.1.3 Client
 
-See [Sigstore TUF Client](https://docs.google.com/document/d/1QWBvpwYxOy9njAmd8vpizNQpPti9rd5ugVhji0r3T4c/edit)
+See [Sigstore TUF Client](https://docs.google.com/document/d/1QWBvpwYxOy9njAmd8vpizNQpPti9rd5ugVhji0r3T4c/edit). Note that the document is
+outdated with regards to artifact discovery: clients should only look for the trusted root and signing config files they have decided to support.
 
 ## 5. Public Good Instance
 
