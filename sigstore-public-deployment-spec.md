@@ -189,3 +189,47 @@ The Sigstore project provides the resources necessary to deploy private Sigstore
 * [sigstore/scaffolding](https://github.com/sigstore/scaffolding)
 * [sigstore/sigstore-probers](https://github.com/sigstore/sigstore-probers)
 * [sigstore/policy-controller](https://github.com/sigstore/policy-controller)
+
+### 5.2 Supported Algorithms
+
+The Sigstore public good instance supports a subset of the algorithms defined
+in the [Algorithm Registry](./algorithm-registry.md). Clients that interoperate
+with the public good instance **MUST** support
+these algorithms in their respective contexts.
+
+#### 5.2.1 TUF
+
+The public good instance uses `ecdsa-sha2-256-nistp256` for all TUF signing keys.
+
+#### 5.2.2 Fulcio
+
+The public good instance uses `ecdsa-sha2-384-nistp384` for Fulcio's
+certificate chain and `ecdsa-sha2-256-nistp256` for Fulcio's certificate
+transparency log.
+
+Clients may submit Certificate Signing Requests (CSRs) with the following
+algorithms:
+
+| Algorithm                    | Required? | Recommended?  |
+|------------------------------|-----------|---------------|
+| `ecdsa-sha2-256-nistp256`    | Yes       | Yes           |
+| `ecdsa-sha2-384-nistp384`    | No        | Yes           |
+| `ecdsa-sha2-512-nistp521`    | No        | Yes           |
+| `rsa-sign-pkcs1-2048-sha256` | No        | No            |
+| `rsa-sign-pkcs1-3072-sha256` | No        | No            |
+| `rsa-sign-pkcs1-4096-sha256` | No        | No            |
+| `ed25519`                    | No        | Yes           |
+
+#### 5.2.3 Rekor
+
+The public good instance may use any of the following for Rekor's
+public key and signatures:
+
+* `ecdsa-sha2-256-nistp256` (Rekor v1)
+* `ecdsa-sha2-384-nistp384` (Rekor v1)
+* `ed25519` (beginning with Rekor v2)
+
+#### 5.2.4 Timestamp Authority
+
+The public good instance uses `ecdsa-sha2-384-nistp384` for the
+Timestamp Authority's certificate chain.

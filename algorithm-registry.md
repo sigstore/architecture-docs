@@ -6,27 +6,51 @@ file **must** be reflected in the `PublicKeyDetails` enumeration in
 [`sigstore_common.proto`] in [sigstore/protobuf-specs].
 
 Sigstore clients aren't required to support all algorithms in this registry,
-and **MAY** support algorithms that aren't in the registry. However,
-compatibility with the Sigstore Public Good Instance requires support
-for at least one of these algorithms.
+and **MAY** support algorithms that aren't in the registry.
+
+See [Spec: Sigstore Public Deployment](./sigstore-public-deployment-spec.md)
+for the algorithms supported by Sigstore's public good instance.
+
+## Algorithm Purposes
+
+The following legend describes the purpose of each algorithm below.
+
+| Symbol | Description | Example |
+|--------|-------------| ------- |
+| 🔑     | End-user signing (ephemeral or long-lived keys) | A user signing with [`cosign`] |
+| 🔗     | TUF metadata signing | [sigstore/root-signing] |
+| 🔏     | Certificate authority materials (CA chains) | [Fulcio] |
+| 🪵     | Certificate transparency log materials (log keys and inclusion proofs) | Fulcio's [CT log] |
+| ⏰     | Timestamp authority materials (TSA chains and signed timestamps) | [sigstore/timestamp-authority] |
+| 📝     | Signature transparency log materials (log keys and inclusion proofs) | [Rekor] |
+| 👀     | Witness keys and signatures | Third-party log witnesses |
+
+[`cosign`]: https://github.com/sigstore/cosign
+[sigstore/root-signing]: https://github.com/sigstore/root-signing/
+[Fulcio]: https://github.com/sigstore/fulcio
+[CT log]: https://github.com/sigstore/fulcio#certificate-transparency
+[Rekor]: https://github.com/sigstore/rekor
+[sigstore/timestamp-authority]: https://github.com/sigstore/timestamp-authority
 
 ## Signature Algorithms
 
-| Algorithm | Name                       | Usage       | Notes                                                                            |
-|-----------|----------------------------|-------------| -------------------------------------------------------------------------------- |
-| RSA       | rsa-sign-pkcs1-2048-sha256 | verify only | Not recommended.                                                                 |
-|           | rsa-sign-pkcs1-3072-sha256 | sign/verify |                                                                                  |
-|           | rsa-sign-pkcs1-4096-sha256 | sign/verify |                                                                                  |
-|           | rsa-sign-pss-2048-sha256   | verify only | Not recommended.                                                                 |
-|           | rsa-sign-pss-3072-sha256   | sign/verify |                                                                                  |
-|           | rsa-sign-pss-4096-sha256   | sign/verify |                                                                                  |
-| ECDSA     | ecdsa-sha2-256-nistp256    | sign/verify |                                                                                  |
-|           | ecdsa-sha2-384-nistp384    | sign/verify |                                                                                  |
-|           | ecdsa-sha2-512-nistp521    | sign/verify |                                                                                  |
-| EdDSA     | ed25519                    | sign/verify |                                                                                  |
-|           | ed25519-ph                 | sign/verify | Recommended only for `hashedrekord`.                                             |
-| LMS       | lms-sha256                 | sign/verify | Stateful; signer selects the `H` parameter. Not recommended for keyless signing. |
-| LM-OTS    | lmots-sha256               | sign/verify | One-time use only; signer selects `n` and `w`.                                   |
+| Algorithm | Name                       | Usage       | Purpose | Notes                                                                            |
+|-----------|----------------------------|-------------| ------- |--------------------------------------------------------------------------------- |
+| RSA       | rsa-sign-pkcs1-2048-sha256 | verify only | 🔑 🪵   | Not recommended; not used for CT log materials outside of staging.               |
+|           | rsa-sign-pkcs1-3072-sha256 | sign/verify | 🔑      |                                                                                  |
+|           | rsa-sign-pkcs1-4096-sha256 | sign/verify | 🔑      |                                                                                  |
+|           | rsa-sign-pss-2048-sha256   | verify only | 🔑      | Not recommended.                                                                 |
+|           | rsa-sign-pss-3072-sha256   | sign/verify | 🔑      |                                                                                  |
+|           | rsa-sign-pss-4096-sha256   | sign/verify | 🔑      |                                                                                  |
+| ECDSA     | ecdsa-sha2-256-nistp256    | sign/verify | 🔑 🔗 🪵 📝 |                                                                               |
+|           | ecdsa-sha2-384-nistp384    | sign/verify | 🔑 🔏 ⏰ |                                                                                  |
+|           | ecdsa-sha2-256-nistp384    | verify only | 🔑      | Not recommended due to poor compatibility.                                       |
+|           | ecdsa-sha2-512-nistp521    | sign/verify | 🔑      |                                                                                  |
+|           | ecdsa-sha2-256-nistp521    | verify only | 🔑      | Not recommended due to poor compatibility.                                       |
+| EdDSA     | ed25519                    | sign/verify | 🔑 📝 👀 |                                                                                  |
+|           | ed25519-ph                 | sign/verify | 🔑      | Recommended only for `hashedrekord`.                                             |
+| LMS       | lms-sha256                 | sign/verify | 🔑      | Stateful; signer selects the `H` parameter. Not recommended for keyless signing. |
+| LM-OTS    | lmots-sha256               | sign/verify | 🔑      | One-time use only; signer selects `n` and `w`.                                   |
 
 ### Parameter configuration for LMS and LM-OTS
 
