@@ -237,7 +237,7 @@ First, establish a time for the signature. This timestamp is required to validat
 
 If the verification policy uses the Timestamping Service, the Verifier MUST verify the timestamping response using the Timestamping Service root key material, as described in [Spec: Timestamping Service](https://docs.google.com/document/u/0/d/1FoRHXejIhXwEai0RS3iRsN1HfCV16fJOp582Vl8KA7A/edit), with the raw bytes of the signature as the timestamped data. The Verifier MUST then extract a timestamp from the timestamping response. If verification or timestamp parsing fails, the Verifier MUST abort.
 
-During verification, the Timestaming Services's X.509 certificate chain must be verified. This follow the same process (the so-called "hybrid model") as for the signing certificate as described in [4.3 Certificate](#43-certificate), using the signed timestamp as the "current time".
+During verification, the Timestamping Services's X.509 certificate chain must be verified. This follows the "hybrid model" described in [4.3 Certificate](#43-certificate), using the signed timestamp as the "current time".
 
 #### 4.2.2. Transparency Service Timestamp
 
