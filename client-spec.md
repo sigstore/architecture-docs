@@ -1,6 +1,6 @@
 # Sigstore Client
 
-This document specifies an architecture for using an automated certificate authority (specifically,[Spec: Fulcio](./fulcio-spec.md)), timestamping service ([RFC 3161](https://www.ietf.org/rfc/rfc3161.txt)), and transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)) for signing digital payloads.
+This document specifies an architecture for using an automated certificate authority ([Spec: Fulcio](./fulcio-spec.md)), timestamping service ([RFC 3161](https://www.ietf.org/rfc/rfc3161.txt)), and transparency service ([Spec: Rekor V2](./rekor-v2-spec.md)) for signing digital payloads.
 
 ## 1. Introduction
 
@@ -8,7 +8,7 @@ Having both an automated code-signing certificate authority for digital identiti
 
 This approach has several advantages. First, signers no longer need to manage signing keys; they can generate them fresh for each signature. Second, the risk of a leaked signing key is lower: after the validity period expires, the key cannot be used to sign any payloads without the cooperation of the timestamping service. Finally, artifact lifetime and expiration can be managed independently of key lifetime.
 
-In this approach, the certificate authority and timestamping services are trusted parties. To mitigate the security risks of centralization, we can introduce accountability in the form of *transparency*: public logs of all activity (certificates and signatures) that can be monitored for misbehavior. We implement this transparency property with a Certificate Transparency (CT) log ([RFC 6962](https://datatracker.ietf.org/doc/html/rfc6962); see [Spec: Fulcio](./fulcio-spec.md) for details on its integration with the identity service) and a transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)). The certificate authority will submit certificates to a CT log, and the signing client will submit payload metadata to the transparency service.
+In this approach, the certificate authority and timestamping services are trusted parties. To mitigate the security risks of centralization, we can introduce accountability in the form of *transparency*: public logs of all activity (certificates and signatures) that can be monitored for misbehavior. We implement this transparency property with a Certificate Transparency (CT) log ([RFC 6962](https://datatracker.ietf.org/doc/html/rfc6962); see [Spec: Fulcio](./fulcio-spec.md) for details on its integration with the identity service) and a transparency service ([Spec: Rekor V2](./rekor-v2-spec.md)). The certificate authority will submit certificates to a CT log, and the signing client will submit payload metadata to the Rekor transparency service.
 
 This document describes this flow in detail.
 
@@ -30,7 +30,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 **Signer.** An entity who wishes to sign a payload using an identity they control.
 
-**Authentication System.** a system which can authenticate the signer and in return provide an identity token. Examples include an OIDC Identity Provider. See [Spec: Fulcio](./fulcio-spec.md) for requirements on the Authentication System. In particular, the identity tokens produced by the Authentication System SHOULD support a notion of “audience”—indicating the system for which the tokens are intended—and MUST support a notion of “subject” (indicating the identity). The tokens can be opaque to a signer *except* that the signer MUST be able to extract the subject.
+**Authentication System.** A system which can authenticate the signer and in return provide an identity token. Examples include an OIDC Identity Provider. See [Spec: Fulcio](./fulcio-spec.md) for requirements on the Authentication System. In particular, the identity tokens produced by the Authentication System SHOULD support a notion of “audience”—indicating the system for which the tokens are intended—and MUST support a notion of “subject” (indicating the identity). The tokens can be opaque to a signer *except* that the signer MUST be able to extract the subject.
 
 **Fulcio.** A certificate authority compliant with [Spec: Fulcio](./fulcio-spec.md), configured to support the Authentication System.
 
@@ -46,7 +46,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 Configuration and root key material (henceforth, *root certificate(s)* and *optionally intermediate certificate(s)*) of each of the services are securely distributed out-of-band to any signers and verifiers; how to do this securely is outside the scope of this document.
 
-The Signer authenticates with the Authentication System (1) and receives an identity token (2). The Signer generates a key pair, then sends the public key, along with the identity token, to Fulcio (3), which creates and signs a certificate attesting to the signer’s identity. Fulcio submits the certificate to the CT Log (4), then sends it to the Signer (5). The Signer signs the payload, then sends the signature to a timestamping authority (6), receiving a timestamping response in return (7). The signer then sends the signing metadata (payload metadata, signature, and certificate) to the transparency service (8) and receives a Signed Entry Timestamp (9).
+The Signer authenticates with the Authentication System (1) and receives an identity token (2). The Signer generates a key pair, then sends the public key, along with the identity token, to Fulcio (3), which creates and signs a certificate attesting to the signer’s identity. Fulcio submits the certificate to the CT Log (4), then sends it to the Signer (5). The Signer signs the payload, then sends the signature to a timestamping authority (6), receiving a timestamping response in return (7). The signer then sends the signing metadata (payload metadata, signature, and certificate) to the transparency service (8) and receives a Log Entry with Inclusion Proof and Signed Checkpoint (9).
 
 ## 2. Signing
 
@@ -90,13 +90,7 @@ In return, the Signer receives a `SigningCertificate` ([definition](https://gith
 
 #### 2.1.4. Signing
 
-The Signer signs the payload using the signing key as in the chosen signing
-algorithm; the signature will be opaque binary data. The Signer MAY pre-hash the
-payload using a hash algorithm from the registry ([Spec: Sigstore
-Registries](./algorithm-registry.md))
-for compatibility with some signing metadata formats (see [§Submission of
-Signing Metadata to Transparency
-Service](#submission-of-signing-metadata-to-transparency-service)).
+The Signer signs the payload using the signing key as in the chosen signing algorithm; the signature will be opaque binary data. The Signer MAY pre-hash the payload using a hash algorithm from the registry ([Spec: Sigstore Registries](./algorithm-registry.md)) for compatibility with some signing metadata formats (see [§Submission of Signing Metadata to Transparency Service](#submission-of-signing-metadata-to-transparency-service)).
 
 #### 2.1.5. Timestamping
 
@@ -114,8 +108,9 @@ The Signer chooses a format for signing metadata; this format MUST be in the `su
 The signing metadata might contain additional, application-specific metadata according to the format used. The Signer then canonically encodes the metadata (according to the chosen format).
 
 #### 2.1.7. Transparency
+This document describes signing using the Rekor V2 api. For V1 see a [previous version](https://github.com/sigstore/architecture-docs/blob/203afc2127cde226202c979492e6c4e0e8354e26/client-spec.md) of this document.
 
-The Signer then sends the canonically-encoded signing metadata to the `/api/v1/log/entries` endpoint ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L138-L171)) of the Transparency Service, which checks that signature is valid and responds with a `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L423-L464)). The signer MUST verify the log entry as in [Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit).
+The Signer then sends the canonically-encoded signing metadata to the `/api/v2/log/entries` endpoint ([definition](https://github.com/sigstore/rekor-tiles/blob/62134b5c42306acaa098dcc0d41a99a0910bff4e/api/proto/rekor/v2/rekor_service.proto#L36-L40)) of the Transparency Service, which checks that signature is valid and responds with a `TransparencyLogEntry` ([definition](https://github.com/sigstore/protobuf-specs/blob/ad0a7582f29bab5e5890d9f5c3b9833907a74ee4/protos/sigstore_rekor.proto)). The signer MUST verify the log entry as in [Spec: Rekor V2](./rekor-v2-spec.md).
 
 #### 2.1.8. Verification
 
@@ -129,9 +124,7 @@ The Signer conveys the following verification materials to the verifier in order
 * Signature.
 * Additional payload metadata.
 * Timestamping response.
-* Transparency Service `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L423-L464)). The log public key MUST be provided out of band.
-
-They can do so in any manner. Signers SHOULD collate this data in the Sigstore wire format ([§Serialization and Wire Format](#serialization-and-wire-format)) which stores these all in one object for easy distribution. The Verifier must also obtain the artifact to verify.
+* Transparency Service `TransparencyLogEntry` ([definition](https://github.com/sigstore/protobuf-specs/blob/ad0a7582f29bab5e5890d9f5c3b9833907a74ee4/protos/sigstore_rekor.proto)). The log public key MUST be provided out of band.
 
 ### 3.1. Signing Choices
 
@@ -171,17 +164,11 @@ and Transparency Service configuration.
 In such cases, the Signer can skip the key generation step; the signing
 procedure is otherwise unaltered.
 
-*Timestamping.* Currently, the Transparency Service includes a timestamp in its
-response to the Signer. This timestamp comes from the Transparency Service’s
-internal clock, which is not externally verifiable or immutable. For this
-reason, a Signer SHOULD get their signatures timestamped. However, a Signer MAY
-choose to omit the timestamping step; in this case, the Signer MUST use the
-Transparency Service to provide a timestamp for the signature.
+*Timestamping.* The signed MUST obtain a timestamp for their signatures. This
+MUST come from a RFC3161 Timestamping Authority.
 
 *Transparency.* The Signer SHOULD upload signing metadata to the Transparency
 Service, but MAY choose to skip this step (for instance, for privacy reasons).
-In this case, the Signer MUST use a Timestamping Service to provide a timestamp
-for the signature.
 
 *Other workflows.* A client may support signing workflows different from that
 described above. For instance, a Signer may want to use a long-lived signing key
@@ -199,7 +186,7 @@ A Verifier validates a signature on a payload along with other verification mate
 * Whether to require signed timestamp(s) from a Timestamping Authority, and, if so, how many.
 * Whether to require the signature metadata to be logged in one or more Transparency Services and, if so, how many.
 * Whether to perform online or offline verification for the CT Log and the Transparency Service.
-* Which [Transparency Service](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit#heading=h.6w69n885z90t) formats the Verifier knows how to parse and validate.
+* Which Transparency Service [V1](./rekor-spec.md#11-pluggable-types), [V2](./rekor-v2-spec.md#43-types) formats the Verifier knows how to parse and validate.
 * What to do with a payload, once verified.
 * How to determine whether a signature has been revoked.
 
@@ -216,7 +203,7 @@ The Verifier performs verification according to its policy based on the followin
   * Signature.
   * Additional payload metadata.
   * Timestamping response.
-  * Transparency Service `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L423-L464)).
+  * Transparency Service `LogEntry` ([definition](https://github.com/sigstore/rekor/blob/0a3f871c077eb708f2ffcc382d0a2104b887f5e1/openapi.yaml#L423-L464)) or `TransparencyLogEntry` ([definition](https://github.com/sigstore/protobuf-specs/blob/ad0a7582f29bab5e5890d9f5c3b9833907a74ee4/protos/sigstore_rekor.proto)).
 * Root key material for Sigstore infrastructure (from the policy).
 
 The distribution of these inputs is out-of-scope for this document.
@@ -239,9 +226,9 @@ If the verification policy uses the Timestamping Service, the Verifier MUST veri
 
 During verification, the Timestamping Services's X.509 certificate chain must be verified. This follows the "hybrid model" described in [4.3 Certificate](#43-certificate), using the signed timestamp as the "current time".
 
-#### 4.2.2. Transparency Service Timestamp
+#### 4.2.2. Rekor V1 Timestamp
 
-If the verification policy uses timestamps from the Transparency Service, the Verifier MUST verify the signature on the Transparency Service `LogEntry` as described in [Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit) against the pre-distributed root key material from the transparency service. The Verifier SHOULD NOT (yet) attempt to parse the `body`. The Verifier MUST then parse the `integratedTime` as a Unix timestamp (seconds since January 1, 1970 UTC). If verification or timestamp parsing fails, the Verifier MUST abort.
+If the verification policy uses timestamps from a V1 Transparency Service, the Verifier MUST verify the signature on the Transparency Service `LogEntry` as described in [Spec: Rekor V1](./rekor-spec.md) against the pre-distributed root key material from the transparency service. The Verifier SHOULD NOT (yet) attempt to parse the `body`. The Verifier MUST then parse the `integratedTime` as a Unix timestamp (seconds since January 1, 1970 UTC). If verification or timestamp parsing fails, the Verifier MUST abort.
 
 ### 4.3. Certificate
 
@@ -262,7 +249,7 @@ The Verifier MUST then check the certificate against the verification policy. De
 
 ### 4.4. Transparency Log Entry
 
-By this point, the Verifier has already verified the signature by the Transparency Service ([§Establishing a Time for the Signature](#establishing-a-time-for-the-signature)). The Verifier MUST parse `body`: `body` is a base64-encoded JSON document with keys `apiVersion` and `kind`. The Verifier implementation contains a list of known [Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit) formats (by `apiVersion` and `kind`); if no type is found, abort. The Verifier MUST parse `body` as the given type.
+By this point, the Verifier has already verified the signature by the Transparency Service ([§Establishing a Time for the Signature](#establishing-a-time-for-the-signature)). The Verifier MUST parse `body`: `body` is a base64-encoded JSON document with keys `apiVersion` and `kind`. The Verifier implementation contains a list of known Transparency Service [V1](./rekor-spec.md#11-pluggable-types)/[V2](./rekor-v2-spec.md#43-types) formats (by `apiVersion` and `kind`); if no type is found, abort. The Verifier MUST parse `body` as the given type.
 
 Then, the Verifier MUST check the following; exactly how to do this will be specified by each type in [Spec: Sigstore Registries](./algorithm-registry.md):
 
@@ -296,7 +283,7 @@ Verification according to some verification policies may deviate from the above 
 
 *Online Certificate Transparency Log verification.* The above procedure describes using `SignedCertificateTimestamp`s to verify inclusion in the certificate transparency log. Instead, Verifiers MAY perform online verification by fetching and validating inclusion proofs ([RFC 9162 §8.1.4](https://datatracker.ietf.org/doc/html/rfc9162#name-fetching-inclusion-proofs)) against a signed tree head. The Verifier SHOULD fetch the signed tree head in a manner that prevents equivocation by the Certificate Transparency log (e.g., by requiring signatures from independent “witnesses”).
 
-*Online Transparency Service verification*. The above procedure describes using signed inclusion promises from the Transparency Service for verifying membership in a transparency log (“offline verification.”) Instead, a Verifier MAY perform online verification. In this case, the Verifier checks an inclusion proof for the `LogEntry` against a `SignedTreeHead`. See [Spec: Transparency Service](https://docs.google.com/document/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit) for details.
+*Online Transparency Service verification*. Newer clients SHOULD not offer online verification of Rekor V2 log entries, see [Spec: Rekor V2](./rekor-v2-spec.md#41-offline-verification). Clients MAY offer online verification for older Rekor V1 entries, see [Spec: Rekor V1](./rekor-md#96-offline-verification).
 
 *Threshold verification*. The Verifier MAY require that the leaf certificate be included in multiple Certificate Transparency Logs or that the formatted metadata be included in multiple Transparency Service logs. This is equivalent to verifying multiple times with different logs. Verifiers MUST ensure that multiple entries in the same log do not both count towards the threshold.
 
