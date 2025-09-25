@@ -1,14 +1,14 @@
 # Sigstore Client
 
-This document specifies an architecture for using an automated certificate authority (specifically,[Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md)), timestamping service ([RFC 3161](https://www.ietf.org/rfc/rfc3161.txt)), and transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)) for signing digital payloads.
+This document specifies an architecture for using an automated certificate authority (specifically,[Spec: Fulcio](./fulcio-spec.md)), timestamping service ([RFC 3161](https://www.ietf.org/rfc/rfc3161.txt)), and transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)) for signing digital payloads.
 
 ## 1. Introduction
 
-Having both an automated code-signing certificate authority for digital identities (CA; [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md)) and a timestamping service ([RFC 3161](https://www.ietf.org/rfc/rfc3161.txt)) enables payload signatures using short-lived, single-use certificates issued to those identities. A signer can request a certificate from the CA, sign a payload, and get the signature timestamped. Then, a verifier checks that the signature timestamp falls during the certificate’s validity period. In this way, we decouple the *payload lifetime* from the *certificate lifetime*.
+Having both an automated code-signing certificate authority for digital identities (CA; [Spec: Fulcio](./fulcio-spec.md)) and a timestamping service ([RFC 3161](https://www.ietf.org/rfc/rfc3161.txt)) enables payload signatures using short-lived, single-use certificates issued to those identities. A signer can request a certificate from the CA, sign a payload, and get the signature timestamped. Then, a verifier checks that the signature timestamp falls during the certificate’s validity period. In this way, we decouple the *payload lifetime* from the *certificate lifetime*.
 
 This approach has several advantages. First, signers no longer need to manage signing keys; they can generate them fresh for each signature. Second, the risk of a leaked signing key is lower: after the validity period expires, the key cannot be used to sign any payloads without the cooperation of the timestamping service. Finally, artifact lifetime and expiration can be managed independently of key lifetime.
 
-In this approach, the certificate authority and timestamping services are trusted parties. To mitigate the security risks of centralization, we can introduce accountability in the form of *transparency*: public logs of all activity (certificates and signatures) that can be monitored for misbehavior. We implement this transparency property with a Certificate Transparency (CT) log ([RFC 6962](https://datatracker.ietf.org/doc/html/rfc6962); see [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) for details on its integration with the identity service) and a transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)). The certificate authority will submit certificates to a CT log, and the signing client will submit payload metadata to the transparency service.
+In this approach, the certificate authority and timestamping services are trusted parties. To mitigate the security risks of centralization, we can introduce accountability in the form of *transparency*: public logs of all activity (certificates and signatures) that can be monitored for misbehavior. We implement this transparency property with a Certificate Transparency (CT) log ([RFC 6962](https://datatracker.ietf.org/doc/html/rfc6962); see [Spec: Fulcio](./fulcio-spec.md) for details on its integration with the identity service) and a transparency service ([Spec: Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit)). The certificate authority will submit certificates to a CT log, and the signing client will submit payload metadata to the transparency service.
 
 This document describes this flow in detail.
 
@@ -30,9 +30,9 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 **Signer.** An entity who wishes to sign a payload using an identity they control.
 
-**Authentication System.** a system which can authenticate the signer and in return provide an identity token. Examples include an OIDC Identity Provider. See [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) for requirements on the Authentication System. In particular, the identity tokens produced by the Authentication System SHOULD support a notion of “audience”—indicating the system for which the tokens are intended—and MUST support a notion of “subject” (indicating the identity). The tokens can be opaque to a signer *except* that the signer MUST be able to extract the subject.
+**Authentication System.** a system which can authenticate the signer and in return provide an identity token. Examples include an OIDC Identity Provider. See [Spec: Fulcio](./fulcio-spec.md) for requirements on the Authentication System. In particular, the identity tokens produced by the Authentication System SHOULD support a notion of “audience”—indicating the system for which the tokens are intended—and MUST support a notion of “subject” (indicating the identity). The tokens can be opaque to a signer *except* that the signer MUST be able to extract the subject.
 
-**Fulcio.** A certificate authority compliant with [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md), configured to support the Authentication System.
+**Fulcio.** A certificate authority compliant with [Spec: Fulcio](./fulcio-spec.md), configured to support the Authentication System.
 
 **Certificate Transparency Log.** A service compliant with [RFC 6962](https://datatracker.ietf.org/doc/html/rfc6962).
 
@@ -58,7 +58,7 @@ This section describes the full signing workflow for a client. The client MAY om
 
 #### 2.1.1. Authentication
 
-The Signer authenticates with the Authentication System. The details of how it does this are specific to the Authentication System and outside the scope of this document (see [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) for requirements on the authentication service). If the Authentication System supports a notion of “audience” for generated tokens, the Signer SHOULD identify the specific instance of Fulcio (based on the `identifier` in its public configuration) as the desired “audience” during authentication.
+The Signer authenticates with the Authentication System. The details of how it does this are specific to the Authentication System and outside the scope of this document (see [Spec: Fulcio](./fulcio-spec.md) for requirements on the authentication service). If the Authentication System supports a notion of “audience” for generated tokens, the Signer SHOULD identify the specific instance of Fulcio (based on the `identifier` in its public configuration) as the desired “audience” during authentication.
 
 At the conclusion of the authentication protocol, the Signer will possess an authentication token; the format of this token is opaque to the Signer, except that the Signer MUST be able to extract a subject.
 
@@ -82,7 +82,7 @@ The Signer prepares a [PKCS#10](https://datatracker.ietf.org/doc/html/rfc2986) `
 
 Then, the signer prepares a `CreateSigningCertificateRequest` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L88-L108)) comprising the authentication token and the PKCS#10 certificate signing request (PEM-encoded; see [RFC 7468](https://www.rfc-editor.org/rfc/rfc7468)) to the `CreateSigningCertificate` endpoint ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L63-L68)) of the Fulcio instance.
 
-In return, the Signer receives a `SigningCertificate` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L144-L149)) containing a chain of PEM-encoded X.509 certificates ([RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280)), ordered from “leaf” to “root.” See [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) for additional details about certificate contents. The Signer SHOULD verify the response:
+In return, the Signer receives a `SigningCertificate` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L144-L149)) containing a chain of PEM-encoded X.509 certificates ([RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280)), ordered from “leaf” to “root.” See [Spec: Fulcio](./fulcio-spec.md) for additional details about certificate contents. The Signer SHOULD verify the response:
 
 1. Perform certification path validation ([RFC 5280 §6](https://datatracker.ietf.org/doc/html/rfc5280#section-6)) of the returned certificate chain with the pre-distributed Fulcio root certificate(s) as a trust anchor.
 2. Extract a `SignedCertificateTimestamp`, which may be embedded as an X.509 extension in the leaf certificate or attached separately in the `SigningCertificate` returned from the Identity Service. Verify this `SignedCertificateTimestamp` as in [RFC 6962 §3.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the public key from the Certificate Transparency Log.
@@ -258,7 +258,7 @@ The Verifier MUST perform certification path validation ([RFC 5280 §6](https://
 
 Unless performing online verification (see [§Alternative Workflows](#alternative-workflows)), the Verifier MUST extract the  `SignedCertificateTimestamp` embedded in the leaf certificate, and verify it as in [RFC 6962 §3.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the verification key from the Certificate Transparency Log.
 
-The Verifier MUST then check the certificate against the verification policy. Details on how to do this depend on the verification policy, but the Verifier SHOULD check the `Issuer` X.509 extension (OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md#1361415726418--issuer-v2)) at a minimum, and will in most cases check the `SubjectAlternativeName` as well. See  [Spec: Fulcio](https://github.com/sigstore/architecture-docs/blob/main/fulcio-spec.md) §TODO for example checks on the certificate.
+The Verifier MUST then check the certificate against the verification policy. Details on how to do this depend on the verification policy, but the Verifier SHOULD check the `Issuer` X.509 extension (OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md#1361415726418--issuer-v2)) at a minimum, and will in most cases check the `SubjectAlternativeName` as well. See  [Spec: Fulcio](./fulcio-spec.md) §TODO for example checks on the certificate.
 
 ### 4.4. Transparency Log Entry
 
