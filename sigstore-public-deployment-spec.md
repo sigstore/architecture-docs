@@ -116,12 +116,13 @@ choices to implementers.
 
 * Base URL: defined in [Root-of-Trust](#distributing-roots-of-trust)
 * Public Key: defined in [Root-of-Trust](#distributing-roots-of-trust)
-* Hash Algorithm: SHA-256 ([RFC 6234](https://datatracker.ietf.org/doc/rfc6234/); OID 2.16.840.1.101.3.4.2.1)
-* Signature Algorithm:  ECDSA (NIST P-256).
-* Log ID: the SHA-256 hash of the log's public key
-* Inclusion and merge delays:
-  * Rekor v2 will always return an entry with inclusion proof: This introduces a delay that depends on service configuration
-  * Rekor v1 may return an entry with inclusion promise (a Signed Entry Timestamp) only
+* Merkle Tree Hash Algorithm: SHA-256 ([RFC 6234](https://datatracker.ietf.org/doc/rfc6234/); OID 2.16.840.1.101.3.4.2.1)
+* Signature Algorithm:
+  * Rekor v1: ECDSA (NIST P-256)
+  * Rekor v2: Ed25519
+* Log identity
+  * Rekor v1: Log Id is the SHA-256 hash of the log's public key
+  * Rekor v2: Checkpoint Key Id is defined in [C2SP spec](https://github.com/C2SP/C2SP/blob/main/signed-note.md#signatures)
 * Identity monitoring: [Rekor monitor](https://github.com/sigstore/rekor-monitor)
 
 ### 3.3 Sharding
@@ -130,11 +131,12 @@ The Certificate Transparency Log database used by Rekor currently shards every y
 
 The convention for naming shards is that it will contain the year, followed by the instance. For example, the first shard of the year 2023 should be named 2023 and if other shards are created they will be called 2023-2, 2023-3, and so forth.
 
-This document outlines the steps taken to shard the Rekor log: [Sharding Rekor](https://docs.sigstore.dev/logging/sharding/)
+This document outlines the steps taken to shard the Rekor log: [Sharding Rekor](https://docs.sigstore.dev/logging/sharding/).
+Note that with Rekor v2 the shards are not abstracted behind a single URL so the [Root-of-Trust(#distributing-roots-of-trust) mechanism must be used to discover rekor shard URLs.
 
 ### 3.4 Timestamp Authority
 
-Sigstore public good deployment includes a Timestamp Authority at [timestamp.sigstore.dev](https://timestamp.sigstore.dev/).
+Sigstore public good deployment includes a Timestamp Authority at [timestamp.sigstore.dev](https://timestamp.sigstore.dev/) but using alternative or additional Timestamp Authorities is also possible.
 
 ## 4. Distributing Roots-of-Trust
 
@@ -182,12 +184,12 @@ outdated with regards to artifact discovery: clients should only look for the tr
 
 ## 5. Public Good Instance
 
-The Sigstore project maintains a public good instance which consists of 
+The Sigstore project maintains a public good instance which consists of
 * a [Fulcio](https://fulcio.sigstore.dev/) deployment
 * a [Timestamp Authority](https://timestamp.sigstore.dev/) deployment
 * a [federating OIDC provider](https://oauth2.sigstage.dev/) (dex) deployment
 * a [Certificate Transparency log](https://ctfe.sigstore.dev/2022) deployment
-* Multiple Rekor deployments
+* Multiple Rekor deployments: Rekor v1 at https://rekor.sigstore.dev/ and Rekor v2 deployments at subdomains of rekor.sigstore.dev
 
 While most services have known endpoint URLs, the correct current endpoints are always available via [Root-of-Trust](#distributing-roots-of-trust).
 
