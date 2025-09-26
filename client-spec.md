@@ -264,7 +264,7 @@ The Verifier MUST then check the certificate against the verification policy. De
 
 By this point, the Verifier has already verified the signature by the Transparency Service ([§Establishing a Time for the Signature](#establishing-a-time-for-the-signature)). The Verifier MUST parse `body`: `body` is a base64-encoded JSON document with keys `apiVersion` and `kind`. The Verifier implementation contains a list of known [Transparency Service](https://docs.google.com/document/u/0/d/1NQUBSL9R64_vPxUEgVKGb0p81_7BVZ7PQuI078WFn-g/edit) formats (by `apiVersion` and `kind`); if no type is found, abort. The Verifier MUST parse `body` as the given type.
 
-Then, the Verifier MUST check the following; exactly how to do this will be specified by each type in [Spec: Sigstore Registries](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.xd7kd6bn0rue) ([§Signature Metadata Formats](https://docs.google.com/document/d/1wYYOtpyuWaDaIrjF1eyaH1iJueE_lvQPk_uwfwbMSoA/edit#heading=h.xd7kd6bn0rue)):
+Then, the Verifier MUST check the following; exactly how to do this will be specified by each type in [Spec: Sigstore Registries](./algorithm-registry.md):
 
 1. The signature from the parsed body is the same as the provided signature.
 2. The key or certificate from the parsed body is the same as in the input certificate.
