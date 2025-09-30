@@ -127,9 +127,9 @@ choices to implementers.
 
 ### 3.3 Sharding
 
-The Certificate Transparency Log database used by Rekor currently shards every year at a minimum. The sharding is an additive in a sense that old shards will be still available at:  `https://ctfe.sigstore.dev/<SHARD>`. For example, if sharding in 2022, the old shard is available at: [https://ctfe.sigstore.dev/2022/ct/v1/get-sth](https://ctfe.sigstore.dev/2022/ct/v1/get-sth)
+Rekor and Fulcio's Certificate Transparency log currently shard every year at a minimum. Sharding means making the current log instance read-only and creating a new log instance that is writable: this keeps individual log sizes reasonable. The sharding is an additive in a sense that old shards will be still available for reading.
 
-The convention for naming shards is that it will contain the year, followed by the instance. For example, the first shard of the year 2023 should be named 2023 and if other shards are created they will be called 2023-2, 2023-3, and so forth.
+The convention for naming shards is that it will contain the year, followed by the instance. For example, the first shard of the year 2022 should be named 2022 and if other shards are created they will be called 2022-2, 2022-3, and so forth. See e.g. [https://ctfe.sigstore.dev/2022/ct/v1/get-sth](ctfe.sigstore.dev/2022).
 
 This document outlines the steps taken to shard the Rekor log: [Sharding Rekor](https://docs.sigstore.dev/logging/sharding/).
 Note that with Rekor v2 the shards are not abstracted behind a single URL so the [Root-of-Trust(#distributing-roots-of-trust) mechanism must be used to discover rekor shard URLs.
@@ -155,13 +155,13 @@ root-of-trust files from the Sigstore instances TUF repository (the full details
 
 #### 4.1.1 Artifacts in the TUF repository
 
+Both trusted root and signing config may have multiple versions available as artifacts. Clients can select the version of trusted_root and signing_config that they support by downloading a specific version from the TUF repository. New versions should be rare, but clients should switch to a newer version when one is made available.
 * `trusted_root.json` (in future `trusted_root.v<MAJOR>.<MINOR>.json`)
-* `signing_config.json` (in future `signing_config.v<MAJOR>.<MINOR>.json`)
+* `signing_config.v<MAJOR>.<MINOR>.json`
 * All other artifacts should be considered deprecated
 
 The artifact contents and the version numbers are defined in the protobufs in [sigstore-protobuf-specs](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_trustroot.proto).
 
-Clients can select the version of trusted_root and signing_config that they support by downloading a specific version from the TUF repository. New versions should be rare, but clients should support a newer version when one is made available.
 
 #### 4.1.2. Roles and Thresholds
 
