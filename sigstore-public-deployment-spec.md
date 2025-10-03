@@ -129,7 +129,7 @@ choices to implementers.
 
 Rekor and Fulcio's Certificate Transparency log currently shard every year at a minimum. Sharding means making the current log instance read-only and creating a new log instance that is writable: this keeps individual log sizes reasonable. The sharding is an additive in a sense that old shards will be still available for reading.
 
-The convention for naming shards is that it will contain the year, followed by the instance. For example, the first shard of the year 2022 should be named 2022 and if other shards are created they will be called 2022-2, 2022-3, and so forth. See e.g. [https://ctfe.sigstore.dev/2022/ct/v1/get-sth](ctfe.sigstore.dev/2022).
+The convention for naming shards is that the name will contain the year, followed by optional instance number. Examples: https://ctfe.sigstore.dev/2022, https://log2025-1.rekor.sigstore.dev/.
 
 This document outlines the steps taken to shard the Rekor log: [Sharding Rekor](https://docs.sigstore.dev/logging/sharding/).
 Note that with Rekor v2 the shards are not abstracted behind a single URL so the [Root-of-Trust(#distributing-roots-of-trust) mechanism must be used to discover rekor shard URLs.
