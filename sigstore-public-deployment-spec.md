@@ -3,8 +3,8 @@
 
 This document describes the technical and policy decisions for the public
 deployment of Sigstore, specifically focusing on the Fulcio and Rekor deployment
-for the public good instance. The [Spec: Fulcio](./fulcio-spec.md) and
-[Spec: Rekor](./rekor-spec.md) documents leave many implementation choices, such as
+for the public good instance. The individual service specification documents (e.g. [Spec: Fulcio](./fulcio-spec.md),
+[Spec: Rekor v2](./rekor-v2-spec.md)) leave many implementation choices, such as
 authentication and log entry formats, to the discretion of implementers. This
 document describes the specific implementation choices made for Sigstore's
 public deployment that go beyond the requirements in the specification.
@@ -18,14 +18,15 @@ Sigstore provides authenticated metadata about digital artifacts (e.g., attestat
 The Sigstore specifications ([Sigstore Architecture Landing
 Page](https://docs.google.com/document/u/0/d/1-OccxmZwkZZItrfOnO3RP8gku6nRbtJpth1mSW3U1Cc/edit))
 describe both a general system and a specific implementation and deployment. The
-general system includes an identity service ([Spec: Fulcio](./fulcio-spec.md)),
-which issues short-lived certificates binding user-submitted public keys to
-identities, and a transparency service ([Spec: Rekor](./rekor-spec.md)), which
-records signatures and metadata in a public log.
+general system includes
+* an identity service ([Spec: Fulcio](./fulcio-spec.md)), which issues short-lived certificates binding user-submitted public keys to
+identities
+* a transparency service ([Spec: Rekor v2](./rekor-v2-spec.md), [Spec: Rekor v1](./rekor-spec.md)), which records signatures and metadata in a public log
+* a timestamping authority ([IETF RFC 3161](https://datatracker.ietf.org/doc/html/rfc3161)) to prove the log entry time
 
-By using these components together, a signer can tie an identity to an artifact signature via a short-lived certificate. The entry in the transparency service serves as a timestamp, ensuring that the signature was published during the validity period of the corresponding certificate.
+By using these components together, a signer can tie an identity to an artifact signature via a short-lived certificate. The log entry combined with a timestamp ensures that the signature was published during the validity period of the certificate.
 
-There are Sigstore implementations of the identity service ([Fulcio](https://github.com/sigstore/fulcio)) and transparency service ([Rekor](https://github.com/sigstore/rekor)), both of which are deployed in a public good instance. [Cosign](https://github.com/sigstore/cosign), a Sigstore client implementation specifically for signing container images and other artifacts on [OCI-compatible](https://github.com/opencontainers/distribution-spec/blob/main/spec.md) container registries, uses the public good instance by default.
+There are Sigstore implementations of the identity service ([Fulcio](https://github.com/sigstore/fulcio)),  transparency service ([Rekor v2](https://github.com/sigstore/rekor-tiles), [Rekor v1](https://github.com/sigstore/rekor)) and [Timestamp Authority](https://github.com/sigstore/timestamp-authority), all of which are deployed in a public good instance. [Cosign](https://github.com/sigstore/cosign), a Sigstore client implementation specifically for signing container images and other artifacts on [OCI-compatible](https://github.com/opencontainers/distribution-spec/blob/main/spec.md) container registries, uses the public good instance by default.
 
 This document describes choices made in these implementations and this deployment above and beyond the requirements in the specifications.
 
@@ -93,15 +94,17 @@ See the [Fulcio OIDC documentation](https://github.com/sigstore/fulcio/blob/main
 
 ## 3. Rekor
 
-Rekor implements a transparency service. There is a public good deployment of Rekor run by the [OpenSSF](https://openssf.org/) and contributing organizations at [https://rekor.sigstore.dev/](https://rekor.sigstore.dev/).
+Rekor implements a transparency service. There are one or more public good deployments of Rekor run by the [OpenSSF](https://openssf.org/) and contributing organizations: the specific endpoints change over time and are made available in the Root-of-Trust (see [Distributing Roots-of-Trust](#distributing-roots-of-trust)).
 
-### 3.1 Pluggable Types
+The current Rekor implementation is version 2 and is maintained at [rekor-tiles](https://github.com/sigstore/rekor-tiles. The legacy version 1 (maintained at [rekor](https://github.com/sigstore/rekor) is still supported and is made available as an alternative in the public good instance.
 
-The transparency service has what is termed a ‘pluggable type’ system. A pluggable type is a custom schema for entries stored in the transparency log. Schemas can be in multiple formats (json|yaml|xml).
+### 3.1 Entry Types
 
-The current list of supported types can be found in the [Rekor project](https://github.com/sigstore/rekor/tree/main/pkg/types). Information about adding new pluggable types can be found in the [Rekor documentation.](https://docs.sigstore.dev/logging/pluggable-types/)
+Rekor v2 supports [HashedRekord v0.0.2](https://github.com/sigstore/rekor-tiles/blob/main/api/proto/rekor/v2/hashedrekord.proto)
+type for basic artifact signing and [DSSE v0.0.2](https://github.com/sigstore/rekor-tiles/blob/main/api/proto/rekor/v2/dsse.proto)
+type for attestations. See the transparency service ([Spec: Rekor](./rekor-v2-spec.md)) document for additional information.
 
-See the transparency service ([Spec: Rekor](./rekor-spec.md)) document for additional information.
+Rekor v1 supports "pluggable types", see [Spec: Rekor](./rekor-spec.md).
 
 ### 3.2 Transparency Log
 
@@ -111,29 +114,33 @@ primary deviations are described in [Spec: Rekor](./rekor-spec.md); however,
 like RFC 6962, the transparency service specification leaves specific parameter
 choices to implementers.
 
-* Base URL: [https://rekor.sigstore.dev/](https://rekor.sigstore.dev/)
-* Hash Algorithm: SHA-256 ([RFC 6234](https://datatracker.ietf.org/doc/rfc6234/); OID 2.16.840.1.101.3.4.2.1)
-* Signature Algorithm:  ECDSA (NIST P-256).
-* Public Key: See [root-signing repo](https://github.com/sigstore/root-signing)
-* Log ID: the SHA-256 hash of the log's public key
-* Maximum Merge Delay: Rekor only returns an index after the merge is complete. Rekor does not support batching. Rekor returns an inclusion proof after waiting for an entry to be included in the log, which is expected to take <1s.
+* Base URL: defined in [Root-of-Trust](#distributing-roots-of-trust)
+* Public Key: defined in [Root-of-Trust](#distributing-roots-of-trust)
+* Merkle Tree Hash Algorithm: SHA-256 ([RFC 6234](https://datatracker.ietf.org/doc/rfc6234/); OID 2.16.840.1.101.3.4.2.1)
+* Signature Algorithm:
+  * Rekor v1: ECDSA (NIST P-256)
+  * Rekor v2: Ed25519
+* Log identity
+  * Rekor v1: Log Id is the SHA-256 hash of the log's public key
+  * Rekor v2: Checkpoint Key Id is defined in [C2SP spec](https://github.com/C2SP/C2SP/blob/main/signed-note.md#signatures)
 * Identity monitoring: [Rekor monitor](https://github.com/sigstore/rekor-monitor)
 
 ### 3.3 Sharding
 
-The Certificate Transparency Log database used by Rekor currently shards every year at a minimum. The sharding is an additive in a sense that old shards will be still available at:  `https://ctfe.sigstore.dev/<SHARD>`. For example, if sharding in 2022, the old shard is available at: [https://ctfe.sigstore.dev/2022/ct/v1/get-sth](https://ctfe.sigstore.dev/2022/ct/v1/get-sth)
+Rekor and Fulcio's Certificate Transparency log currently shard every year at a minimum. Sharding means making the current log instance read-only and creating a new log instance that is writable: this keeps individual log sizes reasonable. The sharding is an additive in a sense that old shards will be still available for reading.
 
-The convention for naming shards is that it will contain the year, followed by the instance. For example, the first shard of the year 2023 should be named 2023 and if other shards are created they will be called 2023-2, 2023-3, and so forth.
+The convention for naming shards is that the name will contain the year, followed by optional instance number. Examples: https://ctfe.sigstore.dev/2022, https://log2025-1.rekor.sigstore.dev/.
 
-This document outlines the steps taken to shard the Rekor log: [Sharding Rekor](https://docs.sigstore.dev/logging/sharding/)
+This document outlines the steps taken to shard the Rekor log: [Sharding Rekor](https://docs.sigstore.dev/logging/sharding/).
+Note that with Rekor v2 the shards are not abstracted behind a single URL so the [Root-of-Trust(#distributing-roots-of-trust) mechanism must be used to discover rekor shard URLs.
 
 ### 3.4 Timestamp Authority
 
-Sigstore does not operate a timestamp authority at this time. We do include trusted timestamp authorities in Sigstore's TUF root. Signed timestamps can also be obtained through Rekor's SignedEntryTimestamps.
+Sigstore public good deployment includes a Timestamp Authority at [timestamp.sigstore.dev](https://timestamp.sigstore.dev/) but using alternative or additional Timestamp Authorities is also possible.
 
 ## 4. Distributing Roots-of-Trust
 
-A client using a particular Sigstore instance needs key material for the certificate transparency log, the transparency service log, and the identity service root certificate. It will also need the URLs to the various services and other metadata such as the validity times of the services. The keys, URLs and other metadata is packaged for clients in two file formats, `trusted_root` (for verifying client) and `signing_config` (for signing client): see [sigstore-protobuf-specs](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_trustroot.proto) for details.
+A client using a particular Sigstore instance needs key material for the certificate transparency log, the transparency service log, the identity service root certificate and timestamping authority. It will also need the URLs to the various services and other metadata such as the validity times of the services. The keys, URLs and other metadata is packaged for clients in two file formats, `trusted_root` (for verifying client) and `signing_config` (for signing client): see [sigstore-protobuf-specs](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_trustroot.proto) for details.
 
 The root-of-trust data can change over time due to scheduled key rotations, log sharding, or compromise. Rather than tying a specific release of a client to a specific set of keys (which would require an upgrade of the client in order to trust new signatures), Sigstore distributes it using [The Update Framework](https://theupdateframework.io/) (TUF).
 
@@ -148,13 +155,13 @@ root-of-trust files from the Sigstore instances TUF repository (the full details
 
 #### 4.1.1 Artifacts in the TUF repository
 
+Both trusted root and signing config may have multiple versions available as artifacts. Clients can select the version of trusted_root and signing_config that they support by downloading a specific version from the TUF repository. New versions should be rare, but clients should switch to a newer version when one is made available.
 * `trusted_root.json` (in future `trusted_root.v<MAJOR>.<MINOR>.json`)
-* `signing_config.json` (in future `signing_config.v<MAJOR>.<MINOR>.json`)
+* `signing_config.v<MAJOR>.<MINOR>.json`
 * All other artifacts should be considered deprecated
 
 The artifact contents and the version numbers are defined in the protobufs in [sigstore-protobuf-specs](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_trustroot.proto).
 
-Clients can select the version of trusted_root and signing_config that they support by downloading a specific version from the TUF repository. New versions should be rare, but clients should support a newer version when one is made available.
 
 #### 4.1.2. Roles and Thresholds
 
@@ -177,7 +184,16 @@ outdated with regards to artifact discovery: clients should only look for the tr
 
 ## 5. Public Good Instance
 
-The Sigstore project maintains a public good instance which consists of [Rekor](https://rekor.sigstore.dev/) and [Fulcio](https://fulcio.sigstore.dev/) deployments along with their dependencies. The resources are currently deployed to [Google Cloud Platform (GCP)](https://console.cloud.google.com/getting-started) with the configurations primarily managed by industry standard tools [Terraform](https://www.terraform.io/) and [Kubernetes Helm Charts](https://helm.sh/docs/topics/charts/).
+The Sigstore project maintains a public good instance which consists of
+* a [Fulcio](https://fulcio.sigstore.dev/) deployment
+* a [Timestamp Authority](https://timestamp.sigstore.dev/) deployment
+* a [federating OIDC provider](https://oauth2.sigstage.dev/) (dex) deployment
+* a [Certificate Transparency log](https://ctfe.sigstore.dev/2022) deployment
+* Multiple Rekor deployments: Rekor v1 at https://rekor.sigstore.dev/ and Rekor v2 deployments at subdomains of rekor.sigstore.dev
+
+While most services have known endpoint URLs, the correct current endpoints are always available via [Root-of-Trust](#distributing-roots-of-trust).
+
+The resources are currently deployed to [Google Cloud Platform (GCP)](https://console.cloud.google.com/getting-started) with the configurations primarily managed by industry standard tools [Terraform](https://www.terraform.io/) and [Kubernetes Helm Charts](https://helm.sh/docs/topics/charts/).
 
 The public good instance is maintained and monitored by volunteer engineers from several vendors as part of the [Sigstore Operations Special Interest Group (SIG)](https://github.com/sigstore/sig-public-good-operations).
 
@@ -186,6 +202,6 @@ The public good instance is maintained and monitored by volunteer engineers from
 The Sigstore project provides the resources necessary to deploy private Sigstore infrastructure. The public good instance configuration is maintained in a private repository only available to on-call engineers but the primary resources are in the following repositories:
 
 * [sigstore/helm-charts](https://github.com/sigstore/helm-charts)
-* [sigstore/scaffolding](https://github.com/sigstore/scaffolding)
+* [sigstore/terraform-modules](https://github.com/sigstore/terraform-modules)
 * [sigstore/sigstore-probers](https://github.com/sigstore/sigstore-probers)
 * [sigstore/policy-controller](https://github.com/sigstore/policy-controller)
