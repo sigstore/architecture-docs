@@ -54,7 +54,7 @@ The signer must make a number of choices during signing: which signature algorit
 
 ### 2.1. Default Signing Procedure
 
-This section describes the full signing workflow for a client. The client MAY omit certain of these steps (see [§Signing Choices](#signing-choices) below).
+This section describes the full signing workflow for a client. The client MAY omit certain of these steps (see [§Signing Choices](#22-signing-choices) below).
 
 #### 2.1.1. Authentication
 
@@ -126,7 +126,7 @@ The Signer conveys the following verification materials to the verifier in order
 * Timestamping response.
 * Transparency Service `TransparencyLogEntry` ([definition](https://github.com/sigstore/protobuf-specs/blob/ad0a7582f29bab5e5890d9f5c3b9833907a74ee4/protos/sigstore_rekor.proto)). The log public key MUST be provided out of band.
 
-### 3.1. Signing Choices
+### 2.2. Signing Choices
 
 *Authentication System.* The signer MUST use an Authentication System supported
 by the Fulcio instance with which they can authenticate.
