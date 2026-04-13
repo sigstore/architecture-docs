@@ -41,7 +41,8 @@ may be selected by NIST, and these will be considered as they are released.
 ⚠️ ML-DSA-44, ML-DSA-65 and ML-DSA-87 are currently not operational within Sigstore. This warning
 will be removed when these algorithms are widely supported by Sigstore clients and servers, but
 caution should be exercised in deployments with these experimental algorithms. We offer no
-guarentees and may remove a subset of 
+guarentees and may remove a subset of these algorithms if opinions within the wider security
+community shift.
 
 ## Hash Algorithms
 
