@@ -8,12 +8,13 @@ file **must** be reflected in the `PublicKeyDetails` enumeration in
 Sigstore clients aren't required to support all algorithms in this registry,
 and **MAY** support algorithms that aren't in the registry. However,
 compatibility with the Sigstore Public Good Instance requires support
-for at least one of these algorithms.
+for at least one of these algorithms. Deviation from this list may lead to
+unexpected behavior in the infrastructure or clients.
 
 ## Signature Algorithms
 
 | Algorithm | Name                       | Usage       | Notes                                                                            |
-|-----------|----------------------------|-------------| -------------------------------------------------------------------------------- |
+| --------- | -------------------------- | ----------- | -------------------------------------------------------------------------------- |
 | RSA       | rsa-sign-pkcs1-2048-sha256 | verify only | Not recommended.                                                                 |
 |           | rsa-sign-pkcs1-3072-sha256 | sign/verify |                                                                                  |
 |           | rsa-sign-pkcs1-4096-sha256 | sign/verify |                                                                                  |
@@ -27,7 +28,8 @@ for at least one of these algorithms.
 |           | ed25519-ph                 | sign/verify | Recommended only for `hashedrekord`.                                             |
 | LMS       | lms-sha256                 | sign/verify | Stateful; signer selects the `H` parameter. Not recommended for keyless signing. |
 | LM-OTS    | lmots-sha256               | sign/verify | One-time use only; signer selects `n` and `w`.                                   |
-| ML-DSA    | ml-dsa-65                  | sign/verify | Experimental; Pure variant.  Not yet fully functional.                           |
+| ML-DSA    | ml-dsa-44                  | sign/verify | Experimental; Pure variant.  Not yet fully functional.                           |
+|           | ml-dsa-65                  | sign/verify | Experimental; Pure variant.  Not yet fully functional.                           |
 |           | ml-dsa-87                  | sign/verify | Experimental; Pure variant.  Not yet fully functional.                           |
 
 ### Parameter configuration for LMS and LM-OTS
@@ -51,23 +53,24 @@ to HashML-DSA) and are currently preferred for quantum-resistant signing.  They 
 than classical signatures, making their deployment more costly.  Future PQC algorithms 
 may be selected by NIST, and these will be considered as they are released.
 
-⚠️  ML-DSA-65 and ML-DSA-87 are currently not fully operational within Sigstore.  This warning
-will be removed when these algorithms are widely supported by Sigstore clients and servers, but
-caution should be exercised in deployment.
+⚠️  ML-DSA-44, ML-DSA-65 and ML-DSA-87 are currently not fully operational within Sigstore.  This
+warning will be removed when these algorithms are widely supported by Sigstore clients and servers,
+but caution should be exercised in deployment.
 
 ## Hash Algorithms
 
-Generally speaking, these hash algorithms are implied by the above signing suites.
-However, clients *may* need to list or configure them explicitly, e.g. for custom
-signing schemes or as part of a `hashedrekord` entry.
+Generally speaking, these hash algorithms are implied by the above signing suites because the Public
+Good Instance requires a 1:1 mapping of key type to hash algorithm.  However, clients *may* need to
+list or configure them explicitly, e.g. for custom signing schemes or as part of a
+`hashedrekord` entry.
 
-| Algorithm | Name         |
-|-----------|--------------|
-| SHA2      | sha2-256     |
-|           | sha2-384     |
-|           | sha2-512     |
-| SHA3      | sha3-256     |
-|           | sha3-384     |
+| Algorithm | Name         | Notes        |
+| --------- | ------------ | ------------ |
+| SHA2      | sha2-256     |              |
+|           | sha2-384     |              |
+|           | sha2-512     |              |
+| SHA3      | sha3-256     | *deprecated* |
+|           | sha3-384     | *deprecated* |
 
 [`sigstore_common.proto`]: https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_common.proto
 
