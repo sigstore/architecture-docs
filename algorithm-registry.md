@@ -69,6 +69,13 @@ signing schemes or as part of a `hashedrekord` entry.
 | SHA3      | sha3-256     |
 |           | sha3-384     |
 
+For `hashedrekord` entries (including `hashedrekord` paired with a `dsse_envelope`
+bundle, per [Rekor v2 §6.1.4 DSSE Envelopes](./rekor-v2-spec.md#614-dsse-envelopes)),
+the digest's hash function MUST match the externalized prehash of the entry's
+signing algorithm: for ECDSA and RSA suites, the SHA-2 variant named in the
+suite; for `ed25519-ph`, SHA-512. Pure `ed25519` has no externalized prehash and
+therefore cannot be used for `hashedrekord`.
+
 [`sigstore_common.proto`]: https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_common.proto
 
 [sigstore/protobuf-specs]: https://github.com/sigstore/protobuf-specs
