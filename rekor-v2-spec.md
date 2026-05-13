@@ -187,7 +187,7 @@ The rekor-tiles server canonicalizes the resulting `HashedRekordLogEntryV002` so
 
 A Verifier processing a `dsse_envelope` bundle whose matched entry is a `HashedRekord`:
 
-1. Computes the expected digest `Hash(PAE(payloadType, payload))` using the hash function recorded in the entry's `data.algorithm` (or, equivalently, derived from the signing algorithm in the entry's verifier).
+1. Computes the expected digest `Hash(PAE(payloadType, payload))`, where `Hash` is the externalized hash function for the entry's signing algorithm per the [Algorithm Registry](./algorithm-registry.md).
 2. Compares the computed digest byte-for-byte to the entry's `data.digest`.
 3. Confirms that `signature.content` recorded in the entry equals `dsse_envelope.signatures[0].sig`.
 
