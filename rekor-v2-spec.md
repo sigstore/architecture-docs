@@ -179,7 +179,9 @@ For a `dsse_envelope` bundle, the producer computes:
 digest = Hash(PAE(payloadType, payload))
 ```
 
-where `PAE` is the [DSSE Pre-Authentication Encoding](https://github.com/secure-systems-lab/dsse/blob/master/protocol.md) and `Hash` is the externalized hash function of the entry's signing algorithm (see [Algorithm Registry](./algorithm-registry.md)). The producer submits a `HashedRekordRequestV002` whose `digest` is this value and whose `signature.content` is `dsse_envelope.signatures[0].sig`.
+where `PAE` is the [DSSE Pre-Authentication Encoding](https://github.com/secure-systems-lab/dsse/blob/master/protocol.md) and `Hash` is the externalized hash function of the entry's signing algorithm as defined in the [Algorithm Registry](./algorithm-registry.md). The producer submits a `HashedRekordRequestV002` whose `digest` is this value and whose `signature.content` is `dsse_envelope.signatures[0].sig`.
+
+Signing algorithms with no externalized prehash (e.g. pure `ed25519`) cannot be used for `hashedrekord` entries, and therefore cannot be used to sign a `dsse_envelope` bundle uploaded under this construction.
 
 The rekor-tiles server canonicalizes the resulting `HashedRekordLogEntryV002` so that `data.algorithm` matches the signing algorithm.
 
@@ -189,7 +191,8 @@ A Verifier processing a `dsse_envelope` bundle whose matched entry is a `HashedR
 
 1. Computes the expected digest `Hash(PAE(payloadType, payload))`, where `Hash` is the externalized hash function for the entry's signing algorithm per the [Algorithm Registry](./algorithm-registry.md).
 2. Compares the computed digest byte-for-byte to the entry's `data.digest`.
-3. Confirms that `signature.content` recorded in the entry equals `dsse_envelope.signatures[0].sig`.
+3. Confirms that the verifier material (certificate or public key) recorded in the entry matches the verification material in the bundle.
+4. Confirms that `signature.content` recorded in the entry equals `dsse_envelope.signatures[0].sig`.
 
 The DSSE signature itself is verified per [client-spec §4.5](./client-spec.md#45-signature-verification) over `PAE(payloadType, payload)`.
 

@@ -388,8 +388,6 @@ HashedRekord and Rekord provide basic schemas for submitting an entry, signature
 
 in-toto has been superseded by the DSSE type. Unlike the in-toto type, the DSSE type does not require storage of attestations alongside the log. in-toto attestations must be stored outside of the transparency service, as the service must not be used as storage. Transparency logs are designed to be trustless, so it is an antipattern to rely on the log to provide metadata, which is why it is recommended to use the DSSE type.
 
-A `dsse_envelope` Sigstore bundle MAY alternatively be uploaded as a `HashedRekord` entry; the digest construction and signature-equality rule are defined in [Rekor v2 §6.1.4 DSSE Envelopes](./rekor-v2-spec.md#614-dsse-envelopes). On Rekor v1 this is a **bridge feature**: it lets clients adopt hashedrekord-over-DSSE before migrating to [Rekor v2](./rekor-v2-spec.md), which supports only the HashedRekord type.
-
 ## 12. Pluggable Verifiers
 
 Each entry uploaded to the transparency service requires a signature and a signature verifier. The service's admissions policy is to only admit entries with a valid signature. The service supports a "pluggable verifier" interface that defines cryptographic verifiers in a variety of formats.
