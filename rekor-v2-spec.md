@@ -171,11 +171,11 @@ a public key.
 
 A Verifier processing a `TransparencyLogEntry` for a `HashedRekord` entry MUST establish the leaf hash committed to by the inclusion proof in one of two ways:
 
-1. **Recompute the leaf (preferred).** Reconstruct the canonicalized `HashedRekordLogEntryV002` from the entry's `apiVersion` and `kind` together with the bundle's signed content (`digest`, `signature`, and verifier material), and hash the canonicalized body the same way the log service does. The recomputed hash MUST equal the leaf hash referenced by the inclusion proof.
+1. **Recompute the leaf (preferred).** Reconstruct the canonicalized `HashedRekordLogEntryV002` from the entry's `apiVersion` and `kind` together with the bundle's signed content (`digest`, `signature`, and verifier material), and hash the canonicalized body the same way the log service does. The recomputed leaf hash is then used as the input to verify the inclusion proof, which MUST successfully verify against the log's checkpoint root hash.
 2. **Use the persisted `canonicalized_body`.** Use the `canonicalized_body` bytes recorded in the `TransparencyLogEntry` as the leaf preimage. In this case the Verifier MUST additionally confirm, against the bundle:
    1. the artifact hash recorded in the entry equals the expected hash for the bundle's content (see [client-spec §4.4](./client-spec.md#44-transparency-log-entry) for how this hash is computed for both raw artifacts and DSSE-envelope attestations);
    2. the entry's recorded signature equals the bundle's signature byte-for-byte;
-   3. the entry's recorded verifier material (certificate chain or public key) matches the bundle's verification material.
+   3. the entry's recorded verifier material (leaf certificate or public key) matches the bundle's verification material.
 
 The hash function used at every step is the externalized hash function of the entry's signing algorithm as defined in the [Algorithm Registry](./algorithm-registry.md).
 
