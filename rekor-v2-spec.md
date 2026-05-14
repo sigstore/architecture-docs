@@ -78,7 +78,7 @@ entry's signature, and the signature verifier. Rekor v2 supports a single entry
 type: [HashedRekord v0.0.2](https://github.com/sigstore/rekor-tiles/blob/main/api/proto/rekor/v2/hashedrekord.proto).
 Clients are responsible for formatting their entry metadata into this type.
 
-DSSE-envelope payloads cannot be uploaded with a `dsse` entry type — `HashedRekord` is the only entry type in v2. See [§6.1.4 DSSE Envelopes](#614-dsse-envelopes) for the digest construction and signature-equality rule.
+DSSE-envelope payloads cannot be uploaded with a `dsse` entry type — `HashedRekord` is the only entry type in v2. See [client-spec §4.4](./client-spec.md#44-transparency-log-entry) for how DSSE attestations are mapped to a HashedRekord digest, and [§6.1.4 Verifier Requirements](#614-verifier-requirements) for inclusion-proof verification.
 
 ### 4.4 Batching and Checkpoint Intervals
 
@@ -167,36 +167,19 @@ Validation metadata should include verification material which can verify the
 signature(s). Validation metadata will commonly be a code-signing certificate or
 a public key.
 
-#### 6.1.4 DSSE Envelopes
+#### 6.1.4 Verifier Requirements
 
-Rekor v1 supported a `dsse` entry type that carried a full DSSE envelope. Rekor v2 does not include a `dsse` type — `HashedRekord` is the only entry type (see [§4.3 Types](#43-types)). DSSE-envelope payloads (i.e. Sigstore bundles whose `content` is a `dsse_envelope`) MUST therefore be uploaded as a `HashedRekord` entry whose digest covers the envelope's pre-authentication encoding (PAE) rather than the envelope payload itself.
+A Verifier processing a `TransparencyLogEntry` for a `HashedRekord` entry MUST establish the leaf hash committed to by the inclusion proof in one of two ways:
 
-##### Digest construction
+1. **Recompute the leaf (preferred).** Reconstruct the canonicalized `HashedRekordLogEntryV002` from the entry's `apiVersion` and `kind` together with the bundle's signed content (`digest`, `signature`, and verifier material), and hash the canonicalized body the same way the log service does. The recomputed hash MUST equal the leaf hash referenced by the inclusion proof.
+2. **Use the persisted `canonicalized_body`.** Use the `canonicalized_body` bytes recorded in the `TransparencyLogEntry` as the leaf preimage. In this case the Verifier MUST additionally confirm, against the bundle:
+   1. the artifact hash recorded in the entry equals the expected hash for the bundle's content (see [client-spec §4.4](./client-spec.md#44-transparency-log-entry) for how this hash is computed for both raw artifacts and DSSE-envelope attestations);
+   2. the entry's recorded signature equals the bundle's signature byte-for-byte;
+   3. the entry's recorded verifier material (certificate chain or public key) matches the bundle's verification material.
 
-For a `dsse_envelope` bundle, the producer computes:
+The hash function used at every step is the externalized hash function of the entry's signing algorithm as defined in the [Algorithm Registry](./algorithm-registry.md).
 
-```
-digest = Hash(PAE(payloadType, payload))
-```
-
-where `PAE` is the [DSSE Pre-Authentication Encoding](https://github.com/secure-systems-lab/dsse/blob/master/protocol.md) and `Hash` is the externalized hash function of the entry's signing algorithm as defined in the [Algorithm Registry](./algorithm-registry.md). The producer submits a `HashedRekordRequestV002` whose `digest` is this value and whose `signature.content` is `dsse_envelope.signatures[0].sig`.
-
-Signing algorithms with no externalized prehash (e.g. pure `ed25519`) cannot be used for `hashedrekord` entries, and therefore cannot be used to sign a `dsse_envelope` bundle uploaded under this construction.
-
-The rekor-tiles server canonicalizes the resulting `HashedRekordLogEntryV002` so that `data.algorithm` matches the signing algorithm.
-
-##### Verifier requirements
-
-A Verifier processing a `dsse_envelope` bundle whose matched entry is a `HashedRekord`:
-
-1. Computes the expected digest `Hash(PAE(payloadType, payload))`, where `Hash` is the externalized hash function for the entry's signing algorithm per the [Algorithm Registry](./algorithm-registry.md).
-2. Compares the computed digest byte-for-byte to the entry's `data.digest`.
-3. Confirms that the verifier material (certificate or public key) recorded in the entry matches the verification material in the bundle.
-4. Confirms that `signature.content` recorded in the entry equals `dsse_envelope.signatures[0].sig`.
-
-The DSSE signature itself is verified per [client-spec §4.5](./client-spec.md#45-signature-verification) over `PAE(payloadType, payload)`.
-
-DSSE envelopes carrying multiple signatures are out of scope for this section; only one signature is committed to the log.
+The construction of the artifact hash for specific bundle content types (raw artifact vs. DSSE envelope) is specified in the [client spec](./client-spec.md#44-transparency-log-entry).
 
 ### 6.2 HTTP and gRPC API
 
@@ -228,7 +211,7 @@ A client signing an artifact uploads the entry record, formatted as a
 to the `/api/v2/log/entries` (HTTP) or
 `dev.sigstore.rekor.v2.Rekor.CreateEntry` (gRPC) service. For an attestation
 (Sigstore bundle with a `dsse_envelope` content), see
-[§6.1.4 DSSE Envelopes](#614-dsse-envelopes) for the digest construction. The
+[client-spec §4.4](./client-spec.md#44-transparency-log-entry) for the digest construction. The
 client receives, as a response, a
 [TransparencyLogEntry](https://github.com/sigstore/protobuf-specs/blob/4df5baadcdb582a70c2bc032e042c0a218eb3841/protos/sigstore_rekor.proto#L94),
 which contains the latest checkpoint and an inclusion proof for the entry.
