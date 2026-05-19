@@ -74,13 +74,11 @@ to verify Fulcio-issued ephemeral signing certificates.
 
 Rekor v1 supported a wide variety of "pluggable" entry types to specify how the
 transparency service should parse a request to get an entry or its digest, an
-entry's signature, and the signature verifier. Rekor v2 has reduced the number
-of supported entry types to the
-[HashedRekord v0.0.2](https://github.com/sigstore/rekor-tiles/blob/main/api/proto/rekor/v2/hashedrekord.proto)
-type, for basic artifact signing, and the
-[DSSE v0.0.2](https://github.com/sigstore/rekor-tiles/blob/main/api/proto/rekor/v2/dsse.proto)
-type, for attestations. Clients are responsible for formatting their entry
-metadata into one of these two types.
+entry's signature, and the signature verifier. Rekor v2 supports a single entry
+type: [HashedRekord v0.0.2](https://github.com/sigstore/rekor-tiles/blob/main/api/proto/rekor/v2/hashedrekord.proto).
+Clients are responsible for formatting their entry metadata into this type.
+
+DSSE-envelope payloads cannot be uploaded with a `dsse` entry type — `hashedrekord` is the only entry type in v2. See [client-spec §4.4](./client-spec.md#44-transparency-log-entry) for how DSSE attestations are mapped to a HashedRekord digest, and [§6.1.4 Verifier Requirements](#614-verifier-requirements) for inclusion-proof verification.
 
 ### 4.4 Batching and Checkpoint Intervals
 
@@ -100,9 +98,9 @@ it was possible for a log to lie by pretending that no entry existed for a given
 query. A separate, independent service will be implemented in the future to fill
 the void in this functionality.
 
-## 3. Architecture
+## 5. Architecture
 
-### 3.1 Tiles
+### 5.1 Tiles
 
 Storage of the Merkle tree is optimized by organizing it into
 [tiles](https://research.swtch.com/tlog#tiling_a_log). The internal tile layout
@@ -112,7 +110,7 @@ possible to serve the read API directly from a file or object service rather
 than as a routable path through the Rekor service, and that it can easily be
 cached in a CDN or in clients' local caches.
 
-### 3.2 Sharding
+### 5.2 Sharding
 
 In order to rotate the transparency log's checkpoint signing key and to keep the
 size of the tree manageable, a new tree is periodically created and clients
@@ -124,7 +122,7 @@ counter. In Rekor v2, shards are fully independent and clients must discover,
 via TUF, the correct shard to upload to and the correct key to verify an
 inclusion proof with.
 
-### 3.3 Witnessing
+### 5.3 Witnessing
 
 Rekor v2 can be configured to subscribe to a network of log witnesses. Upon
 creating a new checkpoint, it sends the checkpoint to witnesses for
@@ -137,32 +135,28 @@ an automatic client concern. The converse, asynchronous witnessing, in which it
 is the client's responsibility to gather witness cosignatures on a checkpoint,
 meant that users could treat it as an afterthought.
 
-## 4. API
+## 6. API
 
-### 4.1 Records
+### 6.1 Records
 
-#### 4.1.1 Requests
+#### 6.1.1 Requests
 
-An entry is submitted to the log as either a
+An entry is submitted to the log as a
 [HashedRekordRequestV002](https://github.com/sigstore/rekor-tiles/blob/f3cba09c2f92f1d2d5a7ca2b5694b66941a82d41/api/proto/rekor/v2/hashedrekord.proto#L31)
-request or a
-[DSSERequestV002](https://github.com/sigstore/rekor-tiles/blob/f3cba09c2f92f1d2d5a7ca2b5694b66941a82d41/api/proto/rekor/v2/dsse.proto#L32C9-L32C24)
-request. These are canonicalized by the log service in order to deduplicate
-equivalent entries. This is done by converting the requests to their
-corresponding entry types
-([HashedRekordLogEntryV002](https://github.com/sigstore/rekor-tiles/blob/f3cba09c2f92f1d2d5a7ca2b5694b66941a82d41/api/proto/rekor/v2/hashedrekord.proto#L38)
-and
-[DSSELogEntryV002](https://github.com/sigstore/rekor-tiles/blob/f3cba09c2f92f1d2d5a7ca2b5694b66941a82d41/api/proto/rekor/v2/dsse.proto#L40C9-L40C25))
+request. Requests are canonicalized by the log service in order to deduplicate
+equivalent entries. This is done by converting the request to its corresponding
+entry type
+([HashedRekordLogEntryV002](https://github.com/sigstore/rekor-tiles/blob/f3cba09c2f92f1d2d5a7ca2b5694b66941a82d41/api/proto/rekor/v2/hashedrekord.proto#L38))
 and marshalling the entry protobuf message as JSON and hashing the result.
 
-#### 4.1.2 Responses
+#### 6.1.2 Responses
 
 The response to submitting an entry is a
 [TransparencyLogEntry](https://github.com/sigstore/protobuf-specs/blob/4df5baadcdb582a70c2bc032e042c0a218eb3841/protos/sigstore_rekor.proto#L94),
 which contains a verifiable record of a signing event and includes the necessary
 information to validate the signature and the entry's inclusion in the log.
 
-#### 4.1.3 Signature Verification
+#### 6.1.3 Signature Verification
 
 When the service receives a proposed entry for submission, it must validate the
 signing event using the data contained in the record. In general, it will
@@ -173,7 +167,21 @@ Validation metadata should include verification material which can verify the
 signature(s). Validation metadata will commonly be a code-signing certificate or
 a public key.
 
-### 4.2 HTTP and gRPC API
+#### 6.1.4 Verifier Requirements
+
+A Verifier processing a `TransparencyLogEntry` for a `HashedRekord` entry MUST establish the leaf hash committed to by the inclusion proof in one of two ways:
+
+1. **Recompute the leaf (preferred).** Reconstruct the canonicalized `HashedRekordLogEntryV002` from the entry's `apiVersion` and `kind` together with the bundle's signed content (`digest`, `signature`, and verifier material), and hash the canonicalized body the same way the log service does. The recomputed leaf hash is then used as the input to verify the inclusion proof, which MUST successfully verify against the log's checkpoint root hash.
+2. **Use the persisted `canonicalized_body`.** Use the `canonicalized_body` bytes recorded in the `TransparencyLogEntry` as the leaf preimage. In this case the Verifier MUST additionally confirm, against the bundle:
+   1. the artifact hash recorded in the entry equals the expected hash for the bundle's content (see [client-spec §4.4](./client-spec.md#44-transparency-log-entry) for how this hash is computed for both raw artifacts and DSSE-envelope attestations);
+   2. the entry's recorded signature equals the bundle's signature byte-for-byte;
+   3. the entry's recorded verifier material (leaf certificate or public key) matches the bundle's verification material.
+
+The hash function used at every step is the externalized hash function of the entry's signing algorithm as defined in the [Algorithm Registry](./algorithm-registry.md).
+
+The construction of the artifact hash for specific bundle content types (raw artifact vs. DSSE envelope) is specified in the [client spec](./client-spec.md#44-transparency-log-entry).
+
+### 6.2 HTTP and gRPC API
 
 The Rekor v2 write API is accessible over HTTP or gRPC. Refer to the [protobuf
 specification](https://github.com/sigstore/rekor-tiles/tree/main/api/proto) for
@@ -185,7 +193,7 @@ HTTP API, specified in the C2SP spec for
 [entries](https://github.com/C2SP/C2SP/blob/main/tlog-tiles.md#log-entries), and
 [checkpoints](https://github.com/C2SP/C2SP/blob/main/tlog-tiles.md#checkpoints).
 
-### 4.3 Checkpoint Format
+### 6.3 Checkpoint Format
 
 The Merkle tree checkpoint, accessible via a GET request to the
 `/api/v2/checkpoint` endpoint, follows the [C2SP Transparency Log
@@ -194,16 +202,17 @@ specification. The checkpoint MAY additionally include witness signatures as
 specified in the [Transparency Log Witness
 Protocol](https://github.com/C2SP/C2SP/blob/main/tlog-witness.md).
 
-## 5. Client Workflows
+## 7. Client Workflows
 
-### 5.1 Signers
+### 7.1 Signers
 
-A client signing an artifact uploads the entry record, formatted as either a
-[HashedRekordRequestV002](https://github.com/sigstore/rekor-tiles/blob/f3cba09c2f92f1d2d5a7ca2b5694b66941a82d41/api/proto/rekor/v2/hashedrekord.proto#L31C9-L31C32)
-or
-[DSSERequestV002](https://github.com/sigstore/rekor-tiles/blob/f3cba09c2f92f1d2d5a7ca2b5694b66941a82d41/api/proto/rekor/v2/dsse.proto#L32C9-L32C24) to the
-`/api/v2/log/entries` (HTTP) or `dev.sigstore.rekor.v2.Rekor.CreateEntry` (gRPC)
-service. The client receives, as a response, a
+A client signing an artifact uploads the entry record, formatted as a
+[HashedRekordRequestV002](https://github.com/sigstore/rekor-tiles/blob/f3cba09c2f92f1d2d5a7ca2b5694b66941a82d41/api/proto/rekor/v2/hashedrekord.proto#L31C9-L31C32),
+to the `/api/v2/log/entries` (HTTP) or
+`dev.sigstore.rekor.v2.Rekor.CreateEntry` (gRPC) service. For an attestation
+(Sigstore bundle with a `dsse_envelope` content), see
+[client-spec §4.4](./client-spec.md#44-transparency-log-entry) for the digest construction. The
+client receives, as a response, a
 [TransparencyLogEntry](https://github.com/sigstore/protobuf-specs/blob/4df5baadcdb582a70c2bc032e042c0a218eb3841/protos/sigstore_rekor.proto#L94),
 which contains the latest checkpoint and an inclusion proof for the entry.
 Because entries are batched before being integrated, and because checkpoints are
@@ -211,7 +220,7 @@ published only at regular intervals, the client may have to wait for a few
 seconds (on the order of 2-10 seconds) before receiving a response, depending on
 the configuration of the service.
 
-### 5.2 Believers
+### 7.2 Believers
 
 A believer is software installer that has an interest in verifying claims on the
 software package. Such a client verifying an entry's inclusion in the log
@@ -231,7 +240,7 @@ To verify an entry, a client:
 3. compares the leaf hash with the provided artifact
 4. optionally, verifies witness signatures if available
 
-### 5.3 Monitors
+### 7.3 Monitors
 
 A monitor (also called simply a Verifier in the [claimant
 model](https://github.com/sigstore/community/tree/main/docs/claimantmodel#rekor-identity-based-signature)
@@ -243,7 +252,7 @@ responsible for determining how to use that information, for example, to notify
 a software ecosystem's users of the compromise. The monitor uses the tile
 entries API at `/api/v2/tile/entries` to tail the log for its contents.
 
-### 5.4 Witnesses
+### 7.4 Witnesses
 
 Synchronous witnesses are responsible for verifying the consistency of a log.
 Their co-signatures of a checkpoint are returned to the log for distribution to
@@ -256,7 +265,7 @@ append-only and has not been tampered with. Using a diverse network of
 corroborating witnesses helps to mitigate split-view attacks, where a malicious
 log could present alternate views of a tree to different parties.
 
-## Privacy
+## 8. Privacy
 
 Rekor v2 has most of the same privacy considerations as [Rekor
 v1](./rekor-spec.md#6-privacy), such as that sensitive content may be recorded
