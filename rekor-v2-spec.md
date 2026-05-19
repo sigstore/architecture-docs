@@ -78,7 +78,7 @@ entry's signature, and the signature verifier. Rekor v2 supports a single entry
 type: [HashedRekord v0.0.2](https://github.com/sigstore/rekor-tiles/blob/main/api/proto/rekor/v2/hashedrekord.proto).
 Clients are responsible for formatting their entry metadata into this type.
 
-DSSE-envelope payloads cannot be uploaded with a `dsse` entry type — `HashedRekord` is the only entry type in v2. See [client-spec §4.4](./client-spec.md#44-transparency-log-entry) for how DSSE attestations are mapped to a HashedRekord digest, and [§6.1.4 Verifier Requirements](#614-verifier-requirements) for inclusion-proof verification.
+DSSE-envelope payloads cannot be uploaded with a `dsse` entry type — `hashedrekord` is the only entry type in v2. See [client-spec §4.4](./client-spec.md#44-transparency-log-entry) for how DSSE attestations are mapped to a HashedRekord digest, and [§6.1.4 Verifier Requirements](#614-verifier-requirements) for inclusion-proof verification.
 
 ### 4.4 Batching and Checkpoint Intervals
 
