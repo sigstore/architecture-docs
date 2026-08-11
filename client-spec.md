@@ -249,13 +249,21 @@ The Verifier MUST then check the certificate against the verification policy. De
 
 ### 4.4. Transparency Log Entry
 
-By this point, the Verifier has already verified the signature by the Transparency Service ([§Establishing a Time for the Signature](#42-establishing-a-time-for-the-signature)). The Verifier MUST parse `body`: `body` is a base64-encoded JSON document with keys `apiVersion` and `kind`. The Verifier implementation contains a list of supported Transparency Service [V1](./rekor-spec.md#11-pluggable-types)/[V2](./rekor-v2-spec.md#43-types) formats (by `apiVersion` and `kind`). If no supported type is found otherwise it MUST parse `body` as the given type. The Verifier MUST define a set of types it supports and at a minimum SHOULD support verifying `hashedrekord` and `dsse` envelopes for both V1 and V2 Transparency Services.
+By this point, the Verifier has already verified the signature by the Transparency Service ([§Establishing a Time for the Signature](#42-establishing-a-time-for-the-signature)). The Verifier MUST parse `body`: `body` is a base64-encoded JSON document with keys `apiVersion` and `kind`. The Verifier implementation contains a list of supported Transparency Service [V1](./rekor-spec.md#11-pluggable-types)/[V2](./rekor-v2-spec.md#43-types) formats (by `apiVersion` and `kind`). If no supported type is found otherwise it MUST parse `body` as the given type. The Verifier MUST define a set of types it supports and at a minimum SHOULD support verifying `hashedrekord` (V1 and V2) and `dsse` (V1 only) entries. See [Rekor v2 §6.1.4 Verifier Requirements](./rekor-v2-spec.md#614-verifier-requirements) for inclusion-proof verification of HashedRekord entries.
 
 Then, the Verifier MUST check the following; exactly how to do this will be specified by each type in [Spec: Sigstore Registries](./algorithm-registry.md):
 
 1. The signature from the parsed body is the same as the provided signature.
 2. The key or certificate from the parsed body is the same as in the input certificate.
 3. The “subject” of the parsed body matches the artifact.
+
+**DSSE-envelope bundles.** When the bundle's content is a `dsse_envelope` (an attestation), the artifact whose hash is committed to the HashedRekord entry is the DSSE pre-authentication encoding of the envelope. Specifically:
+
+* the artifact hash = `Hash(PAE(payloadType, payload))`, where `Hash` is the externalized hash function of the entry's signing algorithm per the [Algorithm Registry](./algorithm-registry.md) and `PAE` is the [DSSE pre-authentication encoding](https://github.com/secure-systems-lab/dsse/blob/master/protocol.md);
+* the entry's `signature.content` equals `dsse_envelope.signatures[0].sig` byte-for-byte;
+* signing algorithms with no externalized prehash (e.g. pure `ed25519`) cannot be used for HashedRekord entries and therefore cannot be used to sign a DSSE-envelope bundle under this construction.
+
+The DSSE signature itself is verified per [§4.5](#45-signature-verification) over `PAE(payloadType, payload)`. DSSE envelopes carrying multiple signatures are out of scope; only one signature is committed to the log.
 
 The verification policy can impose additional constraints here. For instance, if a `kind` and `apiVersion` are provided in the policy (as in the `bundle` format), they must match the `kind` and `apiVersion` in `body`.
 
