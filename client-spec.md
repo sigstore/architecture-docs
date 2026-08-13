@@ -82,7 +82,7 @@ The Signer prepares a [PKCS#10](https://datatracker.ietf.org/doc/html/rfc2986) `
 
 Then, the signer prepares a `CreateSigningCertificateRequest` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L88-L108)) comprising the authentication token and the PKCS#10 certificate signing request (PEM-encoded; see [RFC 7468](https://www.rfc-editor.org/rfc/rfc7468)) to the `CreateSigningCertificate` endpoint ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L63-L68)) of the Fulcio instance.
 
-In return, the Signer receives a `SigningCertificate` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L144-L149)) containing a chain of PEM-encoded X.509 certificates ([RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280)), ordered from “leaf” to “root.” See [Spec: Fulcio](./fulcio-spec.md) for additional details about certificate contents. The Signer SHOULD verify the response:
+In return, the Signer receives a `SigningCertificate` ([definition](https://github.com/sigstore/fulcio/blob/8311f93c01ea5b068a86d37c4bb51573289bfd69/fulcio.proto#L144-L149)) containing a chain of PEM-encoded X.509 certificates ([RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280)), ordered from “leaf” to “root.” Note that the "root" certificate MUST be ignored and the intermediate certificates SHOULD be ignored when verifying the validity of the leaf certificate, as the certificate chain SHOULD be distributed separately and out-of-band. See [Spec: Fulcio](./fulcio-spec.md) for additional details about certificate contents. The Signer SHOULD verify the response:
 
 1. Perform certification path validation ([RFC 5280 §6](https://datatracker.ietf.org/doc/html/rfc5280#section-6)) of the returned certificate chain with the pre-distributed Fulcio root certificate(s) as a trust anchor.
 2. Extract a `SignedCertificateTimestamp`, which may be embedded as an X.509 extension in the leaf certificate or attached separately in the `SigningCertificate` returned from the Identity Service. Verify this `SignedCertificateTimestamp` as in [RFC 6962 §3.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the public key from the Certificate Transparency Log.
@@ -98,10 +98,17 @@ The Signer sends a hash of the signature as the `messageImprint` in a `TimeStamp
 
 #### 2.1.6. Submission of Signing Metadata to Transparency Service
 
-The Signer chooses a format for signing metadata; this format MUST be in the `supportedMetadataFormats` in the Transparency Service configuration. The Signer prepares signing metadata containing at a minimum:
+The Signer chooses a format for signing metadata.
+
+The format SHOULD be `hashedrekord`, and SHOULD be `dsse` when signing attestations.
+
+For Rekor v2, the Signer MUST use `hashedrekord`. When signing an attestation, the Signer MUST
+canonicalize the DSSE into a Pre-Auth Encoding (PAE) locally with the PAE as the `hashedrekord` payload.
+
+The Signer prepares signing metadata containing:
 
 * The signature.
-* The payload (possibly pre-hashed; if so, the entry also includes the identifier of the hash algorithm).
+* The payload. With the `hashedrekord` format, the payload is pre-hashed. With the `dsse` format, the payload is not pre-hashed.
 * Verification material (signing certificate or verification key).
   * If the verification material is a certificate, the client SHOULD upload only the signing certificate and SHOULD NOT upload the CA certificate chain.
 
@@ -138,7 +145,7 @@ Registries](./algorithm-registry.md)). The algorithm MUST be in the
 instances.
 
 *Signature metadata format*. The signature metadata format MUST be in the list
-of `supportedMetadataFormats` in the Transparency Service configuration. This
+of supported leaf formats in the Transparency Service configuration. This
 list can include both common registry formats (see [Spec: Sigstore
 Registries](./algorithm-registry.md)) or additional plug-in formats. Details
 about plug-in formats are conveyed out-of-band.
@@ -220,15 +227,22 @@ For Sigstore clients that expose a command-line interface, the following discove
 
 First, establish a time for the signature. This timestamp is required to validate the certificate chain, so this step comes first.
 
+The Verifier specifies a verification policy that dictates the number of required timestamps. The Verifier MUST specify a minimum threshold
+of 1 timestamp when verifying short-lived code signing certificates. In this case, if no time can be established, verification MUST abort.
+
 #### 4.2.1. Timestamping Service
 
-If the verification policy uses the Timestamping Service, the Verifier MUST verify the timestamping response using the Timestamping Service root key material, as described in [Spec: Timestamping Service](https://docs.google.com/document/u/0/d/1FoRHXejIhXwEai0RS3iRsN1HfCV16fJOp582Vl8KA7A/edit), with the raw bytes of the signature as the timestamped data. The Verifier MUST then extract a timestamp from the timestamping response. If verification or timestamp parsing fails, the Verifier MUST abort.
+If the verification policy uses the Timestamping Service, the Verifier MUST verify the timestamping response using the Timestamping Service root key material with the raw bytes of the signature as the timestamped data. The Verifier MUST then extract a timestamp from the timestamping response. If verification or timestamp parsing fails, the Verifier SHOULD ignore the failure and continue to attempt to establish a time for the signature from other sources.
 
 During verification, the Timestamping Services's X.509 certificate chain must be verified. This follows the "hybrid model" described in [4.3 Certificate](#43-certificate), using the signed timestamp as the "current time".
 
 #### 4.2.2. Rekor V1 Timestamp
 
-If the verification policy uses timestamps from a V1 Transparency Service, the Verifier MUST verify the signature on the Transparency Service `LogEntry` as described in [Spec: Rekor V1](./rekor-spec.md) against the pre-distributed root key material from the transparency service. The Verifier SHOULD NOT (yet) attempt to parse the `body`. The Verifier MUST then parse the `integratedTime` as a Unix timestamp (seconds since January 1, 1970 UTC). If verification or timestamp parsing fails, the Verifier MUST abort.
+If the verification policy uses timestamps from a V1 Transparency Service, the Verifier MUST verify the signature on the Transparency Service `LogEntry` as described in [Spec: Rekor V1](./rekor-spec.md) against the pre-distributed root key material from the transparency service. The Verifier SHOULD NOT (yet) attempt to parse the `body`. The Verifier MUST then parse the `integratedTime` as a Unix timestamp (seconds since January 1, 1970 UTC). If verification or timestamp parsing fails, the Verifier SHOULD ignore the failure and continue to attempt to establish a time for the signature from other sources.
+
+#### 4.2.3. Timestamp Threshold
+
+After the Verifier validates and gathers as many timestamps as possible from the available sources, it MUST check the number of timestamps against the verification policy. If the verification policy requires a minimum number of timestamps and the Verifier has not gathered that many timestamps, the Verifier MUST abort verification.
 
 ### 4.3. Certificate
 
@@ -245,7 +259,7 @@ The Verifier MUST perform certification path validation ([RFC 5280 §6](https://
 
 Unless performing online verification (see [§Alternative Workflows](#alternative-workflows)), the Verifier MUST extract the  `SignedCertificateTimestamp` embedded in the leaf certificate, and verify it as in [RFC 6962 §3.2](https://datatracker.ietf.org/doc/html/rfc6962#section-3.2), using the verification key from the Certificate Transparency Log.
 
-The Verifier MUST then check the certificate against the verification policy. Details on how to do this depend on the verification policy, but the Verifier SHOULD check the `Issuer` X.509 extension (OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md#1361415726418--issuer-v2)) at a minimum, and will in most cases check the `SubjectAlternativeName` as well. See  [Spec: Fulcio](./fulcio-spec.md) §TODO for example checks on the certificate.
+The Verifier MUST then check the certificate against the verification policy. Details on how to do this depend on the verification policy, but the Verifier MUST check the `Issuer` X.509 extension (OID [`1.3.6.1.4.1.57264.1.8`](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md#1361415726418--issuer-v2)) and the `SubjectAlternativeName` (OID `2.5.29.17`). The Verifier MAY check additional provenance values defined in the [Fulcio OID specification](https://github.com/sigstore/fulcio/blob/main/docs/oid-info.md).
 
 ### 4.4. Transparency Log Entry
 
@@ -320,4 +334,4 @@ This is the same as the [JSON Schema schema in the protobuf-specs repository](ht
 
 This document describes a security system, and security considerations are present throughout. The [Sigstore threat model](https://docs.sigstore.dev/threat-model/) details a threat model, including which parties are trusted to be honest, and the consequences if various subsets of those parties are in fact malicious.
 
-**Revocation and expiration.** This document *does not* describe how to perform revocation and rotation for the key material for the Sigstore infrastructure. Revocation, rotation, and expiration should be handled where the key material is distributed. Specifically, when fetching root key material, a Verifier should fetch metadata indicating the validity period for that key material (which may be a subset of the validity period indicated in an X.509 certificate, for instance). Then, *that* validity period should be used during certificate verification. This is described in more detail ….
+**Revocation and expiration.** This document *does not* describe how to perform revocation and rotation for the key material for the Sigstore infrastructure. Revocation, rotation, and expiration should be handled where the key material is distributed. Specifically, when fetching root key material, a Verifier should fetch metadata indicating the validity period for that key material (which may be a subset of the validity period indicated in an X.509 certificate, for instance). Then, *that* validity period should be used during certificate verification.
